@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import AuthService from "../services/auth.service";
+import AuthService from "../../services/auth.service";
 
 const Navbar = ({contact, about, programs}) => {
   const [user, setUser] = useState(undefined);
@@ -24,7 +24,7 @@ const Navbar = ({contact, about, programs}) => {
             <Link onClick={about}>About Us</Link>
             <Link onClick={contact}>Contact</Link>
             {user ? (
-              <Link to="/dashboard" className="border-2 px-4 py-2">
+              <Link to="/dashboard/overview" className="border-2 px-4 py-2">
                 {user.username}
               </Link>
             ) : (

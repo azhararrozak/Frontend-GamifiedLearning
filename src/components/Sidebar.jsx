@@ -13,12 +13,12 @@ const Sidebar = () => {
         <Link to="/">Gamified</Link>
       </div>
       <nav className="mt-8">
-        <ul className="px-4">
+        <ul className="pr-4">
           <li className="mb-4">
             <NavLink
               to="/dashboard/overview"
               className={({ isActive }) =>
-                `p-3 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
+                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
                   isActive ? "bg-[#FBF7EF] text-black" : ""
                 }`
               }
@@ -31,7 +31,7 @@ const Sidebar = () => {
             <NavLink
               to="/dashboard/course"
               className={({ isActive }) =>
-                `p-3 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
+                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
                   isActive ? "bg-[#FBF7EF] text-black" : ""
                 }`
               }
@@ -44,7 +44,7 @@ const Sidebar = () => {
             <NavLink
               to="/dashboard/tasks"
               className={({ isActive }) =>
-                `p-3 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
+                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
                   isActive ? "bg-[#FBF7EF] text-black" : ""
                 }`
               }
@@ -57,7 +57,7 @@ const Sidebar = () => {
             <NavLink
               to="/dashboard/settings"
               className={({ isActive }) =>
-                `p-3 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
+                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
                   isActive ? "bg-[#FBF7EF] text-black" : ""
                 }`
               }

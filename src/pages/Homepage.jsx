@@ -1,9 +1,9 @@
-import Contact from "../components/Contact";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+import Contact from "../components/LandingPage/Contact";
+import Footer from "../components/LandingPage/Footer";
+import Navbar from "../components/LandingPage/Navbar";
 import { useRef } from "react";
-import Programs from "../components/Programs";
-import AboutUs from "../components/About";
+import Programs from "../components/LandingPage/Programs";
+import AboutUs from "../components/LandingPage/About";
 
 const Homepage = () => {
   const contactRef = useRef(null);
