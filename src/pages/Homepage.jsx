@@ -9,8 +9,15 @@ const Homepage = () => {
   const contactRef = useRef(null);
   const aboutRef = useRef(null);
   const programsRef = useRef(null);
+  const homeRef = useRef(null);
 
   // Function to handle scrolling to the Contact component
+  const scrollToHome = () => {
+    if (homeRef.current) {
+      homeRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   const scrollToContact = () => {
     if (contactRef.current) {
       // Scroll smoothly to the Contact component using the ref
@@ -33,13 +40,13 @@ const Homepage = () => {
 
   return (
     <div className="w-full">
-      <Navbar contact={scrollToContact} about={scrollToAbout} programs={scrollToPrograms}/>
-      <div className="min-h-screen mx-auto flex flex-col lg:flex-row items-center py-16 px-8">
+      <Navbar home={scrollToHome} contact={scrollToContact} about={scrollToAbout} programs={scrollToPrograms}/>
+      <div ref={homeRef} className="min-h-screen mx-auto flex flex-col lg:flex-row items-center py-16 px-8">
         {/* Kolom Teks */}
 
-        <div className="lg:w-1/3 px-12 text-center lg:text-left lg:mb-0 mb-8">
-          <h1 className="text-6xl font-semibold mb-4">Selamat datang</h1>
-          <span className="text-4xl text-yellow-500">Gamified Learning</span>
+        <div className="lg:w-1/3 px-12 text-center lg:text-left lg:mb-0 lg:mt-0 my-8">
+          <h1 className="md:text-6xl text-3xl font-semibold mb-4">Selamat datang</h1>
+          <span className="md:text-4xl text-xl  text-yellow-500">Gamified Learning</span>
           <p className="text-gray-700 text-lg mt-4">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
             vehicula, risus sit amet scelerisque ultrices.

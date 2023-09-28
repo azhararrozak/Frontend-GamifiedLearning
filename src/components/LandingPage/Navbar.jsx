@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import AuthService from "../../services/auth.service";
 
-const Navbar = ({contact, about, programs}) => {
+const Navbar = ({home, contact, about, programs}) => {
   const [user, setUser] = useState(undefined);
 
   useEffect(() => {
@@ -15,11 +15,11 @@ const Navbar = ({contact, about, programs}) => {
   }, []);
   
   return (
-    <div className="border-b-2">
+    <div className="border-b-2 fixed w-full bg-white">
       <nav className="text-cyan-800 p-6">
-        <div className="flex  items-center justify-center text-sm md:justify-center md:text-xl lg:justify-end lg:text-xl">
+        <div className="flex items-center justify-center text-xs md:justify-center md:text-xl lg:justify-end lg:text-xl">
           <div className="lg:space-x-8 md:space-x-4  space-x-2 uppercase ">
-            <Link to="/">Home</Link>
+            <Link to="/" onClick={home}>Home</Link>
             <Link onClick={programs}>Programs</Link>
             <Link onClick={about}>About Us</Link>
             <Link onClick={contact}>Contact</Link>
