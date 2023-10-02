@@ -27,7 +27,7 @@ const Dashboard = () => {
           <Sidebar />
           <div className="flex-1 p-6">
             <Header username={user.username} logout={handleLogout} />
-            <main className="mt-6 p-4">
+            <main className="mt-6">
               <Outlet />
             </main>
           </div>
