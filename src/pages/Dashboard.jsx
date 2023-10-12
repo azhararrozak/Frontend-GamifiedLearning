@@ -7,6 +7,7 @@ import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   const [user, setUser] = useState(undefined);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const currentUser = AuthService.getCurrentUser();
@@ -20,13 +21,17 @@ const Dashboard = () => {
     AuthService.logout();
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div>
       {user ? (
         <div className="h-screen flex bg-[#FBF7EF]">
-          <Sidebar />
-          <div className="flex-1 p-6">
-            <Header username={user.username} logout={handleLogout} />
+          <Sidebar isSidebarOpen={isSidebarOpen} />
+          <div className="flex-1 p-6 overflow-auto">
+            <Header username={user.username} logout={handleLogout} toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen}/>
             <main className="mt-6">
               <Outlet />
             </main>

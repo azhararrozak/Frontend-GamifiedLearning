@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import { FaTasks } from "react-icons/fa";
 import {
   RiDashboardFill,
@@ -6,9 +8,13 @@ import {
 } from "react-icons/ri";
 import { NavLink, Link } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({ isSidebarOpen }) => {
   return (
-    <div className="bg-black w-64 text-white py-4">
+    <div
+      className={`${
+        isSidebarOpen ? "block" : "hidden"
+      } lg:block lg:w-64 bg-black text-white py-4`}
+    >
       <div className="text-center text-2xl text-[#AFF096] font-semibold">
         <Link to="/">Gamified</Link>
       </div>

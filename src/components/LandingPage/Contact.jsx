@@ -36,8 +36,8 @@ const Contact = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center">
-      <div className="bg-white p-8 rounded shadow-md">
-        <h1 className="text-2xl font-semibold mb-4">Hubungi Kami</h1>
+      <div className="bg-white p-8 rounded shadow-md w-1/2">
+        <h1 className="text-2xl text-center font-semibold mb-4">Hubungi Kami</h1>
         <form>
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-600">Nama</label>

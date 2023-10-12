@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa"; 
 import { RiArrowDownSLine } from "react-icons/ri";
 
-const Header = ({username, logout}) => {
+const Header = ({ username, logout, toggleSidebar, isSidebarOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -12,7 +12,19 @@ const Header = ({username, logout}) => {
   };
 
   return (
-    <header className="flex justify-end items-center">
+    <header className="flex justify-between lg:justify-end items-center">
+      {" "}
+      
+      <button
+        onClick={toggleSidebar} // Memanggil fungsi toggleSidebar saat tombol diklik
+        className="text-white p-2 flex lg:hidden" // Menambahkan kelas lg:hidden agar tombol ini hanya muncul di layar kecil
+      >
+        {isSidebarOpen ? (
+          <FaTimes className="h-6 w-6 text-black" /> // Menggunakan ikon FaTimes (cross) ketika sidebar terbuka
+        ) : (
+          <FaBars className="h-6 w-6 text-black" /> // Menggunakan ikon FaBars (bars) ketika sidebar tertutup
+        )}
+      </button>
       <div className="relative group">
         <button
           onClick={toggleDropdown}
@@ -31,7 +43,7 @@ const Header = ({username, logout}) => {
                 </Link>
               </li>
               <li className="hover:bg-gray-100">
-                <Link  to="/login" className="block px-4 py-2" onClick={logout}>
+                <Link to="/login" className="block px-4 py-2" onClick={logout}>
                   Logout
                 </Link>
               </li>

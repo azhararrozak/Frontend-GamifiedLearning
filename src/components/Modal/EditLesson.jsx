@@ -1,43 +1,49 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import LessonService from "../../services/lesson.service";
 import { toast } from "react-hot-toast";
 import ReactQuill from "react-quill"; // Import React Quill
 import "react-quill/dist/quill.snow.css"; // Import Quill's styles
 
-const CreateLesson = ({ isOpen, onClose }) => {
+const EditLesson = ({ isOpen, onClose, id }) => {
   const [lessonData, setLessonData] = useState({
     title: "",
     content: "",
     images: "",
-  });
+    });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setLessonData({ ...lessonData, [name]: value });
-  };
+    useEffect(() => {
+        LessonService.getLessonById(id).then((response) => {
+            setLessonData(response.data);
+        });
+    }, [id]);
 
-  const handleContentChange = (content) => {
-    setLessonData({ ...lessonData, content });
-  };
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setLessonData({ ...lessonData, [name]: value });
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { title, content, images } = lessonData;
-      const response = await LessonService.createLesson(title, content, images);
-      console.log(response);
-      toast.success(response.data.message);
-      setLessonData({
-        title: "",
-        content: "",
-        images: "",
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    const handleContentChange = (content) => {
+        setLessonData({ ...lessonData, content });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const { title, content, images } = lessonData;
+            const response = await LessonService.updateLesson(id, title, content, images);
+            toast.success(response.data.message);
+            setLessonData({
+                title: "",
+                content: "",
+                images: "",
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
 
   return (
     isOpen && (
@@ -80,7 +86,7 @@ const CreateLesson = ({ isOpen, onClose }) => {
                 onChange={handleContentChange}
                 modules={quillModules} // Define Quill modules (e.g., toolbar options)
                 className="rounded"
-                style={{ maxHeight: '40vh', overflowY: 'auto' }}
+                style={{ maxHeight: "40vh", overflowY: "auto" }}
                 required
               />
             </div>
@@ -103,7 +109,7 @@ const CreateLesson = ({ isOpen, onClose }) => {
                 type="submit"
                 className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
               >
-                Create
+                Update
               </button>
             </div>
           </form>
@@ -113,16 +119,20 @@ const CreateLesson = ({ isOpen, onClose }) => {
   );
 };
 
-// Define Quill modules (customize this as needed)
 const quillModules = {
   toolbar: [
     [{ header: "1" }, { header: "2" }, { font: [] }],
     [{ list: "ordered" }, { list: "bullet" }],
     ["bold", "italic", "underline"],
-    [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
+    [
+      { align: "" },
+      { align: "center" },
+      { align: "right" },
+      { align: "justify" },
+    ],
     [{ color: [] }, { background: [] }],
     ["link"],
   ],
 };
 
-export default CreateLesson;
+export default EditLesson;

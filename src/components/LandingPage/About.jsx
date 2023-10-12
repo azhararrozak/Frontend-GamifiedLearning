@@ -2,10 +2,10 @@
 
 const AboutUs = () => {
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 rounded shadow-md">
-        <h1 className="text-3xl font-semibold mb-4">About Us</h1>
-        <p className="text-gray-700">
+    <div className="h-screen">
+      <h1 className="text-center text-3xl font-semibold mb-4">About Us</h1>
+      <div className="flex justify-center items-center">
+        <p className="text-gray-700 text-center">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis
           quam nec metus cursus eleifend. Sed et dolor eget justo ullamcorper
           vehicula sit amet a ligula. Sed non neque ac augue bibendum
