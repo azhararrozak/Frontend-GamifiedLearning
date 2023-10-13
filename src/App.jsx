@@ -11,6 +11,9 @@ import SettingsContent from "./components/Dashboard/SettingsContent";
 import CpatpContent from "./components/Dashboard/CpatpContent";
 import LessonContent from "./components/Dashboard/LessonContent";
 import LessonDetail from "./components/Lesson/LessonDetail";
+import ListTask from "./components/Tasks/ListTask";
+import DetailTask from "./components/Tasks/DetailTask";
+
 function App() {
   return (
     <div>
@@ -29,7 +32,10 @@ function App() {
             </Route>
           </Route>
           {/* Ini adalah rute untuk konten kursus */}
-          <Route path="tasks" element={<TasksContent />} />{" "}
+          <Route path="tasks" element={<TasksContent />}>
+            <Route index element={<ListTask />} />
+            <Route path=":taskId" element={<DetailTask />} />
+          </Route>
           {/* Ini adalah rute untuk konten tugas */}
           <Route path="settings" element={<SettingsContent />} />{" "}
           {/* Ini adalah rute untuk konten pengaturan */}

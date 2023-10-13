@@ -29,7 +29,7 @@ const SettingsContent = () => {
             <p>Profile is your identity in this application</p>
             <div className="flex items-center justify-center my-4">
                 <div className="border p-1 w-max rounded-xl">
-                  <img src="https://picsum.photos/200" alt="profile" className="w-32 h-32 rounded-xl" />
+                  <img src="https://i.pravatar.cc/200" alt="profile" className="w-32 h-32 rounded-xl" />
                 </div>
             </div>
             <div>
