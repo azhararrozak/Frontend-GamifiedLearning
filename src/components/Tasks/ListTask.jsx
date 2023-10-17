@@ -24,7 +24,7 @@ const ListTask = () => {
   }
 
   return (
-    <div className="grid grid-cols-3">
+    <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2">
       {tasks.map((task) => (
         <div className="border rounded-lg p-4 m-4 flex flex-col h-full" key={task._id}>
         <h1 className="text-xl font-semibold">{task.title}</h1>

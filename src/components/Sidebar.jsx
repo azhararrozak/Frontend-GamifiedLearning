@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import { FaTasks } from "react-icons/fa";
+import { MdOutlineQuiz } from "react-icons/md";
 import {
   RiDashboardFill,
   RiBookOpenLine,
@@ -44,6 +45,19 @@ const Sidebar = ({ isSidebarOpen }) => {
             >
               <RiBookOpenLine className="w-6 h-6 mr-2" />
               Kelas
+            </NavLink>
+          </li>
+          <li className="mb-4">
+            <NavLink
+              to="/dashboard/quiz"
+              className={({ isActive }) =>
+                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
+                  isActive ? "bg-[#FBF7EF] text-black" : ""
+                }`
+              }
+            >
+              <MdOutlineQuiz className="w-6 h-6 mr-2" />
+              Quiz
             </NavLink>
           </li>
           <li className="mb-4">

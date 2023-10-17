@@ -29,12 +29,32 @@ const deleteTask = (id) => {
     return axios.delete(API_URL + `tasks/${id}`, { headers: authHeader() });
 }
 
+const submitTask = (id, userId, urlFile) => {
+    return axios.put(API_URL + `tasks/${id}/submit`, {
+        userId,
+        urlFile,
+    }, { headers: authHeader() });
+}
+
+const getListSubmit = (id) => {
+    return axios.get(API_URL + `tasks/${id}/submit`, { headers: authHeader() });
+}
+
+const setcompletedTask = (id, userId) => {
+    return axios.put(API_URL + `tasks/${id}/completed`,{
+        userId,
+    }, { headers: authHeader() });
+}
+
 const TaskService = {
     getTasks,
     getTaskById,
     createTask,
     updateTask,
     deleteTask,
+    submitTask,
+    getListSubmit,
+    setcompletedTask,
 };
 
 export default TaskService;
