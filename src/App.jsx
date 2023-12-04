@@ -35,6 +35,7 @@ function App() {
           </Route>
           {/* Ini adalah rute untuk konten kursus */}
           <Route path="quiz" element={<QuizContent />} />
+          
           <Route path="tasks" element={<TasksContent />}>
             <Route index element={<ListTask />} />
             <Route path="list" element={<ListTaskSubmit />} />

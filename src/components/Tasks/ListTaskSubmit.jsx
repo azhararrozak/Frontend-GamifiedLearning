@@ -22,10 +22,10 @@ const ListTaskSubmit = ({ id }) => {
     });
   }, [id, listSubmit]);
 
-  const handleSetComplete = async (e) => {
-    e.preventDefault();
+  const handleSetComplete = async (name) => {
     try {
-      const response = await TaskService.setcompletedTask(id, user.id);
+      const response = await TaskService.setcompletedTask(id, name)
+      console.log(response);
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -53,7 +53,7 @@ const ListTaskSubmit = ({ id }) => {
               <td><a className="text-blue-600 underline" target="_blank" rel="noopener noreferrer" href={item.urlFile}>{item.urlFile}</a></td>
               <td>{item.completed ? <p>Selesai</p>: <p>Belum</p>}</td>
               <td>
-                <button className="bg-blue-500 px-3 py-2" onClick={handleSetComplete}>Selesai</button>
+                <button className="bg-blue-500 px-3 py-2" onClick={() => {handleSetComplete(item.userId && item.userId.username)}}>Selesai</button>
               </td>
             </tr>
           ))}

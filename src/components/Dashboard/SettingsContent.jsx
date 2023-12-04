@@ -1,25 +1,113 @@
+import UserService from "../../services/user.service";
 import AuthService from "../../services/auth.service";
 import { useState, useEffect } from "react";
+import { storage } from "../../utils/firebaseInit";
 
 const SettingsContent = () => {
   const [user, setUser] = useState(undefined);
+  const [image, setImage] = useState(null);
+  const [previewURL, setPreviewURL] = useState(null);
   const [fulldata, setFulldata] = useState({
+    urlProfile: "",
     address: "",
     phone: "",
     school: "",
   });
 
+  const idUser = AuthService.getCurrentUser().id;
+
   useEffect(() => {
-    const currentUser = AuthService.getCurrentUser();
+    UserService.getUserById(idUser).then(
+      (response) => {
+        setUser(response.data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }, [idUser]);
 
-    if (currentUser) {
-      setUser(currentUser);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFulldata({ ...fulldata, [name]: value });
+  };
+
+  const handleImageChange = (e) => {
+    const selectedImage = e.target.files[0];
+
+    // Jika ada gambar yang dipilih
+    if (selectedImage) {
+      // Buat objek URL dari gambar yang dipilih
+      const imageURL = URL.createObjectURL(selectedImage);
+
+      // Set state untuk menampilkan gambar sementara
+      setPreviewURL(imageURL);
     }
-  }, []);
 
-  const handleSubmit = () => {};
+    // Set state untuk menyimpan gambar yang dipilih
+    setImage(selectedImage);
+  };
 
-  const handleInputChange = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (image) {
+        const storageRef = storage.ref().child(`profile_images/${idUser}`);
+        const uploadTask = storageRef.put(image);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // Handle progress if needed
+          },
+          (error) => {
+            console.error(error);
+          },
+          () => {
+            // On complete, get the download URL and update user data
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              console.log(downloadURL);
+
+              // Update fulldata with the new URL
+              setFulldata((prevData) => ({
+                ...prevData,
+                urlProfile: downloadURL,
+              }));
+
+              // After updating the image URL, update the user data
+              const { address, phone, school } = fulldata;
+              UserService.updateUser(
+                idUser,
+                downloadURL,
+                address,
+                phone,
+                school
+              )
+                .then((response) => {
+                  console.log(response.data);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            });
+          }
+        );
+      } else {
+        // If no new image is selected, just update user data with existing fulldata
+        const { urlProfile, address, phone, school } = fulldata;
+        UserService.updateUser(idUser, urlProfile, address, phone, school)
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div>
@@ -75,6 +163,45 @@ const SettingsContent = () => {
                       className="border rounded-xl p-2 w-full opacity-50"
                     />
                   </div>
+                  <div className="mb-4">
+                    <label htmlFor="phone" className="block font-bold">
+                      Phone
+                    </label>
+                    <input
+                      disabled
+                      value={user.phone}
+                      type="text"
+                      name="phone"
+                      id="phone"
+                      className="border rounded-xl p-2 w-full opacity-50"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="address" className="block font-bold">
+                      Address
+                    </label>
+                    <input
+                      disabled
+                      value={user.address}
+                      type="text"
+                      name="address"
+                      id="address"
+                      className="border rounded-xl p-2 w-full opacity-50"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="school" className="block font-bold">
+                      School
+                    </label>
+                    <input
+                      disabled
+                      value={user.school}
+                      type="text"
+                      name="school"
+                      id="school"
+                      className="border rounded-xl p-2 w-full opacity-50"
+                    />
+                  </div>
                 </form>
               </div>
             </div>
@@ -82,6 +209,26 @@ const SettingsContent = () => {
               <div className="border p-4 rounded-xl bg-white drop-shadow-md">
                 <h1 className="text-lg font-bold mb-4">Lengkapi Data</h1>
                 <form onSubmit={handleSubmit}>
+                  {previewURL && (
+                    <div className="mb-4">
+                      <img
+                        src={previewURL}
+                        alt="Preview"
+                        style={{ maxWidth: "100%", maxHeight: "200px" }}
+                      />
+                    </div>
+                  )}
+                  <div className="mb-4">
+                    <label htmlFor="urlProfile" className="block text-gray-700">
+                      Foto Profil
+                    </label>
+                    <input
+                      type="file"
+                      name="urlProfile"
+                      id="urlProfile"
+                      onChange={handleImageChange}
+                    />
+                  </div>
                   <div className="mb-4">
                     <label htmlFor="address" className="block text-gray-700">
                       Alamat
@@ -111,19 +258,25 @@ const SettingsContent = () => {
                     />
                   </div>
                   <div className="mb-4">
-                  <label htmlFor="school" className="block text-gray-700">
+                    <label htmlFor="school" className="block text-gray-700">
                       School
                     </label>
                     <input
                       type="text"
                       id="school"
                       name="school"
-                      value={fulldata.phone}
+                      value={fulldata.school}
                       onChange={handleInputChange}
                       className="w-full p-2 border border-gray-300 rounded"
                       required
                     />
                   </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-500 text-white p-2 rounded"
+                  >
+                    Simpan
+                  </button>
                 </form>
               </div>
             </div>
