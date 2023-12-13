@@ -15,6 +15,11 @@ import ListTask from "./components/Tasks/ListTask";
 import DetailTask from "./components/Tasks/DetailTask";
 import ListTaskSubmit from "./components/Tasks/ListTaskSubmit";
 import QuizContent from "./components/Dashboard/QuizContent";
+import PretestContent from "./components/Dashboard/PretestContent";
+import PostestContent from "./components/Dashboard/PostestContent";
+import StudyGroup from "./components/Dashboard/StudyGroup";
+import EvaluasiContent from "./components/Dashboard/EvaluasiContent";
+import CreateQuiz from "./components/Dashboard/CreateQuiz";
 
 function App() {
   return (
@@ -26,6 +31,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="overview" element={<DashboardContent />} />{" "}
+          <Route path=":name" element={<PretestContent />} />{" "} {/* Ini adalah rute untuk konten pretest */}
+          <Route path=":name" element={<PostestContent />} />{" "} {/* Ini adalah rute untuk konten postest */}
+          <Route path="study_group" element={<StudyGroup />} />{" "} {/* Ini adalah rute untuk konten study group */}
+          <Route path="evaluasi" element={<EvaluasiContent />} />{" "} {/* Ini adalah rute untuk konten evaluasi */}
+          <Route path="create_quiz" element={<CreateQuiz />} />{" "} {/* Ini adalah rute untuk konten create quiz ""} */}
           {/* Ini adalah rute utama */}
           <Route path="course" element={<CourseContent />} >
             <Route index element={<CpatpContent />} />

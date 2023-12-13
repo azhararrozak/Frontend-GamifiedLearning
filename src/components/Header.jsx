@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa"; 
+import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
 import { RiArrowDownSLine } from "react-icons/ri";
 
-const Header = ({ username, logout, toggleSidebar, isSidebarOpen }) => {
+const Header = ({ user, logout, toggleSidebar, isSidebarOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -14,7 +14,6 @@ const Header = ({ username, logout, toggleSidebar, isSidebarOpen }) => {
   return (
     <header className="flex justify-between lg:justify-end items-center">
       {" "}
-      
       <button
         onClick={toggleSidebar} // Memanggil fungsi toggleSidebar saat tombol diklik
         className="text-white p-2 flex lg:hidden" // Menambahkan kelas lg:hidden agar tombol ini hanya muncul di layar kecil
@@ -30,8 +29,17 @@ const Header = ({ username, logout, toggleSidebar, isSidebarOpen }) => {
           onClick={toggleDropdown}
           className="text-white bg-black p-2 flex border-2 rounded-lg"
         >
-          <FaUserCircle className="h-6 w-6" />
-          <p className="px-2">{username}</p>
+          {user ? (
+            <img
+              src={user.urlProfile || "/profile.png"}
+              alt="profile"
+              width={25}
+              className="rounded-full bg-white"
+            />
+          ) : (
+            <FaUserCircle className="h-6 w-6" />
+          )}
+          <p className="px-2">{user.username}</p>
           <RiArrowDownSLine className="h-6 w-6" />
         </button>
         {isOpen && (

@@ -1,20 +1,10 @@
 /* eslint-disable react/prop-types */
 import TaskService from "../../services/task.service";
 import { useEffect, useState } from "react";
-import AuthService from "../../services/auth.service";
 import { toast } from "react-hot-toast";
 
 const ListTaskSubmit = ({ id }) => {
   const [listSubmit, setListSubmit] = useState([{}]);
-  const [user, setUser] = useState(undefined);
-
-  useEffect(() => {
-    const currentUser = AuthService.getCurrentUser();
-
-    if (currentUser) {
-      setUser(currentUser);
-    }
-  }, []);
 
   useEffect(() => {
     TaskService.getListSubmit(id).then((response) => {
