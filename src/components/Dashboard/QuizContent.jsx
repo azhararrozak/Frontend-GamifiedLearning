@@ -1,8 +1,10 @@
-import React from 'react'
+import { Outlet } from 'react-router-dom'
 
 const QuizContent = () => {
   return (
-    <div>QuizContent</div>
+    <div>
+      <Outlet />
+    </div>
   )
 }
 

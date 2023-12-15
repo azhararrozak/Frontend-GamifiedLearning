@@ -20,6 +20,8 @@ import PostestContent from "./components/Dashboard/PostestContent";
 import StudyGroup from "./components/Dashboard/StudyGroup";
 import EvaluasiContent from "./components/Dashboard/EvaluasiContent";
 import CreateQuiz from "./components/Dashboard/CreateQuiz";
+import ListQuiz from "./components/Quiz/ListQuiz";
+import DetailQuiz from "./components/Quiz/DetailQuiz";
 
 function App() {
   return (
@@ -44,7 +46,10 @@ function App() {
             </Route>
           </Route>
           {/* Ini adalah rute untuk konten kursus */}
-          <Route path="quiz" element={<QuizContent />} />
+          <Route path="quiz" element={<QuizContent />}>
+            <Route index element={<ListQuiz />} />
+            <Route path=":quizId" element={<DetailQuiz />} />
+          </Route>
           
           <Route path="tasks" element={<TasksContent />}>
             <Route index element={<ListTask />} />
