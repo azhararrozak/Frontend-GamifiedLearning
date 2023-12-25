@@ -96,10 +96,15 @@ const ListLesson = () => {
           </div>
         );
       })}
-      {allLessonsCompleted() && (
-        <div>
-          <button className="w-full bg-blue-500 py-2" onClick={allFinished}>Selesaikan Course</button>
-        </div>
+      
+      {lessons.length > 0 && (
+        <button
+          className="border px-4 py-2"
+          onClick={allFinished}
+          disabled={!allLessonsCompleted()}
+        >
+          Selesai
+        </button>
       )}
     </div>
   );
