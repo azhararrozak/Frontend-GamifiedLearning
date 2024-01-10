@@ -1,138 +1,109 @@
 import { useState, useEffect } from "react";
-import AuthService from "../../services/auth.service";
 import { Link, useParams } from "react-router-dom";
 import QuizService from "../../services/quiz.service";
 import { toast } from "react-hot-toast";
 
 const PretestContent = () => {
-  const [user, setUser] = useState(undefined);
   const { name } = useParams();
-  const [quiz, setQuiz] = useState(null);
-  const [selectedAnswers, setSelectedAnswers] = useState([]);
-  const [correctAnswers, setCorrectAnswers] = useState([]);
-  const [score, setScore] = useState(null);
+  const [quizData, setQuizData] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-
-  useEffect(() => {
-    const currentUser = AuthService.getCurrentUser();
-
-    if (currentUser) {
-      setUser(currentUser);
-    }
-  }, []);
+  const [selectedAnswer, setSelectedAnswer] = useState({});
+  const [totalScore, setTotalScore] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getQuiz = async () => {
       try {
         const res = await QuizService.getQuizByTitle(name);
-        if (res.data && res.data.quiz) {
-          setQuiz(res.data.quiz);
-          setSelectedAnswers(
-            new Array(res.data.quiz.questions.length).fill(null)
-          );
-          setCorrectAnswers(
-            res.data.quiz.questions.map((question) => question.correctAnswer)
-          );
-        } else {
-          console.log("Quiz data not found in the response.");
-        }
+        setQuizData(res.data.quiz);
+        setLoading(false);
       } catch (error) {
-        console.log("Error fetching quiz:", error);
+        console.error("Error fetching quiz:", error);
+        setError(error.message || "An error occurred while fetching the quiz.");
+        setLoading(false);
       }
     };
     getQuiz();
   }, [name]);
 
-  const handleOptionSelect = (questionIndex, optionIndex) => {
-    const updatedSelectedAnswers = [...selectedAnswers];
-    updatedSelectedAnswers[questionIndex] = optionIndex;
-    setSelectedAnswers(updatedSelectedAnswers);
+  // Fungsi untuk menangani pemilihan opsi jawaban
+  const handleOptionSelect = (questionId, optionIndex) => {
+    setSelectedAnswer(prevOptions => ({
+      ...prevOptions,
+      [questionId]: optionIndex,
+    }));
+  };
+  // Fungsi untuk pindah ke pertanyaan berikutnya
+  const nextQuestion = () => {
+    setCurrentQuestion(currentQuestion + 1);
   };
 
-  const handleNextQuestion = () => {
-    if (currentQuestion < quiz.questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    }
+  // Fungsi untuk pindah ke pertanyaan sebelumnya
+  const prevQuestion = () => {
+    setCurrentQuestion(currentQuestion - 1);
   };
-
-  const handlePreviousQuestion = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-    }
-  };
-
 
   const handleSubmitQuiz = async () => {
+    console.log("Selected options:", selectedAnswer);
+    //Add your quiz submission logic here
     try {
-      const res = await QuizService.submitQuiz(quiz._id, selectedAnswers);
-      if (res.data && res.data.score) {
-        setScore(res.data.score);
-        toast.success(`Your score is ${res.data.score}!`);
-      } else {
-        toast.error("Error submitting quiz!");
-      }
+      const res = await QuizService.submitQuiz(quizData._id, selectedAnswer);
+      setTotalScore(res.data.score)
+      // if (res.data && res.data.score) {
+      //   setScore(res.data.score);
+      //   toast.success(`Your score is ${res.data.score}!`);
+      // } else {
+      //   toast.error("Error submitting quiz!");
+      // }
     } catch (error) {
       console.log("Error submitting quiz:", error);
     }
   };
 
-  if (!quiz) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
-  const currentQuestionData = quiz.questions[currentQuestion];
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!quizData || quizData.questions.length === 0) {
+    return <div>No quiz data available.</div>;
+  }
+
+  const currentQuestionData = quizData.questions[currentQuestion];
 
   return (
     <div>
       <h1 className="text-2xl font-bold">Pretest Pages</h1>
-      <div className="flex flex-col md:flex-row justify-end items-center">
-        {user && user.roles.includes("ROLE_ADMIN") && (
-          <>
-            <button className="border rounded-lg bg-blue-500 px-4 py-2">
-              <Link to="/dashboard/create_quiz">Create Quiz</Link>
-            </button>
-          </>
-        )}
-      </div>
-      <div className="flex flex-col md:flex-row justify-between items-center">
+      <div>
+        <h2>{currentQuestionData.question}</h2>
         <div>
-          <h3>Question {currentQuestion + 1} </h3>
-          <h2>{currentQuestionData.question}</h2>
-          <ul className="list-disc list-inside">
-            {currentQuestionData.options.map((option, optionIndex) => (
-              <li
-                key={optionIndex}
-                className={`p-2 my-2 border rounded-md cursor-pointer ${
-                  selectedAnswers[currentQuestion] === optionIndex
-                    ? "bg-blue-500 text-white"
-                    : ""
-                }`}
-                onClick={() => handleOptionSelect(currentQuestion, optionIndex)}
-              >
-                {option}
-              </li>
-            ))}
-          </ul>
-          <div className="flex justify-between">
-            <button
-              className="border rounded-lg bg-blue-500 px-4 py-2"
-              onClick={handlePreviousQuestion}
-            >
-              Previous
-            </button>
-            <button
-              className="border rounded-lg bg-blue-500 px-4 py-2"
-              onClick={handleNextQuestion}
-            >
-              Next
-            </button>
-            <button
-              className="border rounded-lg bg-blue-500 px-4 py-2"
-              onClick={handleSubmitQuiz}
-            >
-              Submit
-            </button>
-          </div>
+          {currentQuestionData.options.map((option, index) => (
+            <div key={index}>
+              <label>
+                <input
+                  type="radio"
+                  name="option"
+                  checked={selectedAnswer[currentQuestion] === option._id}
+                  onChange={() => handleOptionSelect(currentQuestion, option._id)}
+                />
+                {option.text}
+              </label>
+            </div>
+          ))}
+        </div>
+        <div>
+          {currentQuestion !== 0 && (
+            <button onClick={prevQuestion}>Previous</button>
+          )}
+          {currentQuestion !== quizData.questions.length - 1 ? (
+            <button onClick={nextQuestion}>Next</button>
+          ) : (
+            <button onClick={handleSubmitQuiz}>Submit</button>
+          )}
         </div>
       </div>
     </div>
