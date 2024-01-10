@@ -22,6 +22,7 @@ import EvaluasiContent from "./components/Dashboard/EvaluasiContent";
 import CreateQuiz from "./components/Dashboard/CreateQuiz";
 import ListQuiz from "./components/Quiz/ListQuiz";
 import DetailQuiz from "./components/Quiz/DetailQuiz";
+import Playground from "./components/Dashboard/Playground";
 
 function App() {
   return (
@@ -50,6 +51,8 @@ function App() {
             <Route index element={<ListQuiz />} />
             <Route path=":quizId" element={<DetailQuiz />} />
           </Route>
+
+          <Route path="playground" element={<Playground />} />{" "}
           
           <Route path="tasks" element={<TasksContent />}>
             <Route index element={<ListTask />} />

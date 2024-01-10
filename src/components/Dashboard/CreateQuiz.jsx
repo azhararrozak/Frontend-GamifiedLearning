@@ -3,16 +3,20 @@ import { toast } from "react-hot-toast";
 import { useState } from "react";
 
 const CreateQuiz = () => {
+  const initialQuestion = {
+    question: "",
+    options: [
+      { text: "", isCorrect: false },
+      { text: "", isCorrect: false },
+      { text: "", isCorrect: false },
+      { text: "", isCorrect: false },
+    ],
+  };
+
   const [quiz, setQuiz] = useState({
     title: "",
     description: "",
-    questions: [
-      {
-        question: "",
-        options: ["", "", "", ""],
-        correctAnswer: "",
-      },
-    ],
+    questions: [initialQuestion],
   });
 
   const handleRemoveQuestion = (questionIndex) => {
@@ -23,25 +27,37 @@ const CreateQuiz = () => {
 
   const handleAddQuestion = () => {
     const updatedQuiz = { ...quiz };
-    updatedQuiz.questions.push({
-      question: "",
-      options: ["", "", "", ""],
-      correctAnswer: "",
-    });
+    updatedQuiz.questions.push({ ...initialQuestion });
     setQuiz(updatedQuiz);
   };
 
   const handleAddOption = (questionIndex) => {
     const updatedQuiz = { ...quiz };
-    updatedQuiz.questions[questionIndex].options.push("");
+    updatedQuiz.questions[questionIndex].options.push({
+      text: "",
+      isCorrect: false,
+    });
     setQuiz(updatedQuiz);
   };
 
   const handleSaveQuiz = async (e) => {
     e.preventDefault();
-    console.log(quiz);
+    const updatedQuiz = { ...quiz };
+    updatedQuiz.questions.forEach((question) => {
+      const correctIndex = question.options.findIndex((option) => option.isCorrect);
+      if (correctIndex !== -1) {
+        question.correctAnswer = correctIndex;
+      }
+      question.options.forEach((option, index) => {
+        if (index === correctIndex) {
+          option.isCorrect = true;
+        } else {
+          option.isCorrect = false;
+        }
+      });
+    });
     try {
-      const response = await QuizService.createQuiz(quiz);
+      const response = await QuizService.createQuiz(updatedQuiz);
       console.log(response);
       toast.success(response.data.message);
     } catch (error) {
@@ -107,41 +123,35 @@ const CreateQuiz = () => {
               >
                 Option {optionIndex + 1}:
               </label>
-              <input
-                type="text"
-                className="form-control"
-                id={`option${optionIndex + 1}`}
-                value={option}
-                onChange={(e) => {
-                  const updatedQuiz = { ...quiz };
-                  updatedQuiz.questions[questionIndex].options[optionIndex] =
-                    e.target.value;
-                  setQuiz(updatedQuiz);
-                }}
-              />
+              <div className="d-flex align-items-center">
+                <input
+                  type="text"
+                  className="form-control"
+                  id={`option${optionIndex + 1}`}
+                  value={option.text}
+                  onChange={(e) => {
+                    const updatedQuiz = { ...quiz };
+                    updatedQuiz.questions[questionIndex].options[
+                      optionIndex
+                    ].text = e.target.value;
+                    setQuiz(updatedQuiz);
+                  }}
+                />
+                <input
+                  type="checkbox"
+                  className="form-check-input ms-2"
+                  checked={option.isCorrect}
+                  onChange={(e) => {
+                    const updatedQuiz = { ...quiz };
+                    updatedQuiz.questions[questionIndex].options[
+                      optionIndex
+                    ].isCorrect = e.target.checked;
+                    setQuiz(updatedQuiz);
+                  }}
+                />
+              </div>
             </div>
           ))}
-
-          <label
-            htmlFor={`correctAnswer${questionIndex + 1}`}
-            className="form-label"
-          >
-            Correct Answer (Index):
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id={`correctAnswer${questionIndex + 1}`}
-            value={question.correctAnswer}
-            onChange={(e) => {
-              const updatedQuiz = { ...quiz };
-              updatedQuiz.questions[questionIndex].correctAnswer = parseInt(
-                e.target.value,
-                10
-              );
-              setQuiz(updatedQuiz);
-            }}
-          />
 
           <button
             className="btn btn-primary mt-2 space"

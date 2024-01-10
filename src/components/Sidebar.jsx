@@ -136,6 +136,19 @@ const Sidebar = ({ isSidebarOpen }) => {
                     LKPD
                   </NavLink>
                 </li>
+
+                <li>
+                  <NavLink
+                    to="/dashboard/playground"
+                    className={({ isActive }) =>
+                      `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
+                        isActive ? "bg-[#FBF7EF] text-black" : ""
+                      }`
+                    }
+                  >
+                    Playground
+                  </NavLink>
+                </li>
                 
                 {/* Tambahkan lebih banyak opsi dropdown sesuai kebutuhan */}
               </ul>
