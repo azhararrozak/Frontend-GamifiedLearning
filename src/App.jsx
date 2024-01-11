@@ -23,6 +23,7 @@ import CreateQuiz from "./components/Dashboard/CreateQuiz";
 import ListQuiz from "./components/Quiz/ListQuiz";
 import DetailQuiz from "./components/Quiz/DetailQuiz";
 import Playground from "./components/Dashboard/Playground";
+import Discuss from "./components/Dashboard/Discuss";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path=":name" element={<PretestContent />} />{" "} {/* Ini adalah rute untuk konten pretest */}
           <Route path=":name" element={<PostestContent />} />{" "} {/* Ini adalah rute untuk konten postest */}
           <Route path="study_group" element={<StudyGroup />} />{" "} {/* Ini adalah rute untuk konten study group */}
+          <Route path="discus" element={<Discuss />} />{" "} {/* Ini adalah rute untuk konten discuss */}
           <Route path="evaluasi" element={<EvaluasiContent />} />{" "} {/* Ini adalah rute untuk konten evaluasi */}
           <Route path="create_quiz" element={<CreateQuiz />} />{" "} {/* Ini adalah rute untuk konten create quiz ""} */}
           {/* Ini adalah rute utama */}

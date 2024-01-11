@@ -9,6 +9,7 @@ import {
   RiDraftLine,
   RiGroupLine,
   RiCheckboxMultipleLine,
+  RiDiscussFill,
 } from "react-icons/ri";
 import { NavLink, Link } from "react-router-dom";
 
@@ -51,7 +52,7 @@ const Sidebar = ({ isSidebarOpen }) => {
           <li className="mb-4">
             <div
               onClick={toggleTestDropdown}
-              className="p-4 flex rounded-sm cursor-pointer hover:bg-[#FBF7EF] hover:text-black"
+              className="p-4 flex rounded-sm cursor-pointer text-white"
             >
               <RiDraftLine className="w-6 h-6 mr-2" />
               Test
@@ -100,9 +101,22 @@ const Sidebar = ({ isSidebarOpen }) => {
             </NavLink>
           </li>
           <li className="mb-4">
+            <NavLink
+              to="/dashboard/discus"
+              className={({ isActive }) =>
+                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
+                  isActive ? "bg-[#FBF7EF] text-black" : ""
+                }`
+              }
+            >
+              <RiDiscussFill className="w-6 h-6 mr-2" />
+              Diskusi
+            </NavLink>
+          </li>
+          <li className="mb-4">
             <div
               onClick={toggleKelasDropdown}
-              className="p-4 flex rounded-sm cursor-pointer hover:bg-[#FBF7EF] hover:text-black"
+              className="p-4 flex rounded-sm cursor-pointer text-white"
             >
               <RiBookOpenLine className="w-6 h-6 mr-2" />
               Learn
@@ -124,7 +138,7 @@ const Sidebar = ({ isSidebarOpen }) => {
                     Material
                   </NavLink>
                 </li>
-                <li>
+                <li className="mb-4">
                   <NavLink
                     to="/dashboard/tasks"
                     className={({ isActive }) =>

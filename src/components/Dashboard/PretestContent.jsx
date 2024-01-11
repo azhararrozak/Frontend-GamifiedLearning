@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import QuizService from "../../services/quiz.service";
 import { toast } from "react-hot-toast";
+import shuffleOptions from "../../utils/shuffleOptions";
 
 const PretestContent = () => {
   const { name } = useParams();
@@ -16,7 +17,14 @@ const PretestContent = () => {
     const getQuiz = async () => {
       try {
         const res = await QuizService.getQuizByTitle(name);
-        setQuizData(res.data.quiz);
+        const shuffleQuiz = {
+          ...res.data.quiz,
+          questions: res.data.quiz.questions.map((question) => ({
+            ...question,
+            options: shuffleOptions(question.options)
+          })),
+        }
+        setQuizData(shuffleQuiz);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching quiz:", error);
@@ -29,7 +37,7 @@ const PretestContent = () => {
 
   // Fungsi untuk menangani pemilihan opsi jawaban
   const handleOptionSelect = (questionId, optionIndex) => {
-    setSelectedAnswer(prevOptions => ({
+    setSelectedAnswer((prevOptions) => ({
       ...prevOptions,
       [questionId]: optionIndex,
     }));
@@ -49,7 +57,8 @@ const PretestContent = () => {
     //Add your quiz submission logic here
     try {
       const res = await QuizService.submitQuiz(quizData._id, selectedAnswer);
-      setTotalScore(res.data.score)
+      setTotalScore(res.data.score);
+      toast.success(`Your score is ${res.data.score}!`);
       // if (res.data && res.data.score) {
       //   setScore(res.data.score);
       //   toast.success(`Your score is ${res.data.score}!`);
@@ -78,31 +87,47 @@ const PretestContent = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold">Pretest Pages</h1>
-      <div>
-        <h2>{currentQuestionData.question}</h2>
+      <div className="border p-4 h-[500px] flex flex-col justify-between">
         <div>
-          {currentQuestionData.options.map((option, index) => (
-            <div key={index}>
-              <label>
-                <input
-                  type="radio"
-                  name="option"
-                  checked={selectedAnswer[currentQuestion] === option._id}
-                  onChange={() => handleOptionSelect(currentQuestion, option._id)}
-                />
-                {option.text}
-              </label>
-            </div>
-          ))}
+        <h2 className="text-center text-xl">
+            {currentQuestionData.question}
+          </h2>
         </div>
         <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {currentQuestionData.options.map((option, index) => (
+              <div key={index} className="mb-2">
+                <label className="block cursor-pointer">
+                  <input
+                    type="radio"
+                    name="option"
+                    className="hidden"
+                    checked={selectedAnswer[currentQuestion] === option._id}
+                    onChange={() =>
+                      handleOptionSelect(currentQuestion, option._id)
+                    }
+                  />
+                  <div
+                    className={`border rounded p-2 ${
+                      selectedAnswer[currentQuestion] === option._id
+                        && "bg-blue-500" // Warna latar belakang ketika opsi dipilih
+                    }`}
+                  >
+                    {option.text}
+                  </div>
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="w-full flex justify-between">
           {currentQuestion !== 0 && (
-            <button onClick={prevQuestion}>Previous</button>
+            <button className="bg-blue-500 border px-4 py-2" onClick={prevQuestion}>Previous</button>
           )}
           {currentQuestion !== quizData.questions.length - 1 ? (
-            <button onClick={nextQuestion}>Next</button>
+            <button className="bg-blue-500 border px-4 py-2" onClick={nextQuestion}>Next</button>
           ) : (
-            <button onClick={handleSubmitQuiz}>Submit</button>
+            <button className="bg-green-500 border px-4 py-2" onClick={handleSubmitQuiz}>Submit</button>
           )}
         </div>
       </div>
