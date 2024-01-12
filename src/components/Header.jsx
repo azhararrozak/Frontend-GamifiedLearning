@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
 import { RiArrowDownSLine } from "react-icons/ri";
 
-const Header = ({ user, logout, toggleSidebar, isSidebarOpen }) => {
+const Header = ({ user, logout, toggleSidebar }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -18,11 +18,9 @@ const Header = ({ user, logout, toggleSidebar, isSidebarOpen }) => {
         onClick={toggleSidebar} // Memanggil fungsi toggleSidebar saat tombol diklik
         className="text-white p-2 flex lg:hidden" // Menambahkan kelas lg:hidden agar tombol ini hanya muncul di layar kecil
       >
-        {isSidebarOpen ? (
-          <FaTimes className="h-6 w-6 text-black" /> // Menggunakan ikon FaTimes (cross) ketika sidebar terbuka
-        ) : (
-          <FaBars className="h-6 w-6 text-black" /> // Menggunakan ikon FaBars (bars) ketika sidebar tertutup
-        )}
+        
+          <FaBars className="h-6 w-6 text-black" /> 
+        
       </button>
       <div className="relative group">
         <button

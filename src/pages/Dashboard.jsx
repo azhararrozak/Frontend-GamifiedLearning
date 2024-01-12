@@ -34,10 +34,10 @@ const Dashboard = () => {
   return (
     <div>
       {user ? (
-        <div className="h-screen flex bg-[#FBF7EF]">
-          <Sidebar isSidebarOpen={isSidebarOpen} />
+        <div className="flex bg-[#FBF7EF] h-full relative">
+          <Sidebar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
           <div className="flex-1 p-6 overflow-auto">
-            <Header user={user} logout={handleLogout} toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen}/>
+            <Header user={user} logout={handleLogout} toggleSidebar={toggleSidebar}/>
             <main className="mt-6">
               <Outlet />
             </main>

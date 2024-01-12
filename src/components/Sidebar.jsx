@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { FaTasks } from "react-icons/fa";
+import { FaTasks, FaTimes } from "react-icons/fa";
 import { MdOutlineQuiz } from "react-icons/md";
 import {
   RiDashboardFill,
@@ -13,7 +13,7 @@ import {
 } from "react-icons/ri";
 import { NavLink, Link } from "react-router-dom";
 
-const Sidebar = ({ isSidebarOpen }) => {
+const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const [isTestDropdownOpen, setTestDropdownOpen] = useState(false);
   const [isKelasDropdownOpen, setKelasDropdownOpen] = useState(false);
 
@@ -28,9 +28,18 @@ const Sidebar = ({ isSidebarOpen }) => {
   return (
     <div
       className={`${
-        isSidebarOpen ? "block" : "hidden"
-      } lg:block lg:w-64 bg-black text-white py-4`}
+        isSidebarOpen
+          ? "block fixed inset-0 lg:block w-64 bg-black text-white py-4 h-full overflow-y-auto"
+          : "hidden lg:block w-64 bg-black text-white py-4 overflow-y-auto"
+      }`}
     >
+      <div className="w-full flex justify-end pr-4">
+        <button onClick={toggleSidebar} className="lg:hidden">
+          {isSidebarOpen && (
+            <FaTimes className="cursor-pointer text-white w-6 h-6 mt-2" />
+          )}
+        </button>
+      </div>
       <div className="text-center text-2xl text-[#AFF096] font-semibold">
         <Link to="/">Gamified</Link>
       </div>
@@ -163,7 +172,7 @@ const Sidebar = ({ isSidebarOpen }) => {
                     Playground
                   </NavLink>
                 </li>
-                
+
                 {/* Tambahkan lebih banyak opsi dropdown sesuai kebutuhan */}
               </ul>
             )}
