@@ -16,7 +16,7 @@ const Header = ({ user, logout, toggleSidebar }) => {
       {" "}
       <button
         onClick={toggleSidebar} // Memanggil fungsi toggleSidebar saat tombol diklik
-        className="text-white p-2 flex lg:hidden" // Menambahkan kelas lg:hidden agar tombol ini hanya muncul di layar kecil
+        className="text-white p-2 flex md:hidden" // Menambahkan kelas lg:hidden agar tombol ini hanya muncul di layar kecil
       >
         
           <FaBars className="h-6 w-6 text-black" /> 

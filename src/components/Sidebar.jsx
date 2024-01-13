@@ -29,8 +29,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     <div
       className={`${
         isSidebarOpen
-          ? "block fixed inset-0 lg:block w-64 bg-black text-white py-4 h-full overflow-y-auto"
-          : "hidden lg:block w-64 bg-black text-white py-4 overflow-y-auto"
+          ? "block sm:static absolute inset-0 md:block w-64 bg-black text-white py-4 overflow-y-auto"
+          : "hidden md:block w-64 bg-black text-white py-4 overflow-y-auto"
       }`}
     >
       <div className="w-full flex justify-end pr-4">
