@@ -34,7 +34,7 @@ const Dashboard = () => {
   return (
     <div>
       {user ? (
-        <div className="flex bg-[#FBF7EF] h-full relative">
+        <div className="flex bg-fontPrimary h-full relative">
           <Sidebar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
           <div className="flex-1 p-6 overflow-auto h-screen block">
             <Header user={user} logout={handleLogout} toggleSidebar={toggleSidebar}/>

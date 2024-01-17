@@ -64,8 +64,8 @@ const Register = () => {
         <div className="p-3 text-center">
           <img className="m-auto" src="./Logo.png" />
           <p className="text-3xl uppercase my-2">Welcome to</p>
-          <h1 className="text-4xl uppercase font-bold ">Gamified Learning</h1>
-          <p className="my-2">
+          <h1 className="text-4xl uppercase font-bold ">Gamified Learn</h1>
+          <p className="my-4">
             Kami membawa pembelajaran perulangan JavaScript menjadi lebih seru
             dan efektif. Dengan kombinasi materi pembelajaran yang mendalam,
             ujian interaktif, dan sistem poin serta badges. Jelajahi beragam

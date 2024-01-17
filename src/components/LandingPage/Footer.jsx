@@ -1,8 +1,9 @@
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
     return (
-      <footer className="bg-gray-800 text-white py-4">
+      <footer className="bg-primary text-fontPrimary py-4">
         <div className="container mx-auto text-center">
-          <p>&copy; 2023 Gamified Learning. All rights reserved.</p>
+          <p>Gamified Learn &copy; {currentYear} - Azhar Arrozak - All rights reserved.</p>
         </div>
       </footer>
     );

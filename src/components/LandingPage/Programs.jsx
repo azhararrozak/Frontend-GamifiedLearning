@@ -1,86 +1,46 @@
 const Programs = () => {
   return (
-    <div className="h-screen">
-      <h1 className="text-center text-2xl font-bold">Programs</h1>
-      <div className="grid grid-cols-3 gap-2 p-4 my-4">
-        <div className="bg-gray-200 p-4">
-          <div className="flex flex-col justify-center items-center">
-            <img
-              className="rounded-full "
-              src="https://via.placeholder.com/150"
-              alt="placeholder"
-            />
-            <h2 className="text-center text-xl font-bold">Program 1</h2>
-            <p className="text-center">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-              voluptatum.
-            </p>
-          </div>
-        </div>
-        <div className="bg-gray-200 p-4">
-          <div className="flex flex-col justify-center items-center">
-            <img
-              className="rounded-full "
-              src="https://via.placeholder.com/150"
-              alt="placeholder"
-            />
-            <h2 className="text-center text-xl font-bold">Program 1</h2>
-            <p className="text-center">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-              voluptatum.
-            </p>
-          </div>
-        </div>
-        <div className="bg-gray-200 p-4">
-          <div className="flex flex-col justify-center items-center">
-            <img
-              className="rounded-full "
-              src="https://via.placeholder.com/150"
-              alt="placeholder"
-            />
-            <h2 className="text-center text-xl font-bold">Program 1</h2>
-            <p className="text-center">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-              voluptatum.
-            </p>
-          </div>
+    <div className="flex flex-col lg:flex-row text-fontPrimary my-4">
+      <div className="lg:w-1/2 w-full flex flex-col justify-center items-center px-4">
+        <div className="px-8 text-center">
+          <h1 className="uppercase font-bold text-xl">Programs</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
+            tempora aut voluptatem magni eveniet hic repellat ratione nisi,
+            minima sequi est veniam asperiores, at aperiam iusto amet
+            repudiandae velit quo!
+          </p>
         </div>
       </div>
-      <div className="grid grid-rows-2 grid-flow-col gap-2 p-4 my-4">
-        <div className="bg-gray-200 p-4">
-          <h2 className="text-center text-xl font-bold">Program 1</h2>
-          <p className="text-center">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-            voluptatum.
-          </p>
-        </div>
-        <div className="bg-gray-200 p-4">
-          <h2 className="text-center text-xl font-bold">Program 2</h2>
-          <p className="text-center">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-            voluptatum.
-          </p>
-        </div>
-        <div className="bg-gray-200 p-4">
-          <h2 className="text-center text-xl font-bold">Program 3</h2>
-          <p className="text-center">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-            voluptatum.
-          </p>
-        </div>
-        <div className="bg-gray-200 p-4">
-          <h2 className="text-center text-xl font-bold">Program 4</h2>
-          <p className="text-center">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-            voluptatum.
-          </p>
-        </div>
-        <div className="bg-gray-200 p-4 row-span-2">
-          <h2 className="text-center text-xl font-bold">Program 5</h2>
-          <p className="text-center">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-            voluptatum.
-          </p>
+      <div className="lg:w-1/2 w-full flex flex-col justify-center items-center">
+        <div className="px-4 py-6 grid grid-col-1 gap-8">
+          <div className="rounded-md flex flex-col lg:flex-row bg-[#8265A7]">
+            <div className="lg:w-2/5 w-full">
+              <img className="w-full lg:rounded-l-lg rounded-t-lg h-full" src="./programs-1.png" alt="program-1" />
+            </div>
+            <div className="lg:w-3/5 w-full flex flex-col justify-center p-3">
+              <h1 className="uppercase font-bold text-lg">Gamifikasi</h1>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo enim iste perferendis nihil qui neque suscipit itaque ducimus exercitationem numquam cumque quas recusandae vero beatae, quo corrupti sed tenetur ullam.</p>
+            </div>
+          </div>
+          <div className="rounded-md flex flex-col lg:flex-row bg-[#8265A7]">
+            <div className="lg:w-2/5 w-full">
+              <img className="w-full lg:rounded-l-lg rounded-t-lg h-full" src="./programs-2.png" alt="program-2" />
+            </div>
+            <div className="lg:w-3/5 w-full flex flex-col justify-center p-3">
+              <h1 className="uppercase font-bold text-lg">Study Group</h1>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo enim iste perferendis nihil qui neque suscipit itaque ducimus exercitationem numquam cumque quas recusandae vero beatae, quo corrupti sed tenetur ullam.</p>
+            </div>
+          </div>
+          <div className="rounded-md flex flex-col lg:flex-row bg-[#8265A7]">
+            <div className="lg:w-2/5 w-full">
+              <img className="w-full lg:rounded-l-lg rounded-t-lg h-full" src="./programs-3.png" alt="program-3" />
+            </div>
+            <div className="lg:w-3/5 w-full flex flex-col justify-center p-3">
+              <h1 className="uppercase font-bold text-lg">Problem Based Learning</h1>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo enim iste perferendis nihil qui neque suscipit itaque ducimus exercitationem numquam cumque quas recusandae vero beatae, quo corrupti sed tenetur ullam.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

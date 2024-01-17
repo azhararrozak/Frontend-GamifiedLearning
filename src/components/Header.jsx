@@ -12,11 +12,11 @@ const Header = ({ user, logout, toggleSidebar }) => {
   };
 
   return (
-    <header className="flex justify-between lg:justify-end items-center">
+    <header className="flex justify-between lg:justify-end items-center text-primary">
       {" "}
       <button
         onClick={toggleSidebar} // Memanggil fungsi toggleSidebar saat tombol diklik
-        className="text-white p-2 flex md:hidden" // Menambahkan kelas lg:hidden agar tombol ini hanya muncul di layar kecil
+        className="p-2 flex lg:hidden" // Menambahkan kelas lg:hidden agar tombol ini hanya muncul di layar kecil
       >
         
           <FaBars className="h-6 w-6 text-black" /> 
@@ -25,7 +25,7 @@ const Header = ({ user, logout, toggleSidebar }) => {
       <div className="relative group">
         <button
           onClick={toggleDropdown}
-          className="text-white bg-black p-2 flex border-2 rounded-lg"
+          className=" p-2 flex border border-primary rounded-lg"
         >
           {user ? (
             <img

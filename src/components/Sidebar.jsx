@@ -29,19 +29,20 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     <div
       className={`${
         isSidebarOpen
-          ? "block sm:static absolute inset-0 md:block w-64 bg-black text-white py-4 overflow-y-auto"
-          : "hidden md:block w-64 bg-black text-white py-4 overflow-y-auto"
+          ? "block lg:static absolute inset-0 lg:block w-64 bg-primary text-fontPrimary py-4 overflow-y-auto z-10"
+          : "hidden lg:block w-64 bg-primary text-fontPrimary py-4 overflow-y-auto"
       }`}
     >
       <div className="w-full flex justify-end pr-4">
         <button onClick={toggleSidebar} className="lg:hidden">
           {isSidebarOpen && (
-            <FaTimes className="cursor-pointer text-white w-6 h-6 mt-2" />
+            <FaTimes className="cursor-pointer w-6 h-6 mt-2" />
           )}
         </button>
       </div>
-      <div className="text-center text-2xl text-[#AFF096] font-semibold">
-        <Link to="/">Gamified</Link>
+      <div className="flex justify-center items-center mt-4">
+        <img className="w-[2rem] mr-2" src="../Logo.png" alt="Logo" />
+        <Link className="font-bold uppercase text-lg" to="/">Gamified Learn</Link>
       </div>
       <nav className="mt-8">
         <ul className="pr-4">
