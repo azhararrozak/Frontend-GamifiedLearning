@@ -15,10 +15,18 @@ const createGroup = (countGroup) => {
     return axios.post(API_URL + `score/group`, {countGroup}, { headers: authHeader() });
 }
 
+const updateProblem = (id, title, description) => {
+    return axios.patch(API_URL + `score/group/${id}`, {
+        title,
+        description
+    }, { headers: authHeader() });
+}
+
 const GroupService = {
     getGroups,
     deleteGroup,
-    createGroup
+    createGroup,
+    updateProblem
 };
 
 export default GroupService;

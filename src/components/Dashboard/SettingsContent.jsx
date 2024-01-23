@@ -131,7 +131,7 @@ const SettingsContent = () => {
                   <div className="flex items-center justify-center my-4">
                     <div className="border p-1 w-max rounded-xl">
                       <img
-                        src={user.urlProfile || "https://i.pravatar.cc/200"}
+                        src={user.urlProfile || `https://ui-avatars.com/api/?name=${user.username}`}
                         alt="profile"
                         className="w-32 h-32 rounded-xl"
                       />

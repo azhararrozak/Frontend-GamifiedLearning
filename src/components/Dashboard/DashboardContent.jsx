@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
-import AuthService from "../../services/auth.service";
 import { useState, useEffect } from "react";
-import axios from "axios";
-import authHeader from "../../services/auth-header";
+import AuthService from "../../services/auth.service";
+import PointService from "../../services/point.service";
+import BadgeService from "../../services/badge.service";
+import { GiAchievement } from "react-icons/gi";
+import { MdFindInPage } from "react-icons/md";
 
 const DashboardContent = () => {
   const [user, setUser] = useState(undefined);
@@ -23,93 +25,109 @@ const DashboardContent = () => {
 
   useEffect(() => {
     if (user && user.id) {
-      axios
-        .get(`http://localhost:5000/api/${user.id}/point`, {
-          headers: authHeader(),
-        })
-        .then((response) => {
-          setPointData(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      PointService.getPoint(user.id).then((response) => {
+        setPointData(response.data);
+      });
     }
   }, [user]);
 
   useEffect(() => {
     if (user && user.id) {
-      axios
-        .get(`http://localhost:5000/api/${user.id}/badge`, {
-          headers: authHeader(),
-        })
-        .then((response) => {
-          setBadgeData(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      BadgeService.getBadges(user.id).then((response) => {
+        setBadgeData(response.data);
+      });
     }
   }, [user]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/point`, {
-        headers: authHeader(),
-      })
-      .then((response) => {
-        // Sort the data in descending order based on the 'point' property
-        const sortedData = response.data.sort((a, b) =>
-          sortOrder === "desc" ? b.point - a.point : a.point - b.point
-        );
-        setAllUserPoint(sortedData);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    PointService.getALlPoint().then((response) => {
+      // Sort the data in descending order based on the 'point' property
+      const sortedData = response.data.sort((a, b) =>
+        sortOrder === "desc" ? b.point - a.point : a.point - b.point
+      );
+      setAllUserPoint(sortedData);
+    });
   }, [sortOrder]);
 
   return (
     <div>
       {user && (
         <div>
-          <div className="grid grid-rows-2 grid-cols-2 gap-2">
-            <div className="border row-span-2 col-span-2 sm:col-span-1 p-2 rounded-lg">
-              <div className="flex items-center justify-start h-full">
+          <div className="grid grid-rows-2 grid-cols-2 gap-2 lg:gap-1 text-secondary">
+            <div className=" row-span-2 col-span-2 md:col-span-1 rounded-lg flex">
+              <div className="flex items-center justify-start h-full w-full bg-[#4055D4] rounded-md lg:rounded-r-none lg:rounded-l-md p-4">
                 <div className="p-2 mr-4 border rounded-full">
                   <img
-                    className="rounded-full"
-                    src="https://via.placeholder.com/150"
+                    className="rounded-full w-[150px]"
+                    src={
+                      user.profile
+                        ? user.profile
+                        : `https://ui-avatars.com/api/?name=${user.username}`
+                    }
                     alt="profile"
                   />
                 </div>
-                <div>
-                  <h3>{user.username}</h3>
-                  <p>Point</p>
+                <div className="w-full">
+                  <h3 className="text-2xl font-bold">{user.username}</h3>
+                  <p>{user.roles === "ROLE_USER" ? "Admin" : "Pelajar"}</p>
                   <p>Sekolah</p>
                 </div>
               </div>
+              <div className="w-0 border-t-[100px] border-t-transparent border-l-[30px] border-l-[#4055D4] border-b-[100px] border-b-transparent hidden lg:inline"></div>
             </div>
-            <div className="border flex justify-center items-center">
+            <div className="flex">
+              <div className="w-0 h-0 border-r-[30px] border-r-[#130F40] border-b-[100px] border-b-transparent hidden lg:inline"></div>
               {pointData && (
-                <div>
-                  <p className="text-2xl font-bold">{pointData.point}<span className="text-sm font-normal"> poin</span></p>
+                <div className="bg-[#130F40] rounded-md lg:rounded-l-none rounded-r-md flex w-full justify-center items-center p-4">
+                  <div className="border rounded-full p-2 mr-3">
+                    <GiAchievement className="text-4xl" />
+                  </div>
+                  <p className="lg:text-4xl sm:text-2xl text-md font-bold text-fontSecondary">
+                    {pointData.point}
+                    <span className="text-sm font-normal text-secondary">
+                      {" "}
+                      poin
+                    </span>
+                  </p>
                 </div>
               )}
             </div>
-            <div className="border">
-              <h1>Permasalahan</h1>
+            <div className="flex">
+              <div className="w-0 h-0 border-t-[100px] border-t-transparent border-r-[30px] border-r-[#2B3890] hidden lg:inline"></div>
+              <div className="bg-[#2B3890] rounded-md lg:rounded-l-none rounded-r-md flex w-full justify-center items-center p-4 text-center">
+                <div className="border rounded-full p-2 mr-3">
+                  <MdFindInPage className="text-4xl" />
+                </div>
+                <p className="font-bold lg:text-4xl sm:text-2xl text-md">
+                  {/** Menampilkan Rank dari allUserPoint */}
+                  {allUserPoint &&
+                    allUserPoint.findIndex(
+                      (userPoint) => userPoint.user._id === user.id
+                    ) + 1}
+                  <span className="font-normal text-sm text-secondary">
+                    {" "}
+                    Global Rank
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
-          <div className="sm:flex-row flex-col flex gap-2 my-2">
-            <div className="sm:w-3/4 w-full border">
-              <h1>Tabel Point Klasemen</h1>
+          <div className="lg:flex-row flex-col flex gap-2 my-2">
+            <div className="lg:w-3/4 w-full bg-[#C1F6BF] rounded-md p-4 text-primary">
+              <h1 className="font-bold text-xl mb-4">Tabel Point Klasemen</h1>
               {allUserPoint && (
-                <table className="w-full">
-                  <thead>
+                <table className="w-full border-collapse">
+                  <thead className="bg-secondary">
                     <tr>
-                      <th>Rank</th>
-                      <th>Username</th>
-                      <th>Points</th>
+                      <th className="px-4 py-2 border-secondary border">
+                        Rank
+                      </th>
+                      <th className="px-4 py-2 border-secondary border">
+                        Username
+                      </th>
+                      <th className="px-4 py-2 border-secondary border">
+                        Points
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -117,10 +135,12 @@ const DashboardContent = () => {
                       return (
                         <tr
                           key={userPoint._id}
-                          className="border max-w-fit my-2 p-4"
+                          className="max-w-fit my-2 p-4 text-center"
                         >
-                          <td>{index + 1}</td>
-                          <td>{userPoint.user.username}</td>
+                          <td className="px-4 py-2">{index + 1}</td>
+                          <td className="capitalize px-4 py-2">
+                            {userPoint.user.username}
+                          </td>
                           <td>{userPoint.point}</td>
                         </tr>
                       );
@@ -129,20 +149,29 @@ const DashboardContent = () => {
                 </table>
               )}
             </div>
-            <div className="sm:w-1/4 w-full border">
-              {badgeData && (
+            <div className="lg:w-1/4 w-full rounded-md bg-[#FF7537] p-4 text-fontPrimary">
+              <h1 className="font-bold text-xl">Badge</h1>
+              {badgeData.length === 0 ? (
                 <div>
-                  <h1>Badge</h1>
+                  <h1>Tidak Ada Badges</h1>
+                </div>
+              ) : (
+                <div>
                   {badgeData.map((badge) => {
                     return (
-                      <div key={badge._id} className="flex border my-2 p-4">
-                        <img
-                          src={badge.image}
-                          alt="badge"
-                          className="w-10 rounded-full"
-                        />
-                        <div>
-                          <p>{badge.name}</p>
+                      <div
+                        key={badge._id}
+                        className="flex justify-center items-center my-2 p-4"
+                      >
+                        <div className="bg-fontPrimary p-2 rounded-full">
+                          <img
+                            src={badge.image}
+                            alt="badge"
+                            className="w-10 rounded-full"
+                          />
+                        </div>
+                        <div className="ml-3">
+                          <p className="font-bold">{badge.name}</p>
                           <p>{badge.description}</p>
                         </div>
                       </div>

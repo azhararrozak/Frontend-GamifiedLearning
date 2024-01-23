@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import AuthService from "../../services/auth.service";
 import EditLesson from "../Modal/EditLesson";
 import "react-quill/dist/quill.core.css";
+import VideosPage from "./VideosPage";
 
 const LessonDetail = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const LessonDetail = () => {
   const [detail, setDetail] = useState([]);
   const [user, setUser] = useState(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [readView, setReadView] = useState(true)
 
   useEffect(() => {
     LessonService.getLessonById(lessonId).then((response) => {
@@ -70,12 +72,36 @@ const LessonDetail = () => {
     setIsModalOpen(false);
   }
 
+  const handleChangeVideoView = () => {
+    setReadView(false)
+  }
+
+  const handleChangeReadView = () => {
+    setReadView(true)
+  }
+
 
   return (
     <div>
       <h1>{detail.title}</h1>
       {/* Render the content using dangerouslySetInnerHTML */}
-      <div className="view ql-editor" dangerouslySetInnerHTML={{ __html: detail.content }}></div>
+      <div>
+        <div className="border flex ">
+          <div onClick={handleChangeReadView} className="w-1/2 text-center cursor-pointer border-r-2">
+            Read Material
+          </div>
+          <div onClick={handleChangeVideoView} className="w-1/2 text-center cursor-pointer">
+            Video View
+          </div>
+        </div>
+        {readView ? (
+          <div className="view ql-editor" dangerouslySetInnerHTML={{ __html: detail.content }}></div>
+        ): (
+          <div className="w-full p-4 flex justify-center items-center">
+            <VideosPage />
+          </div>
+        )}
+      </div>
       <button className="border px-4 py-2" onClick={onFinishRead}>
         Selesai
       </button>

@@ -17,13 +17,15 @@ import ListTaskSubmit from "./components/Tasks/ListTaskSubmit";
 import QuizContent from "./components/Dashboard/QuizContent";
 import PretestContent from "./components/Dashboard/PretestContent";
 import PostestContent from "./components/Dashboard/PostestContent";
-import StudyGroup from "./components/Dashboard/StudyGroup";
 import EvaluasiContent from "./components/Dashboard/EvaluasiContent";
 import CreateQuiz from "./components/Dashboard/CreateQuiz";
 import ListQuiz from "./components/Quiz/ListQuiz";
 import DetailQuiz from "./components/Quiz/DetailQuiz";
 import Playground from "./components/Dashboard/Playground";
 import Discuss from "./components/Dashboard/Discuss";
+import GroupContent from "./components/Dashboard/GroupContent";
+import StudyGroup from "./components/Group/StudyGroup";
+import Problem from "./components/Group/Problem";
 
 function App() {
   return (
@@ -37,7 +39,10 @@ function App() {
           <Route path="overview" element={<DashboardContent />} />{" "}
           <Route path=":name" element={<PretestContent />} />{" "} {/* Ini adalah rute untuk konten pretest */}
           <Route path=":name" element={<PostestContent />} />{" "} {/* Ini adalah rute untuk konten postest */}
-          <Route path="study_group" element={<StudyGroup />} />{" "} {/* Ini adalah rute untuk konten study group */}
+          <Route path="study_group" element={<GroupContent />} >
+            <Route index element={<StudyGroup />} />
+            <Route path=":groupId" element={<Problem />} />
+          </Route>{" "} {/* Ini adalah rute untuk konten study group */}
           <Route path="discus" element={<Discuss />} />{" "} {/* Ini adalah rute untuk konten discuss */}
           <Route path="evaluasi" element={<EvaluasiContent />} />{" "} {/* Ini adalah rute untuk konten evaluasi */}
           <Route path="create_quiz" element={<CreateQuiz />} />{" "} {/* Ini adalah rute untuk konten create quiz ""} */}

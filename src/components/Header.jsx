@@ -29,7 +29,7 @@ const Header = ({ user, logout, toggleSidebar }) => {
         >
           {user ? (
             <img
-              src={user.urlProfile || "/profile.png"}
+              src={user.profile || "/profile.png"}
               alt="profile"
               width={25}
               className="rounded-full bg-white"

@@ -8,24 +8,33 @@ import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   const [user, setUser] = useState(undefined);
-  const [iduser, setIduser] = useState(undefined);
+  //const [iduser, setIduser] = useState(undefined);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  // useEffect(() => {
+  //   const currentUser = AuthService.getCurrentUser();
+
+  //   if (currentUser) {
+  //     setIduser(currentUser.id);
+  //   }
+
+  //   UserServices.getUserById(iduser).then((res) => {
+  //     setUser(res.data);
+  //   });
+  // }, [iduser]);
   useEffect(() => {
     const currentUser = AuthService.getCurrentUser();
 
     if (currentUser) {
-      setIduser(currentUser.id);
+      setUser(currentUser);
     }
-
-    UserServices.getUserById(iduser).then((res) => {
-      setUser(res.data);
-    });
-  }, [iduser]);
+  }, []);
 
   const handleLogout = () => {
     AuthService.logout();
   };
+
+
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
