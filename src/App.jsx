@@ -26,6 +26,7 @@ import Discuss from "./components/Dashboard/Discuss";
 import GroupContent from "./components/Dashboard/GroupContent";
 import StudyGroup from "./components/Group/StudyGroup";
 import Problem from "./components/Group/Problem";
+import Unit from "./components/Lesson/Unit";
 
 function App() {
   return (
@@ -48,8 +49,8 @@ function App() {
           <Route path="create_quiz" element={<CreateQuiz />} />{" "} {/* Ini adalah rute untuk konten create quiz ""} */}
           {/* Ini adalah rute utama */}
           <Route path="course" element={<CourseContent />} >
-            <Route index element={<CpatpContent />} />
-            <Route path="lesson" element={<LessonContent />}>
+            <Route index element={<Unit />} />
+            <Route path=":unitId" element={<LessonContent />}>
               <Route path=":lessonId" element={<LessonDetail />} />
             </Route>
           </Route>

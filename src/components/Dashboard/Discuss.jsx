@@ -3,8 +3,8 @@ import ChatComponent from '../Chat/ChatComponent'
 
 const Discuss = () => {
   return (
-    <div>
-      <h1>Discuss</h1>
+    <div className='h-full'>
+      <h1 className='text-xl font-bold'>Discuss</h1>
       <ChatComponent />
     </div>
   )

@@ -11,6 +11,7 @@ const EditLesson = ({ isOpen, onClose, id }) => {
     title: "",
     content: "",
     images: "",
+    video: { urlVideo: "" },
     });
 
     useEffect(() => {
@@ -24,20 +25,28 @@ const EditLesson = ({ isOpen, onClose, id }) => {
         setLessonData({ ...lessonData, [name]: value });
     };
 
+    const handleVideoUrl = (e) => {
+        const { name, value } = e.target;
+        setLessonData({ ...lessonData, video: { [name]: value } });
+    };
+
     const handleContentChange = (content) => {
         setLessonData({ ...lessonData, content });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(lessonData)
         try {
             const { title, content, images } = lessonData;
-            const response = await LessonService.updateLesson(id, title, content, images);
+            const urlVideo = lessonData.video.urlVideo;
+            const response = await LessonService.updateLesson(id, title, content, images, urlVideo);
             toast.success(response.data.message);
             setLessonData({
                 title: "",
                 content: "",
                 images: "",
+                video: { urlVideo: "" },
             });
         }
         catch (error) {
@@ -100,6 +109,20 @@ const EditLesson = ({ isOpen, onClose, id }) => {
                 name="images"
                 value={lessonData.images}
                 onChange={handleInputChange}
+                className="w-full p-2 border border-gray-300 rounded"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="urlVideo" className="block text-gray-700">
+                Video URL
+              </label>
+              <input
+                type="text"
+                id="urlVideo"
+                name="urlVideo"
+                value={lessonData.video.urlVideo}
+                onChange={handleVideoUrl}
                 className="w-full p-2 border border-gray-300 rounded"
                 required
               />

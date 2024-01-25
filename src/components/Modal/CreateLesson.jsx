@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import LessonService from "../../services/lesson.service";
 import { toast } from "react-hot-toast";
@@ -7,10 +8,13 @@ import ReactQuill from "react-quill"; // Import React Quill
 import "react-quill/dist/quill.snow.css"; // Import Quill's styles
 
 const CreateLesson = ({ isOpen, onClose }) => {
+  const { unitId } = useParams();
   const [lessonData, setLessonData] = useState({
+    unitId,
     title: "",
     content: "",
     images: "",
+    urlVideo: "",
   });
 
   const handleInputChange = (e) => {
@@ -25,14 +29,15 @@ const CreateLesson = ({ isOpen, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { title, content, images } = lessonData;
-      const response = await LessonService.createLesson(title, content, images);
+      const { unitId, title, content, images, urlVideo } = lessonData;
+      const response = await LessonService.createLesson(unitId, title, content, images, urlVideo);
       console.log(response);
       toast.success(response.data.message);
       setLessonData({
         title: "",
         content: "",
         images: "",
+        urlVideo: "",
       });
     } catch (error) {
       console.log(error);
@@ -93,6 +98,20 @@ const CreateLesson = ({ isOpen, onClose }) => {
                 id="images"
                 name="images"
                 value={lessonData.images}
+                onChange={handleInputChange}
+                className="w-full p-2 border border-gray-300 rounded"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="images" className="block text-gray-700">
+                Video URL
+              </label>
+              <input
+                type="text"
+                id="urlVideo"
+                name="urlVideo"
+                value={lessonData.urlVideo}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
                 required

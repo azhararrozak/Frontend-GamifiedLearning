@@ -23,6 +23,8 @@ const LessonDetail = () => {
     });
   }, [lessonId, detail]);
 
+  console.log(lessonId)
+
   useEffect(() => {
     const currentUser = AuthService.getCurrentUser();
 
@@ -57,7 +59,7 @@ const LessonDetail = () => {
   const deleteLesson = () => {
     try {
       const response = LessonService.deleteLesson(lessonId);
-      navigate("/dashboard/course/lesson");
+      navigate("/dashboard/course");
       toast.success(response.data.message);
     } catch (error) {
       console.log(error);
@@ -97,8 +99,8 @@ const LessonDetail = () => {
         {readView ? (
           <div className="view ql-editor" dangerouslySetInnerHTML={{ __html: detail.content }}></div>
         ): (
-          <div className="w-full p-4 flex justify-center items-center">
-            <VideosPage />
+          <div className="w-full p-4 flex flex-col justify-center items-center">
+            <VideosPage urlVideo={detail.video.urlVideo}/>
           </div>
         )}
       </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import LessonService from "../../services/lesson.service";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AuthService from "../../services/auth.service";
 import authHeader from "../../services/auth-header";
 import {toast} from "react-hot-toast";
@@ -9,6 +9,7 @@ import axios from "axios";
 const ListLesson = () => {
   const [lessons, setLessons] = useState([]);
   const [userActive, setUser] = useState(undefined);
+  const { unitId } = useParams();
 
   useEffect(() => {
     const currentUser = AuthService.getCurrentUser();
@@ -18,11 +19,14 @@ const ListLesson = () => {
     }
   }, []);
 
+
   useEffect(() => {
-    LessonService.getLessons().then((response) => {
+    LessonService.getLessons(unitId).then((response) => {
       setLessons(response.data);
     });
   }, [lessons]);
+
+
 
   const canAccessLesson = (lessonIndex) => {
     if (lessonIndex === 0) {
@@ -71,7 +75,6 @@ const ListLesson = () => {
   return (
     <div className="flex flex-col">
       {lessons.map((lesson, index) => {
-        const lessonUrl = `/dashboard/course/lesson/${lesson._id}`;
         const canAccess = canAccessLesson(index);
 
         return (
@@ -82,7 +85,7 @@ const ListLesson = () => {
             }`}
           >
             {canAccess ? (
-              <Link to={lessonUrl}>
+              <Link to={lesson._id}>
                 <img
                   src={lesson.images}
                   className="rounded-full w-10"
