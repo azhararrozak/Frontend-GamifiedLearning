@@ -1,122 +1,182 @@
 import { useState, useEffect } from "react";
-import AuthService from "../../services/auth.service";
-import { Link, useParams } from "react-router-dom";
 import QuizService from "../../services/quiz.service";
 import { toast } from "react-hot-toast";
+import shuffleOptions from "../../utils/shuffleOptions";
 
 const PostestContent = () => {
-  const [user, setUser] = useState(undefined);
-  const { name } = useParams();
-  const [quiz, setQuiz] = useState(null);
-  const [selectedAnswers, setSelectedAnswers] = useState([]);
-  const [correctAnswers, setCorrectAnswers] = useState([]);
+  const [quizData, setQuizData] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-
-  useEffect(() => {
-    const currentUser = AuthService.getCurrentUser();
-
-    if (currentUser) {
-      setUser(currentUser);
-    }
-  }, []);
+  const [selectedAnswer, setSelectedAnswer] = useState({});
+  const [totalScore, setTotalScore] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [quizStarted, setQuizStarted] = useState(false);
 
   useEffect(() => {
     const getQuiz = async () => {
       try {
-        const res = await QuizService.getQuizByTitle(name);
-        setQuiz(res.data.quiz);
-        setSelectedAnswers(
-          new Array(res.data.quiz.questions.length).fill(null)
-        );
-        setCorrectAnswers(
-          res.data.quiz.questions.map((question) => question.correctAnswer)
-        );
+        const res = await QuizService.getQuizByTitle("postest");
+        const shuffleQuiz = {
+          ...res.data.quiz,
+          questions: res.data.quiz.questions.map((question) => ({
+            ...question,
+            options: shuffleOptions(question.options),
+          })),
+        };
+        setQuizData(shuffleQuiz);
+        setLoading(false);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching quiz:", error);
+        setError(
+          error.message ||
+            "An error occurred while fetching the quiz."
+        );
+        setLoading(false);
       }
     };
     getQuiz();
-  }, [name]);
+  }, []);
 
-  const handleOptionSelect = (questionIndex, optionIndex) => {
-    const updatedSelectedAnswers = [...selectedAnswers];
-    updatedSelectedAnswers[questionIndex] = optionIndex;
-    setSelectedAnswers(updatedSelectedAnswers);
+  const handleOptionSelect = (questionId, optionIndex) => {
+    setSelectedAnswer((prevOptions) => ({
+      ...prevOptions,
+      [questionId]: optionIndex,
+    }));
   };
 
-  const handleNextQuestion = () => {
-    if (currentQuestion < quiz.questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    }
+  const nextQuestion = () => {
+    setCurrentQuestion(currentQuestion + 1);
   };
 
-  const handlePreviousQuestion = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-    }
-  };
-
-  const handleGoBack = () => {
-    setCurrentQuestion(0);
+  const prevQuestion = () => {
+    setCurrentQuestion(currentQuestion - 1);
   };
 
   const handleSubmitQuiz = async () => {
-    console.log(selectedAnswers);
+    // Check if all questions have been answered
+    const unansweredQuestions = quizData.questions.filter(
+      (question, index) => selectedAnswer[index] === undefined
+    );
+    if (unansweredQuestions.length === 0) {
+      try {
+        const res = await QuizService.submitPostest(quizData._id, selectedAnswer);
+        setTotalScore(res.data.score);
+        toast.success(res.data.message);
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("An error occurred while submitting the quiz.");
+        }
+      }
+    } else {
+      // Display error message if there are unanswered questions
+      toast.error("Please answer all questions before submitting the quiz.");
+    }
   };
 
-  if (!quiz) {
+  const handleStartQuiz = () => {
+    setQuizStarted(true);
+    // startTimer();
+  };
+
+  if (loading) {
     return <div>Loading...</div>;
   }
 
-  const currentQuestionData = quiz.questions[currentQuestion];
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!quizData || quizData.questions.length === 0) {
+    return <div>No quiz data available.</div>;
+  }
+
+  const currentQuestionData = quizData.questions[currentQuestion];
+
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Postest</h1>
-      <div className="flex flex-col md:flex-row justify-end items-center">
-        {user && user.roles.includes("ROLE_ADMIN") && (
-          <>
-            <button className="border rounded-lg bg-blue-500 px-4 py-2">
-              <Link to="/dashboard/create_quiz">Create Quiz</Link>
-            </button>
-          </>
-        )}
-      </div>
-      <div className="flex flex-col md:flex-row justify-between items-center">
+    <div className="h-fit">
+      <h1 className="text-2xl font-bold">Postest Pages</h1>
+      {!quizStarted ? (
         <div>
-          <h3>Question {currentQuestion + 1} </h3>
-          <p>{currentQuestionData.question}</p>
-          <ul className="list-disc list-inside">
-            {currentQuestionData.options.map((option, optionIndex) => (
-              <li
-                key={optionIndex}
-                className={`p-2 m-2 border rounded-lg ${
-                  selectedAnswers[currentQuestion] === optionIndex
-                    ? "bg-green-200"
-                    : ""
-                }`}
-                onClick={() => handleOptionSelect(currentQuestion, optionIndex)}
+          <h2 className="text-xl font-bold mb-4">Quiz Title: {quizData.title}</h2>
+          <button
+            className="bg-blue-500 border px-4 py-2"
+            onClick={handleStartQuiz}
+          >
+            Start Quiz
+          </button>
+        </div>
+      ) : (
+        <div className="border p-4  flex flex-col justify-between">
+          {/* <div>
+            <p className="w-fit border p-2">Time Left: {Math.floor(timer / 60)}:{timer % 60}</p>
+          </div> */}
+          <div>
+            <h2 className="text-center text-xl">
+              {currentQuestionData.question}
+            </h2>
+            {currentQuestionData.image && <img src={currentQuestionData.image} alt="image-quiz" className="w-1/2 mx-auto my-4" />}
+
+          </div>
+          <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {currentQuestionData.options.map((option, index) => (
+                <div key={index} className="mb-2">
+                  <label className="block cursor-pointer">
+                    <input
+                      type="radio"
+                      name="option"
+                      className="hidden"
+                      checked={selectedAnswer[currentQuestion] === option._id}
+                      onChange={() =>
+                        handleOptionSelect(
+                          currentQuestion,
+                          option._id
+                        )
+                      }
+                    />
+                    <div
+                      className={`border rounded p-2 ${
+                        selectedAnswer[currentQuestion] === option._id &&
+                        "bg-blue-500"
+                      }`}
+                    >
+                      {option.text}
+                    </div>
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="w-full flex justify-between">
+            {currentQuestion !== 0 && (
+              <button
+                className="bg-blue-500 border px-4 py-2"
+                onClick={prevQuestion}
               >
-                {option}
-              </li>
-            ))}
-          </ul>
-          <div className="flex justify-between">
-            <button
-              className="border rounded-lg bg-blue-500 px-4 py-2"
-              onClick={handlePreviousQuestion}
-            >
-              Previous
-            </button>
-            <button
-              className="border rounded-lg bg-blue-500 px-4 py-2"
-              onClick={handleNextQuestion}
-            >
-              Next
-            </button>
+                Previous
+              </button>
+            )}
+            {currentQuestion !== quizData.questions.length - 1 ? (
+              <button
+                className="bg-blue-500 border px-4 py-2"
+                onClick={nextQuestion}
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                className="bg-green-500 border px-4 py-2"
+                onClick={handleSubmitQuiz}
+              >
+                Submit
+              </button>
+            )}
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

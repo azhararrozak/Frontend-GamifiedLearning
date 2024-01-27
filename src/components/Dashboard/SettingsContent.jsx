@@ -67,7 +67,6 @@ const SettingsContent = () => {
           () => {
             // On complete, get the download URL and update user data
             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              console.log(downloadURL);
 
               // Update fulldata with the new URL
               setFulldata((prevData) => ({

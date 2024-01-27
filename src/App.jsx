@@ -38,8 +38,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="overview" element={<DashboardContent />} />{" "}
-          <Route path=":name" element={<PretestContent />} />{" "} {/* Ini adalah rute untuk konten pretest */}
-          <Route path=":name" element={<PostestContent />} />{" "} {/* Ini adalah rute untuk konten postest */}
+          <Route path="pretest" element={<PretestContent />} />{" "} {/* Ini adalah rute untuk konten pretest */}
+          <Route path="postest" element={<PostestContent />} />{" "} {/* Ini adalah rute untuk konten postest */}
           <Route path="study_group" element={<GroupContent />} >
             <Route index element={<StudyGroup />} />
             <Route path=":groupId" element={<Problem />} />

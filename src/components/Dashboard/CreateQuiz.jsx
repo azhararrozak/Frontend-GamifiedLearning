@@ -5,6 +5,7 @@ import { useState } from "react";
 const CreateQuiz = () => {
   const initialQuestion = {
     question: "",
+    image: "",
     options: [
       { text: "", isCorrect: false },
       { text: "", isCorrect: false },
@@ -44,7 +45,9 @@ const CreateQuiz = () => {
     e.preventDefault();
     const updatedQuiz = { ...quiz };
     updatedQuiz.questions.forEach((question) => {
-      const correctIndex = question.options.findIndex((option) => option.isCorrect);
+      const correctIndex = question.options.findIndex(
+        (option) => option.isCorrect
+      );
       if (correctIndex !== -1) {
         question.correctAnswer = correctIndex;
       }
@@ -66,16 +69,18 @@ const CreateQuiz = () => {
   };
 
   return (
-    <div className="container margin-top">
-      <h2>Create a Quiz</h2>
+    <div className="border rounded-md p-4 text-primary">
+      <h2 className="text-xl text-center mb-4 uppercase font-bold">
+        Create a Quiz
+      </h2>
 
       <div className="mb-3">
-        <label htmlFor="title" className="form-label">
+        <label htmlFor="title" className="block font-bold mb-2">
           Title:
         </label>
         <input
           type="text"
-          className="form-control"
+          className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
           id="title"
           value={quiz.title}
           onChange={(e) => setQuiz({ ...quiz, title: e.target.value })}
@@ -83,12 +88,12 @@ const CreateQuiz = () => {
       </div>
 
       <div className="mb-3">
-        <label htmlFor="description" className="form-label">
+        <label htmlFor="description" className="block font-bold mb-2">
           Description:
         </label>
         <input
           type="text"
-          className="form-control"
+          className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
           id="description"
           value={quiz.description}
           onChange={(e) => setQuiz({ ...quiz, description: e.target.value })}
@@ -96,16 +101,16 @@ const CreateQuiz = () => {
       </div>
 
       {quiz.questions.map((question, questionIndex) => (
-        <div key={questionIndex} className="mb-4">
+        <div key={questionIndex} className="mb-4 border-t-2 pt-2">
           <label
             htmlFor={`question${questionIndex + 1}`}
-            className="form-label"
+            className="block font-bold mb-2"
           >
             Question {questionIndex + 1}:
           </label>
           <input
             type="text"
-            className="form-control"
+            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id={`question${questionIndex + 1}`}
             value={question.question}
             onChange={(e) => {
@@ -115,18 +120,36 @@ const CreateQuiz = () => {
             }}
           />
 
+          <label
+            htmlFor="image"
+            className="block font-bold mb-2"
+          >
+            ImageURL:
+          </label>
+          <input
+            type="text"
+            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            id="image"
+            value={question.image}
+            onChange={(e) => {
+              const updatedQuiz = { ...quiz };
+              updatedQuiz.questions[questionIndex].image = e.target.value;
+              setQuiz(updatedQuiz);
+            }}
+          />
+
           {question.options.map((option, optionIndex) => (
             <div key={optionIndex} className="mb-2">
               <label
                 htmlFor={`option${optionIndex + 1}`}
-                className="form-label"
+                className="block font-bold mb-2"
               >
                 Option {optionIndex + 1}:
               </label>
-              <div className="d-flex align-items-center">
+              <div className="flex">
                 <input
                   type="text"
-                  className="form-control"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                   id={`option${optionIndex + 1}`}
                   value={option.text}
                   onChange={(e) => {
@@ -154,13 +177,13 @@ const CreateQuiz = () => {
           ))}
 
           <button
-            className="btn btn-primary mt-2 space"
+            className="border px-4 py-2 rounded-md mr-2"
             onClick={() => handleAddOption(questionIndex)}
           >
             Add Option
           </button>
           <button
-            className="btn btn-danger mt-2"
+            className="border px-4 py-2 rounded-md"
             onClick={() => handleRemoveQuestion(questionIndex)}
           >
             Remove Question
@@ -168,12 +191,14 @@ const CreateQuiz = () => {
         </div>
       ))}
 
-      <button className="btn btn-primary" onClick={handleAddQuestion}>
-        Add Question
-      </button>
-      <button className="btn btn-success ms-2" onClick={handleSaveQuiz}>
-        Save Quiz
-      </button>
+      <div className="border-t-2 pt-2">
+        <button className="border px-4 py-2 mr-2" onClick={handleAddQuestion}>
+          Add Question
+        </button>
+        <button className="border px-4 py-2" onClick={handleSaveQuiz}>
+          Save Quiz
+        </button>
+      </div>
     </div>
   );
 };

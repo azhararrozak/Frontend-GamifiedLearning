@@ -29,7 +29,15 @@ const deleteQuiz = (id) => {
 }
 
 const submitQuiz = (id, selectedAnswers) => {
-    return axios.post(API_URL + `quiz/${id}/submit`, {selectedAnswers}, { headers: authHeader() });
+    return axios.post(API_URL + `quiz/${id}/submitquiz`, {selectedAnswers}, { headers: authHeader() });
+}
+
+const submitPretest = (id, selectedAnswers) => {
+    return axios.post(API_URL + `quiz/${id}/submitpretest`, {selectedAnswers}, { headers: authHeader() });
+}
+
+const submitPostest = (id, selectedAnswers) => {
+    return axios.post(API_URL + `quiz/${id}/submitpostest`, {selectedAnswers}, { headers: authHeader() });
 }
 
 const QuizService = {
@@ -39,7 +47,9 @@ const QuizService = {
     createQuiz,
     updateQuiz,
     deleteQuiz,
-    submitQuiz
+    submitQuiz,
+    submitPretest,
+    submitPostest
 };
 
 export default QuizService;

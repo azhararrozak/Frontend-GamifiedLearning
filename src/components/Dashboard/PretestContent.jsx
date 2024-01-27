@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
 import QuizService from "../../services/quiz.service";
 import { toast } from "react-hot-toast";
 import shuffleOptions from "../../utils/shuffleOptions";
 
 const PretestContent = () => {
-  const { name } = useParams();
+  //const { pretest } = useParams();
   const [quizData, setQuizData] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState({});
@@ -13,21 +12,21 @@ const PretestContent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quizStarted, setQuizStarted] = useState(false);
-  const [timer, setTimer] = useState(60); // 300 seconds or 5 minutes
-  const [timerId, setTimerId] = useState(null);
+  // const [timer, setTimer] = useState(60); // 300 seconds or 5 minutes
+  // const [timerId, setTimerId] = useState(null);
 
-  const startTimer = () => {
-    setTimerId(
-      setInterval(() => {
-        setTimer((prevTimer) => (prevTimer > 0 ? prevTimer - 1 : 0));
-      }, 1000)
-    );
-  };
+  // const startTimer = () => {
+  //   setTimerId(
+  //     setInterval(() => {
+  //       setTimer((prevTimer) => (prevTimer > 0 ? prevTimer - 1 : 0));
+  //     }, 1000)
+  //   );
+  // };
 
   useEffect(() => {
     const getQuiz = async () => {
       try {
-        const res = await QuizService.getQuizByTitle(name);
+        const res = await QuizService.getQuizByTitle("pretest");
         const shuffleQuiz = {
           ...res.data.quiz,
           questions: res.data.quiz.questions.map((question) => ({
@@ -65,29 +64,38 @@ const PretestContent = () => {
   };
 
   const handleSubmitQuiz = async () => {
-    console.log("Selected options:", selectedAnswer);
-    try {
-      const res = await QuizService.submitQuiz(
-        quizData._id,
-        selectedAnswer
-      );
-      setTotalScore(res.data.score);
-      toast.success(`Your score is ${res.data.score}!`);
-    } catch (error) {
-      console.log("Error submitting quiz:", error);
+    // Check if all questions have been answered
+    const unansweredQuestions = quizData.questions.filter(
+      (question, index) => selectedAnswer[index] === undefined
+    );
+    if (unansweredQuestions.length === 0) {
+      try {
+        const res = await QuizService.submitPretest(quizData._id, selectedAnswer);
+        setTotalScore(res.data.score);
+        toast.success(res.data.message);
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("An error occurred while submitting the quiz.");
+        }
+      }
+    } else {
+      // Display error message if there are unanswered questions
+      toast.error("Please answer all questions before submitting the quiz.");
     }
   };
 
   const handleStartQuiz = () => {
     setQuizStarted(true);
-    startTimer();
+    // startTimer();
   };
 
-  useEffect(() => {
-    if (timer === 0) {
-      handleSubmitQuiz(); // Automatically submit the quiz when the timer reaches 0
-    }
-  }, [timer]);
+  // useEffect(() => {
+  //   if (timer === 0) {
+  //     handleSubmitQuiz(); // Automatically submit the quiz when the timer reaches 0
+  //   }
+  // }, [timer]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -104,7 +112,7 @@ const PretestContent = () => {
   const currentQuestionData = quizData.questions[currentQuestion];
 
   return (
-    <div>
+    <div className="h-fit">
       <h1 className="text-2xl font-bold">Pretest Pages</h1>
       {!quizStarted ? (
         <div>
@@ -117,14 +125,16 @@ const PretestContent = () => {
           </button>
         </div>
       ) : (
-        <div className="border p-4 h-[500px] flex flex-col justify-between">
-          <div>
+        <div className="border p-4  flex flex-col justify-between">
+          {/* <div>
             <p className="w-fit border p-2">Time Left: {Math.floor(timer / 60)}:{timer % 60}</p>
-          </div>
+          </div> */}
           <div>
             <h2 className="text-center text-xl">
               {currentQuestionData.question}
             </h2>
+            {currentQuestionData.image && <img src={currentQuestionData.image} alt="image-quiz" className="w-1/2 mx-auto my-4" />}
+
           </div>
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
