@@ -12,7 +12,7 @@ const getQuizById = (id) => {
 }
 
 const getQuizByTitle = (title) => {
-    return axios.get(API_URL + `quiz/${title}`, { headers: authHeader() });
+    return axios.get(API_URL + `quizbyname/${title}`, { headers: authHeader() });
 }
 
 const createQuiz = (quiz) => {

@@ -25,8 +25,7 @@ const TasksContent = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Task List</h1>
+    <div className="p-6">
       {user && user.roles.includes("ROLE_ADMIN") && (
           <>
             <CreateTask isOpen={isModalOpen} onClose={closeModal} />  

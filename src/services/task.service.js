@@ -11,23 +11,25 @@ const getTaskById = (id) => {
   return axios.get(API_URL + `tasks/${id}`, { headers: authHeader() });
 };
 
-const createTask = (title, content) => {
+const createTask = (title, content, urlTask) => {
   return axios.post(
     API_URL + "tasks",
     {
       title,
       content,
+      urlTask,
     },
     { headers: authHeader() }
   );
 };
 
-const updateTask = (id, title, content) => {
+const updateTask = (id, title, content, urlTask) => {
   return axios.put(
     API_URL + `tasks/${id}`,
     {
       title,
       content,
+      urlTask,
     },
     { headers: authHeader() }
   );

@@ -7,7 +7,8 @@ import { toast } from "react-hot-toast";
 const EditTask = ({ isOpen, onClose, id}) => {
     const [taskData, setTaskData] = useState({
         title: "",
-        content: ""
+        content: "",
+        urlTask: ""
     });
 
     useEffect(() => {
@@ -24,12 +25,13 @@ const EditTask = ({ isOpen, onClose, id}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const {title, content} = taskData;
-            const response = await TaskService.updateTask(id, title, content);
+            const {title, content, urlTask} = taskData;
+            const response = await TaskService.updateTask(id, title, content, urlTask);
             toast.success(response.data.message);
             setTaskData({
                 title: "",
-                content: ""
+                content: "",
+                urlTask: ""
             });
         } catch (error) {
             console.log(error);
@@ -69,7 +71,21 @@ const EditTask = ({ isOpen, onClose, id}) => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="title" className="block text-gray-700">
+              <label htmlFor="urlTask" className="block text-gray-700">
+                urlTask
+              </label>
+              <input
+                type="text"
+                id="urlTask"
+                name="urlTask"
+                value={taskData.urlTask}
+                onChange={handleInputChange}
+                className="w-full p-2 border border-gray-300 rounded"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="content" className="block text-gray-700">
                 Content
               </label>
                 <textarea

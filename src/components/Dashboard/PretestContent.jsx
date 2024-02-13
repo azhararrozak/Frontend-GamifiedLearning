@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import QuizService from "../../services/quiz.service";
 import { toast } from "react-hot-toast";
 import shuffleOptions from "../../utils/shuffleOptions";
+import StartsQuiz from "../Quiz/StartsQuiz";
+import ScoreModal from "../Modal/ScoreModal";
 
 const PretestContent = () => {
   //const { pretest } = useParams();
@@ -12,6 +14,7 @@ const PretestContent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quizStarted, setQuizStarted] = useState(false);
+  const [showScoreModal, setShowScoreModal] = useState(false);
   // const [timer, setTimer] = useState(60); // 300 seconds or 5 minutes
   // const [timerId, setTimerId] = useState(null);
 
@@ -38,15 +41,17 @@ const PretestContent = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching quiz:", error);
-        setError(
-          error.message ||
-            "An error occurred while fetching the quiz."
-        );
+        setError(error.message || "An error occurred while fetching the quiz.");
         setLoading(false);
       }
     };
     getQuiz();
-  }, [name]);
+  }, []);
+
+  const handleCloseScoreModal = () => {
+    setShowScoreModal(false);
+    window.location.reload();
+  };
 
   const handleOptionSelect = (questionId, optionIndex) => {
     setSelectedAnswer((prevOptions) => ({
@@ -70,11 +75,18 @@ const PretestContent = () => {
     );
     if (unansweredQuestions.length === 0) {
       try {
-        const res = await QuizService.submitPretest(quizData._id, selectedAnswer);
+        const res = await QuizService.submitPretest(
+          quizData._id,
+          selectedAnswer
+        );
         setTotalScore(res.data.score);
-        toast.success(res.data.message);
+        setShowScoreModal(true);
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
           toast.error(error.response.data.message);
         } else {
           toast.error("An error occurred while submitting the quiz.");
@@ -88,6 +100,8 @@ const PretestContent = () => {
 
   const handleStartQuiz = () => {
     setQuizStarted(true);
+    //cek apakah user sudah mengerjakan
+    
     // startTimer();
   };
 
@@ -112,20 +126,15 @@ const PretestContent = () => {
   const currentQuestionData = quizData.questions[currentQuestion];
 
   return (
-    <div className="h-fit">
-      <h1 className="text-2xl font-bold">Pretest Pages</h1>
+    <div className="h-full">
       {!quizStarted ? (
-        <div>
-          <h2 className="text-xl font-bold mb-4">Quiz Title: {quizData.title}</h2>
-          <button
-            className="bg-blue-500 border px-4 py-2"
-            onClick={handleStartQuiz}
-          >
-            Start Quiz
-          </button>
+        <div className="flex justify-center items-center text-center h-screen">
+          <div>
+            <StartsQuiz quizData={quizData} handleStartQuiz={handleStartQuiz} />
+          </div>
         </div>
       ) : (
-        <div className="border p-4  flex flex-col justify-between">
+        <div className="border p-4  flex flex-col justify-between h-fit">
           {/* <div>
             <p className="w-fit border p-2">Time Left: {Math.floor(timer / 60)}:{timer % 60}</p>
           </div> */}
@@ -133,8 +142,13 @@ const PretestContent = () => {
             <h2 className="text-center text-xl">
               {currentQuestionData.question}
             </h2>
-            {currentQuestionData.image && <img src={currentQuestionData.image} alt="image-quiz" className="w-1/2 mx-auto my-4" />}
-
+            {currentQuestionData.image && (
+              <img
+                src={currentQuestionData.image}
+                alt="image-quiz"
+                className="w-1/2 mx-auto my-4"
+              />
+            )}
           </div>
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -147,10 +161,7 @@ const PretestContent = () => {
                       className="hidden"
                       checked={selectedAnswer[currentQuestion] === option._id}
                       onChange={() =>
-                        handleOptionSelect(
-                          currentQuestion,
-                          option._id
-                        )
+                        handleOptionSelect(currentQuestion, option._id)
                       }
                     />
                     <div
@@ -192,6 +203,10 @@ const PretestContent = () => {
             )}
           </div>
         </div>
+      )}
+
+      {showScoreModal && (
+        <ScoreModal title={"Pretest"} totalScore={totalScore} onClose={handleCloseScoreModal} />
       )}
     </div>
   );

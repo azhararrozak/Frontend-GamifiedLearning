@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
+import { FaUserCircle, FaBars } from "react-icons/fa";
 import { RiArrowDownSLine } from "react-icons/ri";
 
 const Header = ({ user, logout, toggleSidebar }) => {
@@ -12,20 +12,20 @@ const Header = ({ user, logout, toggleSidebar }) => {
   };
 
   return (
-    <header className="flex justify-between lg:justify-end items-center text-primary">
+    <header className="flex justify-between px-6 py-4 lg:justify-end items-center bg-[#fff] text-secondary">
       {" "}
       <button
         onClick={toggleSidebar} // Memanggil fungsi toggleSidebar saat tombol diklik
         className="p-2 flex lg:hidden" // Menambahkan kelas lg:hidden agar tombol ini hanya muncul di layar kecil
       >
         
-          <FaBars className="h-6 w-6 text-black" /> 
+          <FaBars className="h-6 w-6" /> 
         
       </button>
       <div className="relative group">
         <button
           onClick={toggleDropdown}
-          className=" p-2 flex border border-primary rounded-lg"
+          className=" p-2 flex"
         >
           {user ? (
             <img
@@ -37,7 +37,7 @@ const Header = ({ user, logout, toggleSidebar }) => {
           ) : (
             <FaUserCircle className="h-6 w-6" />
           )}
-          <p className="px-2">{user.username}</p>
+          <p className="px-2 capitalize">{user.username}</p>
           <RiArrowDownSLine className="h-6 w-6" />
         </button>
         {isOpen && (

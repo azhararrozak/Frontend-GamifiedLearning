@@ -55,17 +55,19 @@ const Register = () => {
   };
 
   return (
-    <div className="w-full min-h-screen relative bg-cover bg-center bg-[url(../bg-login-regis.png)] flex lg:flex-row flex-col p-2">
+    <div className="w-full bg-secondary min-h-screen relative bg-cover bg-center bg-[url(../bg-login-regis.png)] flex lg:flex-row flex-col p-2">
       <img
         className="absolute bottom-0 w-1/2 lg:left-20 lg:transform-none  left-1/2 transform -translate-x-1/2"
         src="./person-log-regis.png"
       />
-      <div className="lg:w-3/5 w-full lg:h-[500px] flex justify-center items-center text-fontPrimary z-10">
+      <div className="lg:w-3/5 w-full lg:h-[500px] flex justify-center items-center text-primary z-10">
         <div className="p-3 text-center">
-          <img className="m-auto" src="./Logo.png" />
-          <p className="text-3xl uppercase my-2">Welcome to</p>
-          <h1 className="text-4xl uppercase font-bold ">Gamified Learn</h1>
-          <p className="my-4">
+        <Link to={"/"}>
+            <img className="m-auto" alt="logo_image" src="./Logo.png" />
+          </Link>
+          <p className="text-2xl my-2">Selamat Datang</p>
+          <h1 className="text-4xl font-bold ">Gamified Learn</h1>
+          <p className="my-4 font-secondary">
             Kami membawa pembelajaran perulangan JavaScript menjadi lebih seru
             dan efektif. Dengan kombinasi materi pembelajaran yang mendalam,
             ujian interaktif, dan sistem poin serta badges. Jelajahi beragam
@@ -81,7 +83,7 @@ const Register = () => {
             <Link
               to="/register"
               className={`font-bold py-2 px-4 border-y-2 border-r-2  ${
-                isRegisterPage && "text-primary bg-secondary rounded-r-lg"
+                isRegisterPage && "text-primary bg-accent rounded-r-lg"
               }`}
             >
               Register
@@ -95,17 +97,17 @@ const Register = () => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: "-50%" }}
           transition={{ type: "tween", duration: 0.5 }}
-          className="md:w-80 rounded-md p-4 bg-secondary text-primary"
+          className="md:w-80 rounded-md p-4 bg-secondary border border-primary text-primary"
         >
-          <h1 className="text-center uppercase my-4 font-bold">Register Account Here</h1>
+          <h1 className="text-center uppercase my-4 font-bold">Register Akun Disini</h1>
           <form onSubmit={handleRegister}>
             {!successful && (
               <div className="flex flex-col">
                 <div className="mb-4">
                   <input
                     type="text"
-                    className="w-full px-3 py-2 border rounded-md border-primary bg-secondary focus:outline-none focus:border-primary"
-                    placeholder="Your Name"
+                    className="w-full px-3 py-2 border rounded-md bg-primary  text-secondary focus:outline-none focus:border-primary"
+                    placeholder="Masukkan Username Anda"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
@@ -114,8 +116,8 @@ const Register = () => {
                 <div className="mb-4">
                   <input
                     type="text"
-                    className="w-full px-3 py-2 border rounded-md border-primary bg-secondary focus:outline-none focus:border-primary"
-                    placeholder="Your Email"
+                    className="w-full px-3 py-2 border rounded-md bg-primary  text-secondary focus:outline-none focus:border-primary"
+                    placeholder="Masukkan Email Anda"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -125,8 +127,8 @@ const Register = () => {
                   <div className="relative">
                     <input
                       type={showPassword ? "text" : "password"}
-                      className="w-full px-3 py-2 border rounded-md border-primary bg-secondary focus:outline-none focus:border-primary"
-                      placeholder="Your Password"
+                      className="w-full px-3 py-2 border rounded-md bg-primary  text-secondary focus:outline-none focus:border-primary"
+                      placeholder="Masukkan Password Anda"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -141,7 +143,7 @@ const Register = () => {
                           width="16"
                           height="16"
                           fill="currentColor"
-                          className="bi bi-eye text-primary"
+                          className="bi bi-eye text-secondary"
                           viewBox="0 0 16 16"
                         >
                           {" "}
@@ -154,7 +156,7 @@ const Register = () => {
                           width="16"
                           height="16"
                           fill="currentColor"
-                          className="bi bi-eye-slash-fill text-primary"
+                          className="bi bi-eye-slash-fill text-secondary"
                           viewBox="0 0 16 16"
                         >
                           {" "}
@@ -167,8 +169,8 @@ const Register = () => {
                 </div>
 
                 <div className="mb-4">
-                  <button className="w-full px-3 py-4 text-fontPrimary bg-primary uppercase font-bold rounded-md hover:bg-secondary hover:text-primary hover:border hover:border-primary transition duration-200">
-                    Register Account
+                  <button className="w-full px-3 py-4 text-primary bg-accent uppercase font-bold rounded-md hover:bg-primary hover:text-accent hover:border hover:border-primary transition duration-200">
+                    Register Akun
                   </button>
                 </div>
               </div>

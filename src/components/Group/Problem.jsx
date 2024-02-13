@@ -36,6 +36,7 @@ const Problem = () => {
     <div className="flex justify-center items-center h-screen">
       {problems.map((problem) => (
         <div key={problem.id} className="max-w-md mx-4 bg-white p-6 rounded-md shadow-md">
+          <img src='./home.png' />
           <h1 className="text-xl font-semibold mb-4">{problem.title}</h1>
           <p className="text-gray-600">{problem.description}</p>
           <button

@@ -34,12 +34,20 @@ const deleteLesson = (id) => {
     return axios.delete(API_URL + `lessons/${id}`, { headers: authHeader() });
 }
 
+const postComment = (id, user, comment) => {
+    return axios.patch(API_URL + `lessons/${id}/comment`, {
+        user,
+        comment,
+    },{ headers: authHeader() })
+}
+
 const LessonService = {
     getLessons,
     getLessonById,
     createLesson,
     updateLesson,
     deleteLesson,
+    postComment,
 };
 
 export default LessonService;

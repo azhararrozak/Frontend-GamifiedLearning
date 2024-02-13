@@ -51,23 +51,22 @@ const ChatComponent = () => {
   };
 
   const handleSendMessage = () => {
-    console.log(msg);
-    console.log("Send button clicked");
     socket.emit("chat message", msg, user.username);
     setMsg("");
   };
 
   return (
-    <div className="flex flex-col justify-between text-fontPrimary">
-      <div className="border p-4 h-[40rem] overflow-y-auto">
+    <div className="flex flex-col justify-between">
+      <div className="bg-white rounded-md shadow-md p-4 h-[40rem] overflow-y-auto">
         {messages.map((message, index) => (
           <div
             key={index}
             className={`${
-              message.user === user.username ? "justify-start" : "justify-end"
+              message.user === user.username ? "justify-end" : "justify-start"
             } flex`}
           >
-            <div className="border rounded-md bg-primary w-fit px-4 py-2 m-2">
+            <div className={`${
+              message.user === user.username && "bg-secondary"} border rounded-md bg-accent text-primary w-fit px-4 py-2 m-2`}>
               <p className="font-bold">{message.user}</p>
               <p>{message.msg}</p>
             </div>
@@ -79,11 +78,11 @@ const ChatComponent = () => {
           type="text"
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
-          className="border-2 p-2 flex-grow text-primary"
+          className="border-2 p-2 flex-grow text-secondary"
         />
         <button
           onClick={handleSendMessage}
-          className="px-6 font-bold ml-2 bg-blue-500 text-white p-2 rounded"
+          className="px-6 font-bold ml-2 bg-blue-500 text-primary p-2 rounded"
         >
           Send
         </button>

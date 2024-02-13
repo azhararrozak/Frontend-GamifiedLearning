@@ -74,9 +74,11 @@ const DetailTask = () => {
 
   return (
     <div className="lg:flex">
-      <div className="lg:w-1/2">
-        <h1>{task.title}</h1>
+      <div className="lg:w-1/2 p-4">
+        <h1 className="font-bold text-xl capitalize">{task.title}</h1>
         <p>{task.content}</p>
+        <iframe src={task.urlTask} className="w-full h-[500px]"/>
+        
         {user && user.roles.includes("ROLE_ADMIN") && (
           <>
             <EditTask id={taskId} isOpen={isModalOpen} onClose={closeModal} />
@@ -89,18 +91,20 @@ const DetailTask = () => {
           </>
         )}
       </div>
-      <div className="lg:w-1/2">
+      <div className="lg:w-1/2 p-4">
         {user && user.roles.includes("ROLE_ADMIN") ? (
           <div>
             <h1>Daftar Submit</h1>
             <ListTaskSubmit id={taskId} />
           </div> ) : (
             <div>
+              <h1 className="font-bold text-xl">Submit LKPD</h1>
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label htmlFor="title" className="block text-gray-700">
                     Masukkan Link URL
                   </label>
+                  <div className="flex gap-2">
                   <input
                     type="text"
                     name="urlFile"
@@ -109,10 +113,11 @@ const DetailTask = () => {
                     onChange={handleInputChange}
                     className="border rounded-xl p-2 w-full"
                   />
-                </div>
-                <button className="border rounded-lg bg-blue-500 px-4 py-2">
+                  <button className="border rounded-lg bg-blue-500 px-4 py-2">
                   Submit
                 </button>
+                  </div>
+                </div>
               </form>
             </div>
           )

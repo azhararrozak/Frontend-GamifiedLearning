@@ -26,7 +26,7 @@ const ListTask = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2">
       {tasks.map((task) => (
-        <div className="border rounded-lg p-4 m-4 flex flex-col h-full" key={task._id}>
+        <div className="bg-white rounded-lg p-4 m-4 flex flex-col h-full" key={task._id}>
         <h1 className="text-xl font-semibold">{task.title}</h1>
         <p>{changeDate(task.date)}</p>
         <div className="flex-1">
@@ -34,7 +34,7 @@ const ListTask = () => {
         </div>
         <div className="mt-auto">
           <Link to={`${task._id}`}>
-            <button className="w-full py-2 bg-blue-500 rounded-md">Detail</button>
+            <button className="w-full py-2 bg-accent text-primary font-medium rounded-md">Detail</button>
           </Link>
         </div>
       </div>

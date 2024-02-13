@@ -31,7 +31,6 @@ const CreateLesson = ({ isOpen, onClose }) => {
     try {
       const { unitId, title, content, images, urlVideo } = lessonData;
       const response = await LessonService.createLesson(unitId, title, content, images, urlVideo);
-      console.log(response);
       toast.success(response.data.message);
       setLessonData({
         title: "",
@@ -114,7 +113,6 @@ const CreateLesson = ({ isOpen, onClose }) => {
                 value={lessonData.urlVideo}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
-                required
               />
             </div>
             <div className="text-right">

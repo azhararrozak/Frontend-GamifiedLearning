@@ -29,29 +29,29 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     <div
       className={`${
         isSidebarOpen
-          ? "block lg:static absolute inset-0 lg:block w-64 bg-primary text-fontPrimary py-4 overflow-y-auto z-10"
-          : "hidden lg:block w-64 bg-primary text-fontPrimary py-4 overflow-y-auto"
+          ? "block lg:static absolute inset-0 lg:block w-64 bg-secondary text-primary py-4 overflow-y-auto lg:overflow-y-hidden z-10"
+          : "hidden lg:block w-64 bg-secondary text-primary py-4 overflow-y-auto lg:overflow-y-hidden"
       }`}
     >
       <div className="w-full flex justify-end pr-4">
         <button onClick={toggleSidebar} className="lg:hidden">
-          {isSidebarOpen && (
-            <FaTimes className="cursor-pointer w-6 h-6 mt-2" />
-          )}
+          {isSidebarOpen && <FaTimes className="cursor-pointer w-6 h-6 mt-2" />}
         </button>
       </div>
       <div className="flex justify-center items-center mt-4">
         <img className="w-[2rem] mr-2" src="../Logo.png" alt="Logo" />
-        <Link className="font-bold uppercase text-lg" to="/">Gamified Learn</Link>
+        <Link className="font-bold text-lg" to="/">
+          Gamified Learn
+        </Link>
       </div>
-      <nav className="mt-8">
+      <nav className="mt-8 font-medium">
         <ul className="pr-4">
           <li className="mb-4">
             <NavLink
               to="/dashboard/overview"
               className={({ isActive }) =>
-                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
-                  isActive ? "bg-[#FBF7EF] text-black" : ""
+                `py-4 px-8 flex rounded-r-lg hover:bg-accent ${
+                  isActive ? "bg-accent text-primary" : ""
                 }`
               }
             >
@@ -62,7 +62,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           <li className="mb-4">
             <div
               onClick={toggleTestDropdown}
-              className="p-4 flex rounded-sm cursor-pointer text-white"
+              className="py-4 pl-8 pr-4 flex rounded-sm cursor-pointer"
             >
               <RiDraftLine className="w-6 h-6 mr-2" />
               Test
@@ -74,8 +74,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                   <NavLink
                     to="/dashboard/pretest"
                     className={({ isActive }) =>
-                      `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
-                        isActive ? "bg-[#FBF7EF] text-black" : ""
+                      `p-4 flex rounded-lg hover:bg-accent hover:text-primary ${
+                        isActive ? "bg-accent text-primary" : ""
                       }`
                     }
                   >
@@ -86,8 +86,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                   <NavLink
                     to="/dashboard/postest"
                     className={({ isActive }) =>
-                      `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
-                        isActive ? "bg-[#FBF7EF] text-black" : ""
+                      `p-4 flex rounded-lg hover:bg-accent hover:text-primary ${
+                        isActive ? "bg-accent text-primary" : ""
                       }`
                     }
                   >
@@ -101,8 +101,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <NavLink
               to="/dashboard/study_group"
               className={({ isActive }) =>
-                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
-                  isActive ? "bg-[#FBF7EF] text-black" : ""
+                `py-4 px-8 flex rounded-r-lg hover:bg-accent ${
+                  isActive ? "bg-accent text-primary" : ""
                 }`
               }
             >
@@ -114,8 +114,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <NavLink
               to="/dashboard/discus"
               className={({ isActive }) =>
-                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
-                  isActive ? "bg-[#FBF7EF] text-black" : ""
+                `py-4 px-8 flex rounded-r-lg hover:bg-accent ${
+                  isActive ? "bg-accent text-primary" : ""
                 }`
               }
             >
@@ -126,7 +126,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           <li className="mb-4">
             <div
               onClick={toggleKelasDropdown}
-              className="p-4 flex rounded-sm cursor-pointer text-white"
+              className="py-4 pl-8 pr-4 flex rounded-sm cursor-pointer"
             >
               <RiBookOpenLine className="w-6 h-6 mr-2" />
               Learn
@@ -140,8 +140,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                   <NavLink
                     to="/dashboard/course"
                     className={({ isActive }) =>
-                      `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
-                        isActive ? "bg-[#FBF7EF] text-black" : ""
+                      `p-4 flex rounded-lg hover:bg-accent hover:text-primary ${
+                        isActive ? "bg-accent text-primary" : ""
                       }`
                     }
                   >
@@ -152,8 +152,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                   <NavLink
                     to="/dashboard/tasks"
                     className={({ isActive }) =>
-                      `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
-                        isActive ? "bg-[#FBF7EF] text-black" : ""
+                      `p-4 flex rounded-lg hover:bg-accent hover:text-primary ${
+                        isActive ? "bg-accent text-primary" : ""
                       }`
                     }
                   >
@@ -165,8 +165,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                   <NavLink
                     to="/dashboard/playground"
                     className={({ isActive }) =>
-                      `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
-                        isActive ? "bg-[#FBF7EF] text-black" : ""
+                      `p-4 flex rounded-lg hover:bg-accent hover:text-primary ${
+                        isActive ? "bg-accent text-primary" : ""
                       }`
                     }
                   >
@@ -182,8 +182,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <NavLink
               to="/dashboard/quiz"
               className={({ isActive }) =>
-                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
-                  isActive ? "bg-[#FBF7EF] text-black" : ""
+                `py-4 px-8 flex rounded-r-lg hover:bg-accent ${
+                  isActive ? "bg-accent text-primary" : ""
                 }`
               }
             >
@@ -195,8 +195,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <NavLink
               to="/dashboard/evaluasi"
               className={({ isActive }) =>
-                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
-                  isActive ? "bg-[#FBF7EF] text-black" : ""
+                `py-4 px-8 flex rounded-r-lg hover:bg-accent ${
+                  isActive ? "bg-accent text-primary" : ""
                 }`
               }
             >
@@ -208,8 +208,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <NavLink
               to="/dashboard/settings"
               className={({ isActive }) =>
-                `p-4 flex rounded-sm hover:bg-[#FBF7EF] hover:text-black ${
-                  isActive ? "bg-[#FBF7EF] text-black" : ""
+                `py-4 px-8 flex rounded-r-lg hover:bg-accent ${
+                  isActive ? "bg-accent text-primary" : ""
                 }`
               }
             >

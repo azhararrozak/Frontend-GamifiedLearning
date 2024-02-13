@@ -1,6 +1,7 @@
 import QuizService from "../../services/quiz.service";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
+import { storage } from "../../utils/firebaseInit";
 
 const CreateQuiz = () => {
   const initialQuestion = {
@@ -41,6 +42,31 @@ const CreateQuiz = () => {
     setQuiz(updatedQuiz);
   };
 
+  const handleImageChange = async (e, questionIndex) => {
+    const selectedImage = e.target.files[0];
+
+    if (selectedImage) {
+      const imageURL = URL.createObjectURL(selectedImage);
+      const updatedQuiz = { ...quiz };
+      updatedQuiz.questions[questionIndex].image = imageURL; // Simpan previewURL di sini
+      setQuiz(updatedQuiz);
+
+      try {
+        const imageRef = storage
+          .ref()
+          .child(`question_image/${selectedImage.name}`);
+        await imageRef.put(selectedImage);
+        const downloadURL = await imageRef.getDownloadURL();
+
+        const updatedQuiz = { ...quiz };
+        updatedQuiz.questions[questionIndex].image = downloadURL;
+        setQuiz(updatedQuiz);
+      } catch (error) {
+        console.error("Error uploading image to Firebase:", error);
+      }
+    }
+  };
+
   const handleSaveQuiz = async (e) => {
     e.preventDefault();
     const updatedQuiz = { ...quiz };
@@ -59,6 +85,7 @@ const CreateQuiz = () => {
         }
       });
     });
+
     try {
       const response = await QuizService.createQuiz(updatedQuiz);
       console.log(response);
@@ -120,23 +147,26 @@ const CreateQuiz = () => {
             }}
           />
 
-          <label
-            htmlFor="image"
-            className="block font-bold mb-2"
-          >
-            ImageURL:
-          </label>
-          <input
-            type="text"
-            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="image"
-            value={question.image}
-            onChange={(e) => {
-              const updatedQuiz = { ...quiz };
-              updatedQuiz.questions[questionIndex].image = e.target.value;
-              setQuiz(updatedQuiz);
-            }}
-          />
+          {question.image && ( // Tampilkan previewURL jika ada
+            <div className="mb-4">
+              <img
+                src={question.image}
+                alt="Preview"
+                style={{ maxWidth: "100%", maxHeight: "200px" }}
+              />
+            </div>
+          )}
+          <div className="mb-4">
+            <label htmlFor="urlImage" className="block text-gray-700">
+              Choose Question Image
+            </label>
+            <input
+              type="file"
+              name="urlImage"
+              id="urlImage"
+              onChange={(e) => handleImageChange(e, questionIndex)}
+            />
+          </div>
 
           {question.options.map((option, optionIndex) => (
             <div key={optionIndex} className="mb-2">

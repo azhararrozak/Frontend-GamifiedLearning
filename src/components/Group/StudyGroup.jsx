@@ -47,12 +47,13 @@ const StudyGroup = () => {
   };
 
   return (
-    <div>
-      <h1 className="font-bold text-xl text-primary text-center">
+    <div className="p-6">
+      <h1 className="font-bold text-xl text-center mb-2">
         Study Group
       </h1>
-      <div className="flex justify-left items-center p-4 my-4">
+      
         {user && user.roles.includes("ROLE_ADMIN") && (
+          <div className="flex justify-left items-center p-4 my-4">
           <div className="w-full">
             <form onSubmit={handleCreateGroup}>
               <div className="mb-3">
@@ -77,17 +78,18 @@ const StudyGroup = () => {
               Delete All
             </button>
           </div>
+          </div>
         )}
-      </div>
+
 
       {/*Table Group */}
       <table className="border-collapse w-full text-center">
         <thead className="bg-secondary">
           <tr>
-            <th className="px-4 py-2 border-secondary border-y-2">Group Name</th>
-            <th className="px-4 py-2 border-secondary border-y-2">Group Members</th>
-            <th className="px-4 py-2 border-secondary border-y-2">Group Leader</th>
-            <th className="px-4 py-2 border-secondary border-y-2">Problem</th>
+            <th className="px-4 py-2 border-secondary border-y-2 text-primary">Group Name</th>
+            <th className="px-4 py-2 border-secondary border-y-2 text-primary">Group Members</th>
+            <th className="px-4 py-2 border-secondary border-y-2 text-primary">Group Leader</th>
+            <th className="px-4 py-2 border-secondary border-y-2 text-primary">Problem</th>
           </tr>
         </thead>
         <tbody>
@@ -108,7 +110,7 @@ const StudyGroup = () => {
                     {user && user.id === group.lead._id && (
                       <Link
                         to={`${group._id}`}
-                        className="w-1/2 bg-primary text-fontPrimary p-1 rounded-md"
+                        className="w-1/2 bg-accent text-primary hover:bg-primary hover:border-secondary hover:border hover:text-accent p-1 rounded-md"
                       >
                         Pilih problem
                       </Link>

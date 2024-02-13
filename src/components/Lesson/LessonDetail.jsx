@@ -23,8 +23,6 @@ const LessonDetail = () => {
     });
   }, [lessonId, detail]);
 
-  console.log(lessonId)
-
   useEffect(() => {
     const currentUser = AuthService.getCurrentUser();
 
@@ -85,11 +83,11 @@ const LessonDetail = () => {
 
   return (
     <div>
-      <h1>{detail.title}</h1>
       {/* Render the content using dangerouslySetInnerHTML */}
       <div>
-        <div className="border flex ">
-          <div onClick={handleChangeReadView} className="w-1/2 text-center cursor-pointer border-r-2">
+      <h1 className="font-bold text-xl mb-3">{detail.title}</h1>
+        <div className="border-b-2 flex ">
+          <div onClick={handleChangeReadView} className="w-1/2 text-center cursor-pointer">
             Read Material
           </div>
           <div onClick={handleChangeVideoView} className="w-1/2 text-center cursor-pointer">
@@ -97,10 +95,12 @@ const LessonDetail = () => {
           </div>
         </div>
         {readView ? (
-          <div className="view ql-editor" dangerouslySetInnerHTML={{ __html: detail.content }}></div>
+            <div className="view ql-editor" dangerouslySetInnerHTML={{ __html: detail.content }}></div>       
         ): (
           <div className="w-full p-4 flex flex-col justify-center items-center">
-            <VideosPage urlVideo={detail.video.urlVideo}/>
+            { detail.video.urlVideo ? 
+              <VideosPage urlVideo={detail.video.urlVideo} lessonId={lessonId} user={user.username} comments={detail.video.commentars}/> : 
+              <h1 className="text-center">Tidak Ada Video</h1>}
           </div>
         )}
       </div>

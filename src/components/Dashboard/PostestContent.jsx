@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import QuizService from "../../services/quiz.service";
 import { toast } from "react-hot-toast";
 import shuffleOptions from "../../utils/shuffleOptions";
+import StartsQuiz from "../Quiz/StartsQuiz";
+import ScoreModal from "../Modal/ScoreModal";
 
 const PostestContent = () => {
   const [quizData, setQuizData] = useState([]);
@@ -11,6 +13,7 @@ const PostestContent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quizStarted, setQuizStarted] = useState(false);
+  const [showScoreModal, setShowScoreModal] = useState(false);
 
   useEffect(() => {
     const getQuiz = async () => {
@@ -27,15 +30,17 @@ const PostestContent = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching quiz:", error);
-        setError(
-          error.message ||
-            "An error occurred while fetching the quiz."
-        );
+        setError(error.message || "An error occurred while fetching the quiz.");
         setLoading(false);
       }
     };
     getQuiz();
   }, []);
+
+  const handleCloseScoreModal = () => {
+    setShowScoreModal(false);
+    window.location.reload();
+  };
 
   const handleOptionSelect = (questionId, optionIndex) => {
     setSelectedAnswer((prevOptions) => ({
@@ -59,11 +64,18 @@ const PostestContent = () => {
     );
     if (unansweredQuestions.length === 0) {
       try {
-        const res = await QuizService.submitPostest(quizData._id, selectedAnswer);
+        const res = await QuizService.submitPostest(
+          quizData._id,
+          selectedAnswer
+        );
         setTotalScore(res.data.score);
-        toast.success(res.data.message);
+        setShowScoreModal(true);
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
           toast.error(error.response.data.message);
         } else {
           toast.error("An error occurred while submitting the quiz.");
@@ -94,19 +106,13 @@ const PostestContent = () => {
 
   const currentQuestionData = quizData.questions[currentQuestion];
 
-
   return (
     <div className="h-fit">
-      <h1 className="text-2xl font-bold">Postest Pages</h1>
       {!quizStarted ? (
-        <div>
-          <h2 className="text-xl font-bold mb-4">Quiz Title: {quizData.title}</h2>
-          <button
-            className="bg-blue-500 border px-4 py-2"
-            onClick={handleStartQuiz}
-          >
-            Start Quiz
-          </button>
+        <div className="flex justify-center items-center text-center h-screen">
+          <div>
+            <StartsQuiz quizData={quizData} handleStartQuiz={handleStartQuiz} />
+          </div>
         </div>
       ) : (
         <div className="border p-4  flex flex-col justify-between">
@@ -117,8 +123,13 @@ const PostestContent = () => {
             <h2 className="text-center text-xl">
               {currentQuestionData.question}
             </h2>
-            {currentQuestionData.image && <img src={currentQuestionData.image} alt="image-quiz" className="w-1/2 mx-auto my-4" />}
-
+            {currentQuestionData.image && (
+              <img
+                src={currentQuestionData.image}
+                alt="image-quiz"
+                className="w-1/2 mx-auto my-4"
+              />
+            )}
           </div>
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -131,10 +142,7 @@ const PostestContent = () => {
                       className="hidden"
                       checked={selectedAnswer[currentQuestion] === option._id}
                       onChange={() =>
-                        handleOptionSelect(
-                          currentQuestion,
-                          option._id
-                        )
+                        handleOptionSelect(currentQuestion, option._id)
                       }
                     />
                     <div
@@ -176,6 +184,14 @@ const PostestContent = () => {
             )}
           </div>
         </div>
+      )}
+
+      {showScoreModal && (
+        <ScoreModal
+          title={"Postest"}
+          totalScore={totalScore}
+          onClose={handleCloseScoreModal}
+        />
       )}
     </div>
   );

@@ -2,6 +2,7 @@ import UserService from "../../services/user.service";
 import AuthService from "../../services/auth.service";
 import { useState, useEffect } from "react";
 import { storage } from "../../utils/firebaseInit";
+import { toast } from "react-hot-toast";
 
 const SettingsContent = () => {
   const [user, setUser] = useState(undefined);
@@ -84,7 +85,7 @@ const SettingsContent = () => {
                 school
               )
                 .then((response) => {
-                  console.log(response.data);
+                  toast.success(response.data.message)
                 })
                 .catch((error) => {
                   console.log(error);
@@ -109,7 +110,7 @@ const SettingsContent = () => {
   };
 
   return (
-    <div>
+    <div className="p-6">
       {user && (
         <div>
           <h1 className="font-bold text-2xl mb-8">Settings</h1>

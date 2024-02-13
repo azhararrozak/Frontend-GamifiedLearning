@@ -3,10 +3,11 @@ import LessonService from "../../services/lesson.service";
 import { Link, useParams } from "react-router-dom";
 import AuthService from "../../services/auth.service";
 import authHeader from "../../services/auth-header";
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 
 const ListLesson = () => {
+  const [titleUnit, setTitleUnit] = useState("");
   const [lessons, setLessons] = useState([]);
   const [userActive, setUser] = useState(undefined);
   const { unitId } = useParams();
@@ -19,14 +20,12 @@ const ListLesson = () => {
     }
   }, []);
 
-
   useEffect(() => {
     LessonService.getLessons(unitId).then((response) => {
-      setLessons(response.data);
+      setLessons(response.data.lessons);
+      setTitleUnit(response.data.title);
     });
   }, [lessons]);
-
-
 
   const canAccessLesson = (lessonIndex) => {
     if (lessonIndex === 0) {
@@ -57,7 +56,11 @@ const ListLesson = () => {
     try {
       if (userActive && userActive.id) {
         axios
-          .post(`http://localhost:5000/api/${userActive.id}/badge/add`, {badgeName: "Kursus Selesai"}, { headers: authHeader() })
+          .post(
+            `http://localhost:5000/api/${userActive.id}/badge/add`,
+            { unitId: unitId, badgeName: titleUnit },
+            { headers: authHeader() }
+          )
           .then((response) => {
             toast.success(response.data.message);
           })
@@ -65,12 +68,12 @@ const ListLesson = () => {
             toast.error(error.response.data.message);
           });
       } else {
-        toast.error("Anda sudah menambahkan poin sebelumnya.");
+        toast.error("Anda sudah menambahkan badge sebelumnya.");
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col">
@@ -80,29 +83,29 @@ const ListLesson = () => {
         return (
           <div
             key={lesson._id}
-            className={`flex py-2 my-2 border ${
-              canAccess ? "" : "opacity-50"
-            }`}
+            className={`p-2 my-2 bg-white shadow-md font-medium rounded-md ${canAccess ? "" : "opacity-50"}`}
           >
             {canAccess ? (
-              <Link to={lesson._id}>
+              <Link className="flex justify-start items-center" to={lesson._id}>
                 <img
                   src={lesson.images}
-                  className="rounded-full w-10"
+                  className="w-[3rem] rounded-full mr-2"
                   alt="lesson"
                 />
                 <h1>{lesson.title}</h1>
               </Link>
             ) : (
-              <p>Anda harus menyelesaikan pelajaran sebelumnya terlebih dahulu</p>
+              <p>
+                Anda harus menyelesaikan pelajaran sebelumnya terlebih dahulu
+              </p>
             )}
           </div>
         );
       })}
-      
+
       {lessons.length > 0 && (
         <button
-          className="border px-4 py-2"
+          className="bg-accent text-primary rounded-md font-medium px-4 py-2"
           onClick={allFinished}
           disabled={!allLessonsCompleted()}
         >

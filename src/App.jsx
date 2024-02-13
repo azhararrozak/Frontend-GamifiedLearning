@@ -27,6 +27,9 @@ import GroupContent from "./components/Dashboard/GroupContent";
 import StudyGroup from "./components/Group/StudyGroup";
 import Problem from "./components/Group/Problem";
 import Unit from "./components/Lesson/Unit";
+import ListEvalRef from "./components/EvalRefleksi/ListEvalRef";
+import EvalDetailPage from "./components/EvalRefleksi/EvalDetailPage";
+import RefDetailPage from "./components/EvalRefleksi/RefDetailPage";
 
 function App() {
   return (
@@ -45,7 +48,11 @@ function App() {
             <Route path=":groupId" element={<Problem />} />
           </Route>{" "} {/* Ini adalah rute untuk konten study group */}
           <Route path="discus" element={<Discuss />} />{" "} {/* Ini adalah rute untuk konten discuss */}
-          <Route path="evaluasi" element={<EvaluasiContent />} />{" "} {/* Ini adalah rute untuk konten evaluasi */}
+          <Route path="evaluasi" element={<EvaluasiContent />}>
+            <Route index element={<ListEvalRef />} />
+            <Route path=":evalId" element={<EvalDetailPage />} />
+            <Route path="refleksi/:refId" element={<RefDetailPage />} />
+          </Route> {/* Ini adalah rute untuk konten evaluasi */}
           <Route path="create_quiz" element={<CreateQuiz />} />{" "} {/* Ini adalah rute untuk konten create quiz ""} */}
           {/* Ini adalah rute utama */}
           <Route path="course" element={<CourseContent />} >

@@ -4,6 +4,7 @@ import Navbar from "../components/LandingPage/Navbar";
 import { useRef } from "react";
 import Programs from "../components/LandingPage/Programs";
 import AboutUs from "../components/LandingPage/About";
+import { motion } from "framer-motion";
 
 const Homepage = () => {
   const contactRef = useRef(null);
@@ -14,7 +15,9 @@ const Homepage = () => {
   // Function to handle scrolling to the Contact component
   const scrollToHome = () => {
     if (homeRef.current) {
-      homeRef.current.scrollIntoView({ behavior: "smooth" });
+      homeRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
     }
   };
 
@@ -38,7 +41,7 @@ const Homepage = () => {
   };
 
   return (
-    <div className="w-full text-fontPrimary bg-primary">
+    <div className="w-full text-secondary bg-primary dark:bg-secondary dark:text-primary">
       <Navbar
         home={scrollToHome}
         contact={scrollToContact}
@@ -51,19 +54,21 @@ const Homepage = () => {
       >
         {/* Kolom Teks */}
 
-        <div className="lg:w-1/2 px-12 text-center lg:text-left lg:mb-0 lg:mt-0 my-8">
+        <motion.div
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="lg:w-1/2 px-12 text-center lg:text-left lg:mb-0 lg:mt-0 my-8"
+        >
           <h1 className="md:text-6xl text-3xl font-semibold uppercase">
-            Selamat <span className="text-fontSecondary">datang</span>
+            Selamat <span className="text-accent">datang</span>
           </h1>
-          <h3 className="uppercase mb-4 text-2xl font-bold">
-            di platform pembelajaran
+          <h3 className="uppercase mb-4 text-lg md:text-2xl font-bold">
+            di platform pembelajaran Gamified Learn
           </h3>
-          <span className="md:text-4xl text-xl uppercase italic">
-            Gamified Learn
-          </span>
-          <p className="text-lg mt-4">
-            belajar kapanpun dimanapun dengan sistem gamifikasi. kumpulkan serta
-            dapatkan poin untuk mencapai batas kemampuan anda.
+          <p className="text-lg mt-4 font-secondary">
+            Belajar kapanpun dimanapun dengan sistem gamifikasi. kumpulkan serta
+            dapatkan poin dan badge dalam pembelajaran.
           </p>
           {/* <a
             href="#"
@@ -71,16 +76,20 @@ const Homepage = () => {
           >
             Selengkapnya
           </a> */}
-        </div>
+        </motion.div>
 
         {/* Kolom Gambar */}
-        <div className="lg:w-1/2 w-full flex justify-center items-center">
+        <motion.div
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="lg:w-1/2 w-full flex justify-center items-center">
           <img
             src="./home.png"
             alt="home"
             className="h-auto object-cover rounded-lg"
           />
-        </div>
+        </motion.div>
       </div>
 
       <div ref={programsRef} className="mb-8">
@@ -91,9 +100,7 @@ const Homepage = () => {
         <AboutUs />
       </div>
 
-      <div ref={contactRef}>
-        {/* <Contact /> */}
-      </div>
+      <div ref={contactRef}>{/* <Contact /> */}</div>
 
       <Footer />
     </div>
