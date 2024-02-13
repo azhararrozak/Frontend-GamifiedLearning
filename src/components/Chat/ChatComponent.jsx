@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import AuthService from "../../services/auth.service";
 import ChatService from "../../services/chat.service";
 
-const socket = io(import.meta.env.VITE_BASE_API);
+const socket = io("http://8.219.133.22:5000");
 
 const ChatComponent = () => {
   const [user, setUser] = useState(undefined);
