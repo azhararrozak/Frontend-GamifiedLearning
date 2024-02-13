@@ -5,6 +5,7 @@ import ChatService from "../../services/chat.service";
 
 const socket = io("http://8.219.133.22:5000", {
   withCredentials: false,
+  secure: true,
 });
 
 const ChatComponent = () => {
