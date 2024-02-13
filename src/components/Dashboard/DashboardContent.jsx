@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
-import * as pdfMake from 'pdfmake/build/pdfmake.js';
-import { vfs_fonts } from './vfs_fonts';
+import pdfMake from "pdfmake/build/pdfmake";
 import AuthService from "../../services/auth.service";
 import PointService from "../../services/point.service";
 import BadgeService from "../../services/badge.service";
@@ -91,7 +90,7 @@ const DashboardContent = () => {
       },
     };
   
-    pdfMake.createPdf(documentDefinition, vfs_fonts).download("skor_pengguna.pdf");
+    pdfMake.createPdf(documentDefinition).download("skor_pengguna.pdf");
   };
   
 
