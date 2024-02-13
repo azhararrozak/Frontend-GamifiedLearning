@@ -8,9 +8,10 @@ import BadgeService from "../../services/badge.service";
 import ScoreService from "../../services/score.service";
 import { GiAchievement } from "react-icons/gi";
 import { FaRankingStar } from "react-icons/fa6";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 
 const DashboardContent = () => {
+  pdfMake.vfs = pdfFonts.pdfMake.vfs;
   const [user, setUser] = useState(undefined);
   const [pointData, setPointData] = useState({
     point: 0,
