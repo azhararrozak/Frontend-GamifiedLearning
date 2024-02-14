@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import LessonService from "../../services/lesson.service";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import authHeader from "../../services/auth-header";
 import { toast } from "react-hot-toast";
 import AuthService from "../../services/auth.service";
+import LessonService from "../../services/lesson.service";
+import PointService from "../../services/point.service";
 import EditLesson from "../Modal/EditLesson";
 import "react-quill/dist/quill.core.css";
 import VideosPage from "./VideosPage";
@@ -15,7 +14,7 @@ const LessonDetail = () => {
   const [detail, setDetail] = useState([]);
   const [user, setUser] = useState(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [readView, setReadView] = useState(true)
+  const [readView, setReadView] = useState(true);
 
   useEffect(() => {
     LessonService.getLessonById(lessonId).then((response) => {
@@ -31,21 +30,15 @@ const LessonDetail = () => {
     }
   }, []);
 
-  const onFinishRead = () => {
+  const onFinishRead = async () => {
     try {
       if (user && user.id) {
         const postData = {
           lessonId: lessonId,
         };
-        // Lakukan pengecekan di sini apakah pengguna sudah menambahkan poin atau tidak
-        axios
-          .post(`http://localhost:5000/api/${user.id}/point/add`, postData, { headers: authHeader() })
-          .then((response) => {
-            toast.success(response.data.message);
-          })
-          .catch((error) => {
-            toast.error(error.response.data.message);
-          });
+
+        const response = await PointService.addPoint(user.id, postData);
+        toast.success(response.data.message);
       } else {
         toast.error("Anda sudah menambahkan poin sebelumnya.");
       }
@@ -62,45 +55,60 @@ const LessonDetail = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
-  }
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
-  }
+  };
 
   const handleChangeVideoView = () => {
-    setReadView(false)
-  }
+    setReadView(false);
+  };
 
   const handleChangeReadView = () => {
-    setReadView(true)
-  }
-
+    setReadView(true);
+  };
 
   return (
     <div>
       {/* Render the content using dangerouslySetInnerHTML */}
       <div>
-      <h1 className="font-bold text-xl mb-3">{detail.title}</h1>
+        <h1 className="font-bold text-xl mb-3">{detail.title}</h1>
         <div className="border-b-2 flex ">
-          <div onClick={handleChangeReadView} className="w-1/2 text-center cursor-pointer">
+          <div
+            onClick={handleChangeReadView}
+            className="w-1/2 text-center cursor-pointer"
+          >
             Read Material
           </div>
-          <div onClick={handleChangeVideoView} className="w-1/2 text-center cursor-pointer">
+          <div
+            onClick={handleChangeVideoView}
+            className="w-1/2 text-center cursor-pointer"
+          >
             Video View
           </div>
         </div>
         {readView ? (
-            <div className="view ql-editor" dangerouslySetInnerHTML={{ __html: detail.content }}></div>       
-        ): (
+          <div
+            className="view ql-editor"
+            dangerouslySetInnerHTML={{ __html: detail.content }}
+          ></div>
+        ) : (
           <div className="w-full p-4 flex flex-col justify-center items-center">
-            { detail.video.urlVideo ? 
-              <VideosPage urlVideo={detail.video.urlVideo} lessonId={lessonId} user={user.username} comments={detail.video.commentars}/> : 
-              <h1 className="text-center">Tidak Ada Video</h1>}
+            {detail.video.urlVideo ? (
+              <VideosPage
+                urlVideo={detail.video.urlVideo}
+                lessonId={lessonId}
+                user={user.username}
+                comments={detail.video.commentars}
+              />
+            ) : (
+              <h1 className="text-center">Tidak Ada Video</h1>
+            )}
           </div>
         )}
       </div>
@@ -108,16 +116,22 @@ const LessonDetail = () => {
         Selesai
       </button>
       {user && user.roles.includes("ROLE_ADMIN") && (
-          <>
-            <EditLesson isOpen={isModalOpen} onClose={closeModal} id={lessonId} />
-            <button className="border rounded-lg bg-blue-500 px-4 py-2" onClick={deleteLesson}>
-              Delete Lesson
-            </button>
-            <button className="border rounded-lg bg-blue-500 px-4 py-2" onClick={openModal}>
-              Edit Lesson
-            </button>
-          </>
-        )}
+        <>
+          <EditLesson isOpen={isModalOpen} onClose={closeModal} id={lessonId} />
+          <button
+            className="border rounded-lg bg-blue-500 px-4 py-2"
+            onClick={deleteLesson}
+          >
+            Delete Lesson
+          </button>
+          <button
+            className="border rounded-lg bg-blue-500 px-4 py-2"
+            onClick={openModal}
+          >
+            Edit Lesson
+          </button>
+        </>
+      )}
     </div>
   );
 };
