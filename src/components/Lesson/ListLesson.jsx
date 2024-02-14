@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import LessonService from "../../services/lesson.service";
 import { Link, useParams } from "react-router-dom";
 import AuthService from "../../services/auth.service";
+import BadgeService from "../../services/badge.service";
 import authHeader from "../../services/auth-header";
 import { toast } from "react-hot-toast";
 import axios from "axios";
@@ -55,18 +56,11 @@ const ListLesson = () => {
     // fetch badge
     try {
       if (userActive && userActive.id) {
-        axios
-          .post(
-            `http://localhost:5000/api/${userActive.id}/badge/add`,
-            { unitId: unitId, badgeName: titleUnit },
-            { headers: authHeader() }
-          )
-          .then((response) => {
-            toast.success(response.data.message);
-          })
-          .catch((error) => {
-            toast.error(error.response.data.message);
-          });
+        const postData = { unitId: unitId, badgeName: titleUnit }
+        
+        const response = await BadgeService.addBadge(userActive.id, postData)
+        toast.success(response.data.message);
+        
       } else {
         toast.error("Anda sudah menambahkan badge sebelumnya.");
       }
