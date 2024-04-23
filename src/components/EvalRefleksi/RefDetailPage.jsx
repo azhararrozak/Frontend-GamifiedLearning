@@ -15,7 +15,8 @@ const RefDetailPage = () => {
   survey.focusFirstQuestionAutomatic = false;
 
   const sendToServer = useCallback((sender) => {
-    RefleksiService.pushRefleksi(refId, sender.data)
+    // RefleksiService.pushRefleksi(refId, sender.data)
+    console.log(sender.data);
   }, []);
   
   survey.onComplete.add(sendToServer);
