@@ -18,15 +18,10 @@ const Header = ({ user, logout, toggleSidebar }) => {
         onClick={toggleSidebar} // Memanggil fungsi toggleSidebar saat tombol diklik
         className="p-2 flex lg:hidden" // Menambahkan kelas lg:hidden agar tombol ini hanya muncul di layar kecil
       >
-        
-          <FaBars className="h-6 w-6" /> 
-        
+        <FaBars className="h-6 w-6" />
       </button>
       <div className="relative group">
-        <button
-          onClick={toggleDropdown}
-          className=" p-2 flex"
-        >
+        <button onClick={toggleDropdown} className=" p-2 flex">
           {user ? (
             <img
               src={user.profile || "/profile.png"}
@@ -48,12 +43,22 @@ const Header = ({ user, logout, toggleSidebar }) => {
                   Profil
                 </Link>
               </li>
-              { user.roles[0] === "ROLE_ADMIN" && (
-                <li className="hover:bg-gray-100">
-                  <Link to="/dashboard/hasilnilai" className="block px-4 py-2">
-                    Hasil Nilai
-                  </Link>
-                </li>
+              {user.roles[0] === "ROLE_ADMIN" && (
+                <>
+                  <li className="hover:bg-gray-100">
+                    <Link
+                      to="/dashboard/hasilnilai"
+                      className="block px-4 py-2"
+                    >
+                      Hasil Nilai
+                    </Link>
+                  </li>
+                  <li className="hover:bg-gray-100">
+                    <Link to="/dashboard/create_quiz" className="block px-4 py-2">
+                      Pertanyaan
+                    </Link>
+                  </li>
+                </>
               )}
               <li className="hover:bg-gray-100">
                 <Link to="/login" className="block px-4 py-2" onClick={logout}>
