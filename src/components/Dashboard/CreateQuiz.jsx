@@ -5,13 +5,16 @@ import { storage } from "../../utils/firebaseInit";
 
 const CreateQuiz = () => {
   const initialQuestion = {
+    indicator: "",
+    atp: "",
+    subQuestion: "",
     question: "",
     image: "",
     options: [
-      { text: "", isCorrect: false },
-      { text: "", isCorrect: false },
-      { text: "", isCorrect: false },
-      { text: "", isCorrect: false },
+      { text: "", image: "", isCorrect: false },
+      { text: "", image: "", isCorrect: false },
+      { text: "", image: "", isCorrect: false },
+      { text: "", image: "", isCorrect: false },
     ],
   };
 
@@ -37,6 +40,7 @@ const CreateQuiz = () => {
     const updatedQuiz = { ...quiz };
     updatedQuiz.questions[questionIndex].options.push({
       text: "",
+      image: "",
       isCorrect: false,
     });
     setQuiz(updatedQuiz);
@@ -96,14 +100,14 @@ const CreateQuiz = () => {
   };
 
   return (
-    <div className="border rounded-md p-4 text-primary">
+    <div className="border rounded-md p-4">
       <h2 className="text-xl text-center mb-4 uppercase font-bold">
-        Create a Quiz
+        Form Pembuat Pertanyaan
       </h2>
 
       <div className="mb-3">
         <label htmlFor="title" className="block font-bold mb-2">
-          Title:
+          Judul:
         </label>
         <input
           type="text"
@@ -116,7 +120,7 @@ const CreateQuiz = () => {
 
       <div className="mb-3">
         <label htmlFor="description" className="block font-bold mb-2">
-          Description:
+          Deskripsi:
         </label>
         <input
           type="text"
@@ -133,7 +137,7 @@ const CreateQuiz = () => {
             htmlFor={`question${questionIndex + 1}`}
             className="block font-bold mb-2"
           >
-            Question {questionIndex + 1}:
+            Pertanyaan ke-{questionIndex + 1}:
           </label>
           <input
             type="text"
@@ -143,6 +147,60 @@ const CreateQuiz = () => {
             onChange={(e) => {
               const updatedQuiz = { ...quiz };
               updatedQuiz.questions[questionIndex].question = e.target.value;
+              setQuiz(updatedQuiz);
+            }}
+          />
+          <label
+            htmlFor={`atp${questionIndex + 1}`}
+            className="block font-bold mb-2"
+          >
+            ATP:
+          </label>
+          <input
+            type="text"
+            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            id={`atp${questionIndex + 1}`}
+            value={question.atp}
+            onChange={(e) => {
+              const updatedQuiz = { ...quiz };
+              updatedQuiz.questions[questionIndex].atp = e.target.value;
+              setQuiz(updatedQuiz);
+            }}
+          />
+          <label
+            htmlFor={`indicator${questionIndex + 1}`}
+            className="block font-bold mb-2"
+          >
+            Indikator Berpikir Logis:
+          </label>
+          <select
+            id={`indicator${questionIndex + 1}`}
+            value={question.indicator}
+            onChange={(e) => {
+              const updatedQuiz = { ...quiz };
+              updatedQuiz.questions[questionIndex].indicator = e.target.value;
+              setQuiz(updatedQuiz);
+            }}
+          >
+            <option value="">Pilih Indikator</option>
+            <option value="Keruntutan Berpikir">Keruntutan Berpikir</option>
+            <option value="Kemampuan Berargumen">Kemampuan Berargumen</option>
+            <option value="Penarikan Kesimpulan">Penarikan Kesimpulan</option>
+          </select>
+          <label
+            htmlFor={`subQuestion${questionIndex + 1}`}
+            className="block font-bold mb-2"
+          >
+            Sub Pertanyaan:
+          </label>
+          <input
+            type="text"
+            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            id={`subQuestion${questionIndex + 1}`}
+            value={question.subQuestion}
+            onChange={(e) => {
+              const updatedQuiz = { ...quiz };
+              updatedQuiz.questions[questionIndex].subQuestion = e.target.value;
               setQuiz(updatedQuiz);
             }}
           />
@@ -158,7 +216,7 @@ const CreateQuiz = () => {
           )}
           <div className="mb-4">
             <label htmlFor="urlImage" className="block text-gray-700">
-              Choose Question Image
+              Tambahkan Gambar Pertanyaan
             </label>
             <input
               type="file"
@@ -176,23 +234,47 @@ const CreateQuiz = () => {
               >
                 Option {optionIndex + 1}:
               </label>
-              <div className="flex">
-                <input
-                  type="text"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                  id={`option${optionIndex + 1}`}
-                  value={option.text}
-                  onChange={(e) => {
-                    const updatedQuiz = { ...quiz };
-                    updatedQuiz.questions[questionIndex].options[
-                      optionIndex
-                    ].text = e.target.value;
-                    setQuiz(updatedQuiz);
-                  }}
-                />
+              <div className="">
+                <div className="flex flex-col">
+                  <label htmlFor="urlImage" className="block text-gray-700">
+                    Image URL
+                  </label>
+                  <input
+                    type="text"
+                    className="shadow appearance-none border rounded w-full my-2 py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id={`imageUrl${optionIndex + 1}`}
+                    value={option.image}
+                    onChange={(e) => {
+                      const updatedQuiz = { ...quiz };
+                      updatedQuiz.questions[questionIndex].options[
+                        optionIndex
+                      ].image = e.target.value;
+                      setQuiz(updatedQuiz);
+                    }}
+                  />
+                  <label htmlFor="urlImage" className="block text-gray-700">
+                    Jawaban {`${optionIndex + 1}`}
+                  </label>
+                  <input
+                    type="text"
+                    className="shadow appearance-none border rounded w-full my-2 py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id={`option${optionIndex + 1}`}
+                    value={option.text}
+                    onChange={(e) => {
+                      const updatedQuiz = { ...quiz };
+                      updatedQuiz.questions[questionIndex].options[
+                        optionIndex
+                      ].text = e.target.value;
+                      setQuiz(updatedQuiz);
+                    }}
+                  />
+                </div>
+                <label htmlFor="urlImage" className="block text-gray-700">
+                  Jawaban Benar
+                </label>
                 <input
                   type="checkbox"
-                  className="form-check-input ms-2"
+                  className="form-check-input ms-2 text-left"
                   checked={option.isCorrect}
                   onChange={(e) => {
                     const updatedQuiz = { ...quiz };
@@ -207,26 +289,32 @@ const CreateQuiz = () => {
           ))}
 
           <button
-            className="border px-4 py-2 rounded-md mr-2"
+            className="border px-4 py-2 rounded-md mr-2 bg-green-500 text-primary font-bold"
             onClick={() => handleAddOption(questionIndex)}
           >
             Add Option
           </button>
           <button
-            className="border px-4 py-2 rounded-md"
+            className="border px-4 py-2 rounded-md bg-red-600 text-primary font-bold"
             onClick={() => handleRemoveQuestion(questionIndex)}
           >
-            Remove Question
+            Hapus Pertanyaan
           </button>
         </div>
       ))}
 
       <div className="border-t-2 pt-2">
-        <button className="border px-4 py-2 mr-2" onClick={handleAddQuestion}>
-          Add Question
+        <button
+          className="border px-4 py-2 mr-2 rounded-md bg-green-500 text-primary font-bold"
+          onClick={handleAddQuestion}
+        >
+          Tambah Pertanyaan
         </button>
-        <button className="border px-4 py-2" onClick={handleSaveQuiz}>
-          Save Quiz
+        <button
+          className="border px-4 py-2 rounded-md text-primary bg-secondary font-bold"
+          onClick={handleSaveQuiz}
+        >
+          Simpan Pertanyaan
         </button>
       </div>
     </div>
