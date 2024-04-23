@@ -30,6 +30,10 @@ import Unit from "./components/Lesson/Unit";
 import ListEvalRef from "./components/EvalRefleksi/ListEvalRef";
 import EvalDetailPage from "./components/EvalRefleksi/EvalDetailPage";
 import RefDetailPage from "./components/EvalRefleksi/RefDetailPage";
+import HasilNilaiContent from "./components/Dashboard/HasilNilaiContent";
+import HasilNilai from "./components/HasilNilai/HasilNilai";
+import HasilNilaiPretest from "./components/HasilNilai/HasilNilaiPretest";
+import HasilNilaiPostest from "./components/HasilNilai/HasilNilaiPostest";
 
 function App() {
   return (
@@ -41,7 +45,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="overview" element={<DashboardContent />} />{" "}
-          <Route path="pretest" element={<PretestContent />} />{" "} {/* Ini adalah rute untuk konten pretest */}
+          <Route path="pretest" element={<PretestContent />} />{" "}
           <Route path="postest" element={<PostestContent />} />{" "} {/* Ini adalah rute untuk konten postest */}
           <Route path="study_group" element={<GroupContent />} >
             <Route index element={<StudyGroup />} />
@@ -77,6 +81,11 @@ function App() {
           {/* Ini adalah rute untuk konten tugas */}
           <Route path="settings" element={<SettingsContent />} />{" "}
           {/* Ini adalah rute untuk konten pengaturan */}
+          <Route path="hasilnilai" element={<HasilNilaiContent />}>
+            <Route index element={<HasilNilai />} />
+            <Route path="pretest" element={<HasilNilaiPretest />} />
+            <Route path="postest" element={<HasilNilaiPostest />} />
+          </Route>
         </Route>
       </Routes>
     </div>
