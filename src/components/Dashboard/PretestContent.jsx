@@ -98,9 +98,18 @@ const PretestContent = () => {
     }
   };
 
-  const handleStartQuiz = () => {
-    setQuizStarted(true);
-    //cek apakah user sudah mengerjakan
+  const handleStartQuiz = async () => {
+    //cek apakah user sudah mengerjakan dengan api
+    try{
+      const res = await QuizService.checkPretestByIdUser();
+      if( res.data.message === "Anda belum mengerjakan pretest"){
+        setQuizStarted(true);
+      } else {
+        toast.error("Anda sudah mengerjakan pretest");
+      }
+    } catch (error) {
+      console.error("Error fetching quiz:", error);
+    }
     
     // startTimer();
   };

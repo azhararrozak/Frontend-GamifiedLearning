@@ -87,8 +87,18 @@ const PostestContent = () => {
     }
   };
 
-  const handleStartQuiz = () => {
-    setQuizStarted(true);
+  const handleStartQuiz = async () => {
+    try{
+      const res = await QuizService.checkPretestByIdUser()
+      if( res.data.message === "Anda belum mengerjakan pretest"){
+        toast.error("Kerjakan Pretest Terlebih Dahulu")
+      } else {
+        setQuizStarted(true);
+      }
+    } catch (error) {
+      console.error(error)
+    }
+
     // startTimer();
   };
 
