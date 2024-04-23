@@ -1,5 +1,5 @@
 const RefleksiJSON = {
-  completedHtml: "Thank you for your feedback!",
+  completedHtml: "Terima Kasih telah mengisi form ini.",
   title: "Form Refleksi",
   description:
     "Terima kasih telah menyempatkan waktunya mengisi form ini, Data ini akan berguna bagi saya untuk meningkatkan proses pembelajaran lebih baik lagi.",
@@ -9,7 +9,7 @@ const RefleksiJSON = {
       elements: [
         {
           type: "comment",
-          name: "pertaanyaan1",
+          name: "pertanyaan1",
           title: "Apa yang menyenangkan dalam pembelajaran hari ini?",
           isRequired: true,
           maxLength: 500,
@@ -29,13 +29,13 @@ const RefleksiJSON = {
         },
         {
           type: "radiogroup",
-          name: "pertaanyaan4",
+          name: "pertanyaan4",
           title: "Saya terlibat aktif dalam proses pembelajaran hari ini?",
           choices: ["Ya", "Tidak"],
         },
         {
           type: "radiogroup",
-          name: "pertanyaaan5",
+          name: "pertanyaan5",
           title: "Saya menyumbangkan ide dalam proses diskusi?",
           choices: ["Ya", "Tidak"],
         },
