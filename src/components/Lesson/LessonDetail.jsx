@@ -83,13 +83,13 @@ const LessonDetail = () => {
             onClick={handleChangeReadView}
             className="w-1/2 text-center cursor-pointer hover:bg-secondary hover:text-primary hover:rounded-md"
           >
-            Read Material
+            Baca Materi
           </div>
           <div
             onClick={handleChangeVideoView}
             className="w-1/2 text-center cursor-pointer hover:bg-secondary hover:text-primary hover:rounded-md"
           >
-            Video View
+            Video Materi
           </div>
         </div>
         {readView ? (
