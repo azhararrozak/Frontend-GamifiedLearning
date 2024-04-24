@@ -81,22 +81,25 @@ const LessonDetail = () => {
         <div className="border-b-2 flex ">
           <div
             onClick={handleChangeReadView}
-            className="w-1/2 text-center cursor-pointer"
+            className="w-1/2 text-center cursor-pointer hover:bg-secondary hover:text-primary hover:rounded-md"
           >
             Read Material
           </div>
           <div
             onClick={handleChangeVideoView}
-            className="w-1/2 text-center cursor-pointer"
+            className="w-1/2 text-center cursor-pointer hover:bg-secondary hover:text-primary hover:rounded-md"
           >
             Video View
           </div>
         </div>
         {readView ? (
-          <div
+          <div className="ql-snow">
+            <div
             className="view ql-editor"
             dangerouslySetInnerHTML={{ __html: detail.content }}
           ></div>
+          </div>
+          
         ) : (
           <div className="w-full p-4 flex flex-col justify-center items-center">
             {detail.video.urlVideo ? (
@@ -112,24 +115,25 @@ const LessonDetail = () => {
           </div>
         )}
       </div>
-      <button className="border px-4 py-2" onClick={onFinishRead}>
-        Selesai
+      <button className="bg-secondary text-primary font-bold rounded-md px-4 py-2 mr-2" onClick={onFinishRead}>
+        Selesai Membaca Materi
       </button>
       {user && user.roles.includes("ROLE_ADMIN") && (
         <>
           <EditLesson isOpen={isModalOpen} onClose={closeModal} id={lessonId} />
           <button
-            className="border rounded-lg bg-blue-500 px-4 py-2"
-            onClick={deleteLesson}
-          >
-            Delete Lesson
-          </button>
-          <button
-            className="border rounded-lg bg-blue-500 px-4 py-2"
+            className="border rounded-lg bg-green-500 text-primary font-bold px-4 py-2"
             onClick={openModal}
           >
             Edit Lesson
           </button>
+          <button
+            className="border rounded-lg bg-red-600 text-primary font-bold px-4 py-2"
+            onClick={deleteLesson}
+          >
+            Delete Lesson
+          </button>
+          
         </>
       )}
     </div>

@@ -139,6 +139,7 @@ const quillModules = {
     [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
     [{ color: [] }, { background: [] }],
     ["link"],
+    ['code-block']
   ],
 };
 

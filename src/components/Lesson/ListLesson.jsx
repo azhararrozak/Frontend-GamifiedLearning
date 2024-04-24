@@ -103,7 +103,7 @@ const ListLesson = () => {
           onClick={allFinished}
           disabled={!allLessonsCompleted()}
         >
-          Selesai
+          Selesaikan Semua Materi
         </button>
       )}
     </div>

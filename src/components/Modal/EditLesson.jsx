@@ -124,7 +124,6 @@ const EditLesson = ({ isOpen, onClose, id }) => {
                 value={lessonData.video.urlVideo}
                 onChange={handleVideoUrl}
                 className="w-full p-2 border border-gray-300 rounded"
-                required
               />
             </div>
             <div className="text-right">
@@ -155,6 +154,7 @@ const quillModules = {
     ],
     [{ color: [] }, { background: [] }],
     ["link"],
+    ["code-block"],
   ],
 };
 
