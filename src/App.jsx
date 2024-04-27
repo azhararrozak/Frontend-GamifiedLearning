@@ -34,6 +34,7 @@ import HasilNilaiContent from "./components/Dashboard/HasilNilaiContent";
 import HasilNilai from "./components/HasilNilai/HasilNilai";
 import HasilNilaiPretest from "./components/HasilNilai/HasilNilaiPretest";
 import HasilNilaiPostest from "./components/HasilNilai/HasilNilaiPostest";
+import CreateProblem from "./components/Dashboard/CreateProblem";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
             <Route path="refleksi/:refId" element={<RefDetailPage />} />
           </Route> {/* Ini adalah rute untuk konten evaluasi */}
           <Route path="create_quiz" element={<CreateQuiz />} />{" "} {/* Ini adalah rute untuk konten create quiz ""} */}
+          <Route path="create_problem" element={<CreateProblem />} />{" "}
           {/* Ini adalah rute utama */}
           <Route path="course" element={<CourseContent />} >
             <Route index element={<Unit />} />
