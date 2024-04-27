@@ -21,7 +21,6 @@ const CreateTask = ({isOpen, onClose}) => {
         try {
             const {title, content, urlTask} = taskData
             const response = await TaskService.createTask(title, content, urlTask)
-            console.log(response)
             toast.success(response.data.message)
             setTaskData({
                 title: "",

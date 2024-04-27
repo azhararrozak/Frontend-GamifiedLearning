@@ -7,9 +7,12 @@ const Unit = () => {
 
   useEffect(() => {
     UnitService.getUnits().then((response) => {
-      setUnits(response.data);
+      const sortedUnits = response.data.sort((a, b) => a.id - b.id);
+      setUnits(sortedUnits);
     });
   }, []);
+
+  console.log(Units)
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-6">
