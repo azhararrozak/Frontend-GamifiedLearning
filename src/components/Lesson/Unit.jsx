@@ -7,7 +7,7 @@ const Unit = () => {
 
   useEffect(() => {
     UnitService.getUnits().then((response) => {
-      const sortedUnits = response.data.sort((a, b) => a.id - b.id);
+      const sortedUnits = response.data.sort((a, b) => a._id - b._id);
       setUnits(sortedUnits);
     });
   }, []);
