@@ -34,6 +34,12 @@ import HasilNilaiContent from "./components/Dashboard/HasilNilaiContent";
 import HasilNilai from "./components/HasilNilai/HasilNilai";
 import HasilNilaiPretest from "./components/HasilNilai/HasilNilaiPretest";
 import HasilNilaiPostest from "./components/HasilNilai/HasilNilaiPostest";
+import CreateProblem from "./components/Dashboard/CreateProblem";
+// import PertemuanContent from "./components/Pertemuan/PertemuanContent";
+// import Pertemuan from "./components/Pertemuan/Pertemuan";
+// import CreateUnit from "./components/Pertemuan/CreateUnit";
+// import CreateRefleksi from "./components/Pertemuan/CreateRefleksi";
+// import CreateEvaluasi from "./components/Pertemuan/CreateEvaluasi";
 
 function App() {
   return (
@@ -58,6 +64,7 @@ function App() {
             <Route path="refleksi/:refId" element={<RefDetailPage />} />
           </Route> {/* Ini adalah rute untuk konten evaluasi */}
           <Route path="create_quiz" element={<CreateQuiz />} />{" "} {/* Ini adalah rute untuk konten create quiz ""} */}
+          <Route path="create_problem" element={<CreateProblem />} />{" "}
           {/* Ini adalah rute utama */}
           <Route path="course" element={<CourseContent />} >
             <Route index element={<Unit />} />
@@ -86,6 +93,13 @@ function App() {
             <Route path="pretest" element={<HasilNilaiPretest />} />
             <Route path="postest" element={<HasilNilaiPostest />} />
           </Route>
+
+          {/* <Route path="pertemuan" element={<PertemuanContent />} >
+            <Route index element={<Pertemuan />} />
+            <Route path="unit" element={<CreateUnit />} />
+            <Route path="evaluasi" element={<CreateEvaluasi />} />
+            <Route path="refleksi" element={<CreateRefleksi />} />
+          </Route> */}
         </Route>
       </Routes>
     </div>
