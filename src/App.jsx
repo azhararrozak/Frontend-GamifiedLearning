@@ -65,6 +65,7 @@ function App() {
           </Route> {/* Ini adalah rute untuk konten evaluasi */}
           <Route path="create_quiz" element={<CreateQuiz />} />{" "} {/* Ini adalah rute untuk konten create quiz ""} */}
           <Route path="create_problem" element={<CreateProblem />} />{" "}
+          <Route path="create_problem" element={<CreateProblem />} />{" "}
           {/* Ini adalah rute utama */}
           <Route path="course" element={<CourseContent />} >
             <Route index element={<Unit />} />
