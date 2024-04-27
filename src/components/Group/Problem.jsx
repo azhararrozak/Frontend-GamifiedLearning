@@ -1,43 +1,21 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import {useState, useEffect} from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import GroupService from "../../services/group.service";
+import ProblemService from "../../services/problem.service";
 import { toast } from "react-hot-toast";
 
 const Problem = () => {
   const { groupId } = useParams();
-  const [selectedProblem, setSelectedProblem] = React.useState({});
-  const [problems, setProblems] = React.useState([
-    {
-      id: 1,
-      title: "Permasalahan 1 - Pertemuan 1",
-      description: "Description for Permasalahan 1",
-    },
-    {
-      id: 2,
-      title: "Permasalahan 2 - Pertemuan 1",
-      description: "Description for Permasalahan 2",
-    },
-    {
-      id: 3,
-      title: "Permasalahan 1 - Pertemuan 2",
-      description: "Description for Permasalahan 2",
-    },
-    {
-      id: 4,
-      title: "Permasalahan 2 - Pertemuan 2",
-      description: "Description for Permasalahan 2",
-    },
-    {
-      id: 5,
-      title: "Permasalahan 1 - Pertemuan 3",
-      description: "Description for Permasalahan 2",
-    },
-    {
-      id: 5,
-      title: "Permasalahan 2 - Pertemuan 3",
-      description: "Description for Permasalahan 2",
-    },
-  ]);
+  const [selectedProblem, setSelectedProblem] = useState({});
+  const [problems, setProblems] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    ProblemService.getProblem().then((response)=>{
+      setProblems(response.data);
+    });
+  }, [])
 
   const handleSaveProblem = async (selectedProblem) => {
     // Update the state with the selected problem
@@ -51,6 +29,7 @@ const Problem = () => {
         description
       );
       toast.success(response.data.message);
+      navigate('/dashboard/study_group');
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +45,7 @@ const Problem = () => {
           <img className="rounded" src="../../ProblemImage.jpg" />
           <div className="p-4">
             <h1 className="text-xl font-semibold mb-2">{problem.title}</h1>
-            <p className="text-gray-600">{problem.description}</p>
+            <p className="text-gray-600 text-justify">{problem.description}</p>
             <button
               onClick={() => handleSaveProblem(problem)}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-4"

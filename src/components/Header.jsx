@@ -58,6 +58,16 @@ const Header = ({ user, logout, toggleSidebar }) => {
                       Pertanyaan
                     </Link>
                   </li>
+                  <li className="hover:bg-gray-100">
+                    <Link to="/dashboard/create_problem" className="block px-4 py-2">
+                      Permasalahan
+                    </Link>
+                  </li>
+                  {/* <li className="hover:bg-gray-100">
+                    <Link to="/dashboard/pertemuan" className="block px-4 py-2">
+                      Pertemuan
+                    </Link>
+                  </li> */}
                 </>
               )}
               <li className="hover:bg-gray-100">
