@@ -93,16 +93,15 @@ const PretestContent = () => {
         }
       }
     } else {
-      // Display error message if there are unanswered questions
-      toast.error("Please answer all questions before submitting the quiz.");
+      toast.error("Tolong, isikan semua jawaban terlebih dahulu!");
     }
   };
 
   const handleStartQuiz = async () => {
     //cek apakah user sudah mengerjakan dengan api
-    try{
+    try {
       const res = await QuizService.checkPretestByIdUser();
-      if( res.data.message === "Anda belum mengerjakan pretest"){
+      if (res.data.message === "Anda belum mengerjakan pretest") {
         setQuizStarted(true);
       } else {
         toast.error("Anda sudah mengerjakan pretest");
@@ -110,7 +109,7 @@ const PretestContent = () => {
     } catch (error) {
       console.error("Error fetching quiz:", error);
     }
-    
+
     // startTimer();
   };
 
@@ -148,21 +147,28 @@ const PretestContent = () => {
             <p className="w-fit border p-2">Time Left: {Math.floor(timer / 60)}:{timer % 60}</p>
           </div> */}
           <div>
-            <h2 className="text-center text-xl">
+            <div className="border-2 p-2 border-secondary">
+              <p>ATP: {currentQuestionData.atp}</p>
+              <p>Indikator: {currentQuestionData.indicator}</p>
+            </div>
+            {currentQuestionData.image && (
+              <>
+                <p>{currentQuestionData.subQuestion}</p>
+                <img
+                  src={currentQuestionData.image}
+                  alt="image-quiz"
+                  className="w-1/2 mx-auto my-4"
+                />
+              </>
+            )}
+            <h2 className="text-justify text-xl my-4">
               {currentQuestionData.question}
             </h2>
-            {currentQuestionData.image && (
-              <img
-                src={currentQuestionData.image}
-                alt="image-quiz"
-                className="w-1/2 mx-auto my-4"
-              />
-            )}
           </div>
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {currentQuestionData.options.map((option, index) => (
-                <div key={index} className="mb-2">
+                <div key={index} className={`mb-2 ${index === currentQuestionData.options.length - 1 ? 'sm:col-span-full' : ''}`}>
                   <label className="block cursor-pointer">
                     <input
                       type="radio"
@@ -174,10 +180,10 @@ const PretestContent = () => {
                       }
                     />
                     <div
-                      className={`border rounded p-2 ${
+                      className={`border border-secondary rounded p-2 ${
                         selectedAnswer[currentQuestion] === option._id &&
                         "bg-blue-500"
-                      }`}
+                      } `}
                     >
                       {option.text}
                     </div>
@@ -189,7 +195,7 @@ const PretestContent = () => {
           <div className="w-full flex justify-between">
             {currentQuestion !== 0 && (
               <button
-                className="bg-blue-500 border px-4 py-2"
+                className="bg-secondary font-bold border rounded-md text-primary px-4 py-2"
                 onClick={prevQuestion}
               >
                 Previous
@@ -197,14 +203,14 @@ const PretestContent = () => {
             )}
             {currentQuestion !== quizData.questions.length - 1 ? (
               <button
-                className="bg-blue-500 border px-4 py-2"
+                className="bg-secondary font-bold border rounded-md text-primary px-4 py-2"
                 onClick={nextQuestion}
               >
                 Next
               </button>
             ) : (
               <button
-                className="bg-green-500 border px-4 py-2"
+                className="bg-green-500 font-bold text-primary rounded-md border px-4 py-2"
                 onClick={handleSubmitQuiz}
               >
                 Submit
@@ -215,7 +221,11 @@ const PretestContent = () => {
       )}
 
       {showScoreModal && (
-        <ScoreModal title={"Pretest"} totalScore={totalScore} onClose={handleCloseScoreModal} />
+        <ScoreModal
+          title={"Pretest"}
+          totalScore={totalScore}
+          onClose={handleCloseScoreModal}
+        />
       )}
     </div>
   );

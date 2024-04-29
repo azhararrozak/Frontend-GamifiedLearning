@@ -82,21 +82,20 @@ const PostestContent = () => {
         }
       }
     } else {
-      // Display error message if there are unanswered questions
-      toast.error("Please answer all questions before submitting the quiz.");
+      toast.error("Tolong, isikan semua jawaban terlebih dahulu!");
     }
   };
 
   const handleStartQuiz = async () => {
-    try{
-      const res = await QuizService.checkPretestByIdUser()
-      if( res.data.message === "Anda belum mengerjakan pretest"){
-        toast.error("Kerjakan Pretest Terlebih Dahulu")
+    try {
+      const res = await QuizService.checkPretestByIdUser();
+      if (res.data.message === "Anda belum mengerjakan pretest") {
+        toast.error("Kerjakan Pretest Terlebih Dahulu");
       } else {
         setQuizStarted(true);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
 
     // startTimer();
@@ -130,21 +129,29 @@ const PostestContent = () => {
             <p className="w-fit border p-2">Time Left: {Math.floor(timer / 60)}:{timer % 60}</p>
           </div> */}
           <div>
+            <div className="border-2 p-2 border-secondary">
+              <p>ATP: {currentQuestionData.atp}</p>
+              <p>Indikator: {currentQuestionData.indicator}</p>
+            </div>
+            {currentQuestionData.image && (
+              <>
+                <p>{currentQuestionData.subQuestion}</p>
+                <img
+                  src={currentQuestionData.image}
+                  alt="image-quiz"
+                  className="w-1/2 mx-auto my-4"
+                />
+              </>
+            )}
+
             <h2 className="text-center text-xl">
               {currentQuestionData.question}
             </h2>
-            {currentQuestionData.image && (
-              <img
-                src={currentQuestionData.image}
-                alt="image-quiz"
-                className="w-1/2 mx-auto my-4"
-              />
-            )}
           </div>
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {currentQuestionData.options.map((option, index) => (
-                <div key={index} className="mb-2">
+                <div key={index} className={`mb-2 ${index === currentQuestionData.options.length - 1 ? 'sm:col-span-full' : ''}`}>
                   <label className="block cursor-pointer">
                     <input
                       type="radio"
