@@ -25,24 +25,24 @@ const ListTaskSubmit = ({ id }) => {
 
   return (
     <div>
-      <table className="table-auto">
+      <table className="table-auto border-2 border-secondary">
         <thead>
           <tr>
-            <th>No</th>
-            <th>Username</th>
-            <th>Url File</th>
-            <th>status</th>
-            <th>Action</th>
+            <th className="border border-secondary">No</th>
+            <th className="border border-secondary">Username</th>
+            <th className="border border-secondary">Url File</th>
+            <th className="border border-secondary">status</th>
+            <th className="border border-secondary">Action</th>
           </tr>
         </thead>
         <tbody>
           {listSubmit.map((item, index) => (
             <tr key={item._id}>
-              <td>{index + 1}</td>
-              <td>{item.userId && item.userId.username}</td>
-              <td><a className="text-blue-600 underline" target="_blank" rel="noopener noreferrer" href={item.urlFile}>{item.urlFile}</a></td>
-              <td>{item.completed ? <p>Selesai</p>: <p>Belum</p>}</td>
-              <td>
+              <td className="border border-secondary text-center">{index + 1}</td>
+              <td className="border border-secondary pl-2">{item.userId && item.userId.username}</td>
+              <td className="border border-secondary"><a className="text-blue-600 underline" target="_blank" rel="noopener noreferrer" href={item.urlFile}>{item.urlFile}</a></td>
+              <td className="border border-secondary">{item.completed ? <p>Selesai</p>: <p>Belum</p>}</td>
+              <td className="border border-secondary">
                 <button className="bg-blue-500 px-3 py-2" onClick={() => {handleSetComplete(item.userId && item.userId.username)}}>Selesai</button>
               </td>
             </tr>

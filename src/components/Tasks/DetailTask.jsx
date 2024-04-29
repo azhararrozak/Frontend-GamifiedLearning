@@ -77,15 +77,15 @@ const DetailTask = () => {
       <div className="lg:w-1/2 p-4">
         <h1 className="font-bold text-xl capitalize">{task.title}</h1>
         <p>{task.content}</p>
-        <iframe src={task.urlTask} className="w-full h-[500px]"/>
+        <iframe src={task.urlTask} className="w-full h-[700px] mb-4"/>
         
         {user && user.roles.includes("ROLE_ADMIN") && (
           <>
             <EditTask id={taskId} isOpen={isModalOpen} onClose={closeModal} />
-            <button className="border rounded-lg bg-blue-500 px-4 py-2" onClick={deleteTask}>
+            <button className="border rounded-lg bg-red-600 px-4 py-2 text-primary" onClick={deleteTask}>
               Delete Lesson
             </button>
-            <button className="border rounded-lg bg-blue-500 px-4 py-2" onClick={openModal}>
+            <button className="border rounded-lg bg-green-500 px-4 py-2 text-primary" onClick={openModal}>
               Edit Lesson
             </button>
           </>
@@ -94,7 +94,7 @@ const DetailTask = () => {
       <div className="lg:w-1/2 p-4">
         {user && user.roles.includes("ROLE_ADMIN") ? (
           <div>
-            <h1>Daftar Submit</h1>
+            <h1 className="font-bold text-xl">Daftar Submit Peserta Didik</h1>
             <ListTaskSubmit id={taskId} />
           </div> ) : (
             <div>

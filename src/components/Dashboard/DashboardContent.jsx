@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 import AuthService from "../../services/auth.service";
 import PointService from "../../services/point.service";
 import BadgeService from "../../services/badge.service";
 import ScoreService from "../../services/score.service";
 import { GiAchievement } from "react-icons/gi";
 import { FaRankingStar } from "react-icons/fa6";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const DashboardContent = () => {
   const [user, setUser] = useState(undefined);
