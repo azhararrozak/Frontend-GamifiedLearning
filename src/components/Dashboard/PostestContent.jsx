@@ -88,9 +88,12 @@ const PostestContent = () => {
 
   const handleStartQuiz = async () => {
     try {
+      const resPostest = await QuizService.checkPostestByIdUser();
       const res = await QuizService.checkPretestByIdUser();
       if (res.data.message === "Anda belum mengerjakan pretest") {
         toast.error("Kerjakan Pretest Terlebih Dahulu");
+      } else if (resPostest.data.message === "Anda sudah mengerjakan postest") {
+        toast.error("Anda sudah mengerjakan postest");
       } else {
         setQuizStarted(true);
       }
@@ -144,14 +147,21 @@ const PostestContent = () => {
               </>
             )}
 
-            <h2 className="text-center text-xl">
+            <h2 className="text-justify my-4 text-xl">
               {currentQuestionData.question}
             </h2>
           </div>
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {currentQuestionData.options.map((option, index) => (
-                <div key={index} className={`mb-2 ${index === currentQuestionData.options.length - 1 ? 'sm:col-span-full' : ''}`}>
+                <div
+                  key={index}
+                  className={`mb-2 ${
+                    index === currentQuestionData.options.length - 1
+                      ? "sm:col-span-full"
+                      : ""
+                  }`}
+                >
                   <label className="block cursor-pointer">
                     <input
                       type="radio"
@@ -163,7 +173,7 @@ const PostestContent = () => {
                       }
                     />
                     <div
-                      className={`border rounded p-2 ${
+                      className={`border border-secondary rounded p-2 ${
                         selectedAnswer[currentQuestion] === option._id &&
                         "bg-blue-500"
                       }`}
@@ -178,7 +188,7 @@ const PostestContent = () => {
           <div className="w-full flex justify-between">
             {currentQuestion !== 0 && (
               <button
-                className="bg-blue-500 border px-4 py-2"
+                className="bg-secondary font-bold border rounded-md text-primary px-4 py-2"
                 onClick={prevQuestion}
               >
                 Previous
@@ -186,14 +196,14 @@ const PostestContent = () => {
             )}
             {currentQuestion !== quizData.questions.length - 1 ? (
               <button
-                className="bg-blue-500 border px-4 py-2"
+                className="bg-secondary font-bold border rounded-md text-primary px-4 py-2"
                 onClick={nextQuestion}
               >
                 Next
               </button>
             ) : (
               <button
-                className="bg-green-500 border px-4 py-2"
+                className="bg-green-500 font-bold text-primary rounded-md border px-4 py-2"
                 onClick={handleSubmitQuiz}
               >
                 Submit

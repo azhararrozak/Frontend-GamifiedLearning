@@ -45,6 +45,10 @@ const checkPretestByIdUser = () => {
     return axios.get(API_URL + `quiz/pretest/cekpretes`, { headers: authHeader() });
 }
 
+const checkPostestByIdUser = () => {
+    return axios.get(API_URL + `quiz/postest/cekpostes`, { headers: authHeader() });
+}
+
 
 const QuizService = {
     getQuizzes,
@@ -56,7 +60,8 @@ const QuizService = {
     submitQuiz,
     submitPretest,
     submitPostest,
-    checkPretestByIdUser
+    checkPretestByIdUser,
+    checkPostestByIdUser
 };
 
 export default QuizService;
