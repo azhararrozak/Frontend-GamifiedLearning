@@ -1,14 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
 import AuthService from "../../services/auth.service";
 import PointService from "../../services/point.service";
 import BadgeService from "../../services/badge.service";
 import ScoreService from "../../services/score.service";
 import { GiAchievement } from "react-icons/gi";
 import { FaRankingStar } from "react-icons/fa6";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const DashboardContent = () => {
   const [user, setUser] = useState(undefined);
@@ -19,6 +17,19 @@ const DashboardContent = () => {
   const [allUserPoint, setAllUserPoint] = useState([]);
   const [allScoreUser, setAllScoreUser] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc");
+
+  const pdfFonts = {
+    // download default Roboto font from cdnjs.com
+    Roboto: {
+      normal:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/fonts/Roboto/Roboto-Regular.ttf",
+      bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/fonts/Roboto/Roboto-Medium.ttf",
+      italics:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/fonts/Roboto/Roboto-Italic.ttf",
+      bolditalics:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/fonts/Roboto/Roboto-MediumItalic.ttf",
+    },
+  };
 
   useEffect(() => {
     const currentUser = AuthService.getCurrentUser();
@@ -92,7 +103,7 @@ const DashboardContent = () => {
       },
     };
   
-    pdfMake.createPdf(documentDefinition).download("skor_pengguna.pdf");
+    pdfMake.createPdf(documentDefinition, null, pdfFonts).download("skor_pengguna.pdf");
   };
   
 
