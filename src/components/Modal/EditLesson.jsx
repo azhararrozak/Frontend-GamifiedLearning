@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import LessonService from "../../services/lesson.service";
 import { toast } from "react-hot-toast";
-import ReactQuill from "react-quill"; // Import React Quill
+import ReactQuill, { Quill } from "react-quill"; // Import React Quill
 import "react-quill/dist/quill.snow.css"; // Import Quill's styles
 
 const EditLesson = ({ isOpen, onClose, id }) => {
@@ -12,47 +12,66 @@ const EditLesson = ({ isOpen, onClose, id }) => {
     content: "",
     images: "",
     video: { urlVideo: "" },
+  });
+
+  useEffect(() => {
+    const sizeStyle = Quill.import("attributors/style/size");
+    sizeStyle.whitelist = [
+      "16px",
+      "18px",
+      "20px",
+      "22px",
+      "24px",
+      "26px",
+      "28px",
+    ];
+    Quill.register(sizeStyle, true);
+  }, []);
+
+  useEffect(() => {
+    LessonService.getLessonById(id).then((response) => {
+      setLessonData(response.data);
     });
+  }, [id]);
 
-    useEffect(() => {
-        LessonService.getLessonById(id).then((response) => {
-            setLessonData(response.data);
-        });
-    }, [id]);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setLessonData({ ...lessonData, [name]: value });
+  };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setLessonData({ ...lessonData, [name]: value });
-    };
+  const handleVideoUrl = (e) => {
+    const { name, value } = e.target;
+    setLessonData({ ...lessonData, video: { [name]: value } });
+  };
 
-    const handleVideoUrl = (e) => {
-        const { name, value } = e.target;
-        setLessonData({ ...lessonData, video: { [name]: value } });
-    };
+  const handleContentChange = (content) => {
+    setLessonData({ ...lessonData, content });
+  };
 
-    const handleContentChange = (content) => {
-        setLessonData({ ...lessonData, content });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(lessonData)
-        try {
-            const { title, content, images } = lessonData;
-            const urlVideo = lessonData.video.urlVideo;
-            const response = await LessonService.updateLesson(id, title, content, images, urlVideo);
-            toast.success(response.data.message);
-            setLessonData({
-                title: "",
-                content: "",
-                images: "",
-                video: { urlVideo: "" },
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(lessonData);
+    try {
+      const { title, content, images } = lessonData;
+      const urlVideo = lessonData.video.urlVideo;
+      const response = await LessonService.updateLesson(
+        id,
+        title,
+        content,
+        images,
+        urlVideo
+      );
+      toast.success(response.data.message);
+      setLessonData({
+        title: "",
+        content: "",
+        images: "",
+        video: { urlVideo: "" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     isOpen && (
@@ -143,7 +162,14 @@ const EditLesson = ({ isOpen, onClose, id }) => {
 
 const quillModules = {
   toolbar: [
-    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [
+      { header: "1" },
+      { header: "2" },
+      { font: [] },
+      {
+        size: ["16px", "18px", "20px", "22px", "24px", "26px", "28px"],
+      },
+    ],
     [{ list: "ordered" }, { list: "bullet" }],
     ["bold", "italic", "underline"],
     [

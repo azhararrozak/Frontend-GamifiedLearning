@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import LessonService from "../../services/lesson.service";
 import { toast } from "react-hot-toast";
-import ReactQuill from "react-quill"; // Import React Quill
+import ReactQuill, { Quill } from "react-quill"; // Import React Quill
 import "react-quill/dist/quill.snow.css"; // Import Quill's styles
 
 const CreateLesson = ({ isOpen, onClose }) => {
@@ -16,6 +16,20 @@ const CreateLesson = ({ isOpen, onClose }) => {
     images: "",
     urlVideo: "",
   });
+
+  useEffect(() => {
+    const sizeStyle = Quill.import("attributors/style/size");
+    sizeStyle.whitelist = [
+      "16px",
+      "18px",
+      "20px",
+      "22px",
+      "24px",
+      "26px",
+      "28px",
+    ];
+    Quill.register(sizeStyle, true);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +44,13 @@ const CreateLesson = ({ isOpen, onClose }) => {
     e.preventDefault();
     try {
       const { unitId, title, content, images, urlVideo } = lessonData;
-      const response = await LessonService.createLesson(unitId, title, content, images, urlVideo);
+      const response = await LessonService.createLesson(
+        unitId,
+        title,
+        content,
+        images,
+        urlVideo
+      );
       toast.success(response.data.message);
       setLessonData({
         title: "",
@@ -84,7 +104,7 @@ const CreateLesson = ({ isOpen, onClose }) => {
                 onChange={handleContentChange}
                 modules={quillModules} // Define Quill modules (e.g., toolbar options)
                 className="rounded"
-                style={{ maxHeight: '40vh', overflowY: 'auto' }}
+                style={{ maxHeight: "40vh", overflowY: "auto" }}
                 required
               />
             </div>
@@ -133,13 +153,25 @@ const CreateLesson = ({ isOpen, onClose }) => {
 // Define Quill modules (customize this as needed)
 const quillModules = {
   toolbar: [
-    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [
+      { header: "1" },
+      { header: "2" },
+      { font: [] },
+      {
+        size: ["16px", "18px", "20px", "22px", "24px", "26px", "28px"],
+      },
+    ],
     [{ list: "ordered" }, { list: "bullet" }],
     ["bold", "italic", "underline"],
-    [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
+    [
+      { align: "" },
+      { align: "center" },
+      { align: "right" },
+      { align: "justify" },
+    ],
     [{ color: [] }, { background: [] }],
     ["link"],
-    ['code-block']
+    ["code-block"],
   ],
 };
 

@@ -2,3 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/*Font Size*/
+
+.ql-snow .ql-size .ql-picker-item[data-value="16px"]::before {
+  content: "16";
+  font-size: 16px !important;
+}
+.ql-snow .ql-size .ql-picker-item[data-value="18px"]::before {
+  content: "18";
+  font-size: 18px !important;
+}
+
+.ql-snow .ql-size .ql-picker-item[data-value="20px"]::before {
+  content: "20";
+  font-size: 20px !important;
+}
+
+.ql-snow .ql-size .ql-picker-item[data-value="22px"]::before {
+  content: "22";
+  font-size: 22px !important;
+}
+.ql-snow .ql-size .ql-picker-item[data-value="24px"]::before {
+  content: "24";
+  font-size: 24px !important;
+}
+
+.ql-snow .ql-size .ql-picker-item[data-value="26px"]::before {
+  content: "26";
+  font-size: 26px !important;
+}
+
+.ql-snow .ql-size .ql-picker-item[data-value="28px"]::before {
+  content: "28";
+  font-size: 28px !important;
+}
