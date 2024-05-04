@@ -41,7 +41,7 @@ const LessonContent = () => {
         <div className="w-full md:w-2/3 mb-4 md:mb-0 pr-0 md:pr-4">
           <Outlet />
         </div>
-        <div className="w-full md:w-1/3">
+        <div className="w-full md:w-1/3 relative">
           <ListLesson />
         </div>
       </div>

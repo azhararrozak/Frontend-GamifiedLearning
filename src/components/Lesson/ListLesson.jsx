@@ -50,6 +50,7 @@ const ListLesson = () => {
       );
       return userCompletion && userCompletion.completed;
     });
+    set
   };
 
   const allFinished = async () => {
@@ -65,12 +66,13 @@ const ListLesson = () => {
         toast.error("Anda sudah menambahkan badge sebelumnya.");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Gagal menambahkan badge, sudah pernah mendapatkan badge sebelumnya.");
     }
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col md:sticky top-2 w-full">
+      <h1 className="text-xl font-bold">List Materi - {titleUnit}</h1>
       {lessons.map((lesson, index) => {
         const canAccess = canAccessLesson(index);
 
@@ -86,7 +88,7 @@ const ListLesson = () => {
                   className="w-[3rem] rounded-full mr-2"
                   alt="lesson"
                 />
-                <h1>{lesson.title}</h1>
+                <h1 className="text-md">{lesson.title}</h1>
               </Link>
             ) : (
               <p>
@@ -99,7 +101,7 @@ const ListLesson = () => {
 
       {lessons.length > 0 && (
         <button
-          className="bg-accent text-primary rounded-md font-medium px-4 py-2"
+          className={`bg-accent text-primary rounded-md font-medium px-4 py-2 mt-2 cursor-pointer ${!allLessonsCompleted() ? "opacity-50 bg-slate-500" : ""}`}
           onClick={allFinished}
           disabled={!allLessonsCompleted()}
         >
