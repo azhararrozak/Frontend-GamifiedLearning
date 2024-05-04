@@ -147,10 +147,36 @@ const PretestContent = () => {
             <p className="w-fit border p-2">Time Left: {Math.floor(timer / 60)}:{timer % 60}</p>
           </div> */}
           <div>
-            <div className="border-2 p-2 border-secondary">
-              <p>ATP: {currentQuestionData.atp}</p>
-              <p>Indikator: {currentQuestionData.indicator}</p>
+            <div className="justify-center mb-4 p-2 border-2 border-secondary rounded-md">
+              <h1 className="font-bold">Nomor Soal:</h1>
+              <div className="border p-2 mb-2 w-fit">{quizData.questions.map((question, index) => (
+                <button
+                  key={index}
+                  className={`mx-1 px-2 py-1 rounded border ${
+                    index === currentQuestion
+                      ? "bg-blue-500 text-white"
+                      : "bg-white"
+                  }`}
+                  onClick={() => setCurrentQuestion(index)}
+                >
+                  {index + 1}
+                </button>
+              ))}</div>
+              
+              <div className="p-2 ">
+                <p>
+                  <span className="font-bold">ATP:</span>{" "}
+                  {currentQuestionData.atp}
+                </p>
+                <p>
+                  <span className="font-bold">Indikator:</span>{" "}
+                  {currentQuestionData.indicator}
+                </p>
+              </div>
             </div>
+
+            <h1 className="text-xl font-bold">Pertanyaan</h1>
+
             {currentQuestionData.image && (
               <>
                 <p>{currentQuestionData.subQuestion}</p>
@@ -168,7 +194,14 @@ const PretestContent = () => {
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {currentQuestionData.options.map((option, index) => (
-                <div key={index} className={`mb-2 ${index === currentQuestionData.options.length - 1 ? 'sm:col-span-full' : ''}`}>
+                <div
+                  key={index}
+                  className={`mb-2 ${
+                    index === currentQuestionData.options.length - 1
+                      ? "sm:col-span-full"
+                      : ""
+                  }`}
+                >
                   <label className="block cursor-pointer">
                     <input
                       type="radio"

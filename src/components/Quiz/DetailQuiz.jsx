@@ -119,21 +119,53 @@ const DetailQuiz = () => {
             <p className="w-fit border p-2">Time Left: {Math.floor(timer / 60)}:{timer % 60}</p>
           </div> */}
           <div>
-            <h2 className="text-center text-xl">
+            <div className="justify-center mb-4 p-2 border-2 border-secondary rounded-md">
+              <h1 className="font-bold">Nomor Soal:</h1>
+              <div className="border p-2 mb-2 w-fit">
+                {quizData.questions.map((question, index) => (
+                  <button
+                    key={index}
+                    className={`mx-1 px-2 py-1 rounded border ${
+                      index === currentQuestion
+                        ? "bg-blue-500 text-white"
+                        : "bg-white"
+                    }`}
+                    onClick={() => setCurrentQuestion(index)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <h1 className="text-xl font-bold">Pertanyaan</h1>
+
+            {currentQuestionData.image && (
+              <>
+                <p>{currentQuestionData.subQuestion}</p>
+                <img
+                  src={currentQuestionData.image}
+                  alt="image-quiz"
+                  className="w-1/2 mx-auto my-4"
+                />
+              </>
+            )}
+
+            <h2 className="text-justify my-4 text-xl">
               {currentQuestionData.question}
             </h2>
-            {currentQuestionData.image && (
-              <img
-                src={currentQuestionData.image}
-                alt="image-quiz"
-                className="w-1/2 mx-auto my-4"
-              />
-            )}
           </div>
           <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {currentQuestionData.options.map((option, index) => (
-                <div key={index} className="mb-2">
+                <div
+                  key={index}
+                  className={`mb-2 ${
+                    index === currentQuestionData.options.length - 1
+                      ? "sm:col-span-full"
+                      : ""
+                  }`}
+                >
                   <label className="block cursor-pointer">
                     <input
                       type="radio"
@@ -145,7 +177,7 @@ const DetailQuiz = () => {
                       }
                     />
                     <div
-                      className={`border rounded p-2 ${
+                      className={`border border-secondary rounded p-2 ${
                         selectedAnswer[currentQuestion] === option._id &&
                         "bg-blue-500"
                       }`}
@@ -160,7 +192,7 @@ const DetailQuiz = () => {
           <div className="w-full flex justify-between">
             {currentQuestion !== 0 && (
               <button
-                className="bg-blue-500 border px-4 py-2"
+                className="bg-secondary font-bold border rounded-md text-primary px-4 py-2"
                 onClick={prevQuestion}
               >
                 Previous
@@ -168,14 +200,14 @@ const DetailQuiz = () => {
             )}
             {currentQuestion !== quizData.questions.length - 1 ? (
               <button
-                className="bg-blue-500 border px-4 py-2"
+                className="bg-secondary font-bold border rounded-md text-primary px-4 py-2"
                 onClick={nextQuestion}
               >
                 Next
               </button>
             ) : (
               <button
-                className="bg-green-500 border px-4 py-2"
+                className="bg-green-500 font-bold text-primary rounded-md border px-4 py-2"
                 onClick={handleSubmitQuiz}
               >
                 Submit
