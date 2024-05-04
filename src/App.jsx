@@ -8,6 +8,7 @@ import DashboardContent from "./components/Dashboard/DashboardContent";
 import CourseContent from "./components/Dashboard/CourseContent";
 import TasksContent from "./components/Dashboard/TasksContent";
 import SettingsContent from "./components/Dashboard/SettingsContent";
+import ProfilPengembang from "./components/Dashboard/ProfilPengembang";
 import CpatpContent from "./components/Dashboard/CpatpContent";
 import LessonContent from "./components/Dashboard/LessonContent";
 import LessonDetail from "./components/Lesson/LessonDetail";
@@ -89,6 +90,7 @@ function App() {
           {/* Ini adalah rute untuk konten tugas */}
           <Route path="settings" element={<SettingsContent />} />{" "}
           {/* Ini adalah rute untuk konten pengaturan */}
+          <Route path="pengembang" element={<ProfilPengembang />} />{" "}
           <Route path="hasilnilai" element={<HasilNilaiContent />}>
             <Route index element={<HasilNilai />} />
             <Route path="pretest" element={<HasilNilaiPretest />} />

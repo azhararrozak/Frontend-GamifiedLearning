@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { FaTasks, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
+import { ImProfile } from "react-icons/im";
 import { MdOutlineQuiz } from "react-icons/md";
 import {
   RiDashboardFill,
@@ -215,6 +216,19 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             >
               <RiSettings2Line className="w-6 h-6 mr-2" />
               Pengaturan
+            </NavLink>
+          </li>
+          <li className="mb-4">
+            <NavLink
+              to="/dashboard/pengembang"
+              className={({ isActive }) =>
+                `py-4 px-8 flex rounded-r-lg hover:bg-accent ${
+                  isActive ? "bg-accent text-primary" : ""
+                }`
+              }
+            >
+              <ImProfile className="w-6 h-6 mr-2" />
+                Pengembang
             </NavLink>
           </li>
         </ul>
