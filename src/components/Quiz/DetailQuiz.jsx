@@ -67,7 +67,7 @@ const DetailQuiz = () => {
     if (unansweredQuestions.length === 0) {
       try {
         const res = await QuizService.submitQuiz(quizData._id, selectedAnswer);
-        setTotalScore(res.data.score);
+        setTotalScore(res.data.finalScore);
         setShowScoreModal(true);
       } catch (error) {
         if (

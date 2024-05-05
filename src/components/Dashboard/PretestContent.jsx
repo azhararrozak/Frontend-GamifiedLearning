@@ -79,7 +79,7 @@ const PretestContent = () => {
           quizData._id,
           selectedAnswer
         );
-        setTotalScore(res.data.score);
+        setTotalScore(res.data.finalScore);
         setShowScoreModal(true);
       } catch (error) {
         if (

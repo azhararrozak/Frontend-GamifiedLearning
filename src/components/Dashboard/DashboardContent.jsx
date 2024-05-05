@@ -6,7 +6,7 @@ import PointService from "../../services/point.service";
 import BadgeService from "../../services/badge.service";
 import ScoreService from "../../services/score.service";
 import { GiAchievement } from "react-icons/gi";
-import { FaRankingStar } from "react-icons/fa6";
+import { FaRankingStar, FaEye, FaEyeSlash } from "react-icons/fa6";
 
 const DashboardContent = () => {
   const [user, setUser] = useState(undefined);
@@ -15,8 +15,10 @@ const DashboardContent = () => {
   });
   const [badgeData, setBadgeData] = useState([]);
   const [allUserPoint, setAllUserPoint] = useState([]);
-  const [allScoreUser, setAllScoreUser] = useState([]);
+  const [scoreUser, setScoreUser] = useState("");
   const [sortOrder, setSortOrder] = useState("desc");
+  const [showPretest, setShowPretest] = useState(true);
+  const [showPosttest, setShowPosttest] = useState(true);
 
   const pdfFonts = {
     // download default Roboto font from cdnjs.com
@@ -66,8 +68,8 @@ const DashboardContent = () => {
   }, [sortOrder]);
 
   useEffect(() => {
-    ScoreService.getAllScores().then((response) => {
-      setAllScoreUser(response.data);
+    ScoreService.getScoreByIdUser().then((response) => {
+      setScoreUser(response.data);
     });
   }, []);
 
@@ -84,11 +86,11 @@ const DashboardContent = () => {
             widths: ["auto", "*", "*", "*"],
             body: [
               ["No", "Username", "Pretest", "Postest"],
-              ...allScoreUser.map((scoreUser, index) => [
+              ...scoreUser.map((scoreUser, index) => [
                 index + 1,
                 scoreUser.user.username,
                 scoreUser.pretest,
-                scoreUser.posttest, 
+                scoreUser.posttest,
               ]),
             ],
           },
@@ -102,10 +104,19 @@ const DashboardContent = () => {
         },
       },
     };
-  
-    pdfMake.createPdf(documentDefinition, null, pdfFonts).download("skor_pengguna.pdf");
+
+    pdfMake
+      .createPdf(documentDefinition, null, pdfFonts)
+      .download("skor_pengguna.pdf");
   };
-  
+
+  const togglePretestVisibility = () => {
+    setShowPretest(!showPretest);
+  };
+
+  const togglePosttestVisibility = () => {
+    setShowPosttest(!showPosttest);
+  };
 
   return (
     <div className="p-6">
@@ -126,7 +137,9 @@ const DashboardContent = () => {
                   />
                 </div>
                 <div className="w-full">
-                  <h3 className="text-2xl font-bold capitalize">{user.username}</h3>
+                  <h3 className="text-2xl font-bold capitalize">
+                    {user.username}
+                  </h3>
                   {user.roles.includes("ROLE_USER") ? (
                     <p>Pelajar</p>
                   ) : (
@@ -145,10 +158,7 @@ const DashboardContent = () => {
                   </div>
                   <p className="lg:text-4xl sm:text-2xl text-md font-bold text-fontSecondary">
                     {pointData.point}
-                    <span className="text-sm font-normal">
-                      {" "}
-                      poin
-                    </span>
+                    <span className="text-sm font-normal"> poin</span>
                   </p>
                 </div>
               )}
@@ -165,10 +175,7 @@ const DashboardContent = () => {
                     allUserPoint.findIndex(
                       (userPoint) => userPoint.user._id === user.id
                     ) + 1}
-                  <span className="font-normal text-sm">
-                    {" "}
-                    Global Rank
-                  </span>
+                  <span className="font-normal text-sm"> Global Rank</span>
                 </p>
               </div>
             </div>
@@ -179,18 +186,12 @@ const DashboardContent = () => {
               {allUserPoint && (
                 <table className="w-full border-collapse">
                   <thead className="border-b-2 opacity-75">
-                  <tr>
-                    <th className="pl-6 py-2 text-left">
-                      Username
-                    </th>
-                    <th className="px-4 py-2 ">
-                      Rank
-                    </th>
-                    <th className="px-4 py-2 ">
-                      Point
-                    </th>
-                  </tr>
-                </thead>
+                    <tr>
+                      <th className="pl-6 py-2 text-left">Username</th>
+                      <th className="px-4 py-2 ">Rank</th>
+                      <th className="px-4 py-2 ">Point</th>
+                    </tr>
+                  </thead>
                   <tbody>
                     {allUserPoint.map((userPoint, index) => {
                       return (
@@ -199,7 +200,15 @@ const DashboardContent = () => {
                           className="max-w-fit my-2 p-4 text-center font-medium"
                         >
                           <td className="capitalize px-4 py-2 text-left flex items-center">
-                            <img className="rounded-full w-[3rem] mr-6" src={userPoint.user.urlProfile ? userPoint.user.urlProfile : `https://ui-avatars.com/api/?name=${userPoint.user.username}`} alt="user_profile"/>
+                            <img
+                              className="rounded-full w-[3rem] mr-6"
+                              src={
+                                userPoint.user.urlProfile
+                                  ? userPoint.user.urlProfile
+                                  : `https://ui-avatars.com/api/?name=${userPoint.user.username}`
+                              }
+                              alt="user_profile"
+                            />
                             <p>{userPoint.user.username}</p>
                           </td>
                           <td className="px-4 py-2">{index + 1}</td>
@@ -246,44 +255,59 @@ const DashboardContent = () => {
 
           <div className="p-4 text-secondary bg-white rounded-md shadow-lg border">
             <div className="flex justify-between items-center mb-4">
-              <h1 className="font-bold text-xl">Skor Seluruh Pengguna</h1>
-              <button onClick={generatePdf} className="border px-4 py-2 rounded-full bg-accent text-primary font-medium">Unduh PDF</button>
+              <h1 className="font-bold text-xl">Skor Pengguna</h1>
+              <button
+                onClick={generatePdf}
+                className="border px-4 py-2 rounded-full bg-accent text-primary font-medium"
+              >
+                Unduh dalam PDF
+              </button>
             </div>
-            {allScoreUser && (
-              <table className="w-full border-collapse">
-                <thead className="">
-                  <tr>
-                    <th className="px-4 py-2">No</th>
-                    <th className="px-4 py-2 ">
-                      Username
-                    </th>
-                    <th className="px-4 py-2 ">
-                      Pretest
-                    </th>
-                    <th className="px-4 py-2 ">
-                      Postest
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {allScoreUser.map((scoreUser, index) => {
-                    return (
-                      <tr
-                        key={scoreUser._id}
-                        className="max-w-fit my-2 p-4 text-center"
-                      >
-                        <td className="px-4 py-2">{index + 1}</td>
-                        <td className="capitalize px-4 py-2">
-                          {scoreUser.user.username}
-                        </td>
-                        <td>{scoreUser.pretest}</td>
-                        <td>{scoreUser.posttest}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            )}
+            <div>
+              {scoreUser &&
+                scoreUser.map((score, index) => {
+                  return (
+                    <div
+                      key={score._id}
+                      className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-2"
+                    >
+                      <div className="p-4 text-center">
+                        <h1 className="text-xl mb-4 font-medium">PRETEST</h1>
+                        <div className="flex justify-center items-center">
+                          <h1 className="text-6xl font-bold">{showPretest ? "**" : score.pretest}</h1>
+                          {showPretest ? <FaEye className="text-lg ml-4" onClick={togglePretestVisibility} /> : <FaEyeSlash className="text-lg ml-4" onClick={togglePretestVisibility} />}
+                        </div>
+                      </div>
+                      <div className="p-4 text-center ">
+                        <h1 className="text-xl mb-4 font-medium">POSTEST</h1>
+                        <div className="flex justify-center items-center">
+                          <h1 className="text-6xl text-center font-bold">{showPosttest ? "**" : score.posttest}</h1>
+                          {showPosttest ? <FaEye className="text-lg ml-4" onClick={togglePosttestVisibility} /> : <FaEyeSlash className="text-lg ml-4" onClick={togglePosttestVisibility} />}
+                        </div>
+                      </div>
+                      <div className="p-4 text-center font-medium lg:col-span-2">
+                        <h1 className="text-xl mb-4">QUIZ NILAI</h1>
+                        <table className="w-full border-collapse">
+                          {score.quizmaterials.map((quiz, index) => {
+                            return (
+                              <tr
+                                key={index}
+                                className="max-w-fit my-2 p-4 text-center font-medium"
+                              >
+                                <td className="px-4 py-2 text-left text-md">{quiz.title}</td>
+                                <td className="px-4 py-2 text-md">{quiz.score}</td>
+                              </tr>
+                            );
+                          })}
+                        </table>
+                      </div>
+                      {/* <div className="p-4 text-center font-bold">
+                        <h1 className="text-xl mb-4">LKPD NILAI</h1>
+                      </div> */}
+                    </div>
+                  );
+                })}
+            </div>
           </div>
         </div>
       )}
