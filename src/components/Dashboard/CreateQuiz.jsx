@@ -1,7 +1,6 @@
 import QuizService from "../../services/quiz.service";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
-import { storage } from "../../utils/firebaseInit";
 
 const CreateQuiz = () => {
   const initialQuestion = {
@@ -11,6 +10,7 @@ const CreateQuiz = () => {
     question: "",
     image: "",
     options: [
+      { text: "", image: "", isCorrect: false },
       { text: "", image: "", isCorrect: false },
       { text: "", image: "", isCorrect: false },
       { text: "", image: "", isCorrect: false },
@@ -44,31 +44,6 @@ const CreateQuiz = () => {
       isCorrect: false,
     });
     setQuiz(updatedQuiz);
-  };
-
-  const handleImageChange = async (e, questionIndex) => {
-    const selectedImage = e.target.files[0];
-
-    if (selectedImage) {
-      const imageURL = URL.createObjectURL(selectedImage);
-      const updatedQuiz = { ...quiz };
-      updatedQuiz.questions[questionIndex].image = imageURL; // Simpan previewURL di sini
-      setQuiz(updatedQuiz);
-
-      try {
-        const imageRef = storage
-          .ref()
-          .child(`question_image/${selectedImage.name}`);
-        await imageRef.put(selectedImage);
-        const downloadURL = await imageRef.getDownloadURL();
-
-        const updatedQuiz = { ...quiz };
-        updatedQuiz.questions[questionIndex].image = downloadURL;
-        setQuiz(updatedQuiz);
-      } catch (error) {
-        console.error("Error uploading image to Firebase:", error);
-      }
-    }
   };
 
   const handleSaveQuiz = async (e) => {
@@ -139,7 +114,7 @@ const CreateQuiz = () => {
           >
             Pertanyaan ke-{questionIndex + 1}:
           </label>
-          <input
+          <textarea
             type="text"
             className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id={`question${questionIndex + 1}`}
@@ -193,9 +168,7 @@ const CreateQuiz = () => {
           >
             Sub Pertanyaan:
           </label>
-          <input
-            type="text"
-            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+          <select
             id={`subQuestion${questionIndex + 1}`}
             value={question.subQuestion}
             onChange={(e) => {
@@ -203,26 +176,27 @@ const CreateQuiz = () => {
               updatedQuiz.questions[questionIndex].subQuestion = e.target.value;
               setQuiz(updatedQuiz);
             }}
-          />
+          >
+            <option value="">Pilih Sub Pertanyaan</option>
+            <option value="Perhatikan Kode Berikut!">Perhatikan Kode Berikut!</option>
+            <option value="Perhatikan Pernyataan Berikut!">Perhatikan Pernyataan Berikut!</option>
+          </select>
 
-          {question.image && ( // Tampilkan previewURL jika ada
-            <div className="mb-4">
-              <img
-                src={question.image}
-                alt="Preview"
-                style={{ maxWidth: "100%", maxHeight: "200px" }}
-              />
-            </div>
-          )}
+      
           <div className="mb-4">
-            <label htmlFor="urlImage" className="block text-gray-700">
+            <label htmlFor="urlImage" className="block font-bold">
               Tambahkan Gambar Pertanyaan
             </label>
             <input
-              type="file"
-              name="urlImage"
-              id="urlImage"
-              onChange={(e) => handleImageChange(e, questionIndex)}
+              type="text"
+              className="shadow appearance-none border rounded w-full my-2 py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+              id={`imageUrl${questionIndex + 1}`}
+              value={question.image}
+              onChange={(e) => {
+                const updatedQuiz = { ...quiz };
+                updatedQuiz.questions[questionIndex].image = e.target.value;
+                setQuiz(updatedQuiz);
+              }}
             />
           </div>
 

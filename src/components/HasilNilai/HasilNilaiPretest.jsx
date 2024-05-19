@@ -31,10 +31,10 @@ const HasilNilaiPretest = () => {
             {answer &&
               answer.map((soal, index) => (
                 <th key={index} className="border border-secondary">
-                  Soal {index + 1} <span>({soal.indicator})</span>
+                  S{index + 1} {/*<span>({soal.indicator})</span>*/}
                 </th>
               ))}
-            <th className="border border-secondary">Soal Benar</th>
+            {/* <th className="border border-secondary">Soal Benar</th> */}
           </tr>
         </thead>
         <tbody className="text-center">
@@ -42,13 +42,13 @@ const HasilNilaiPretest = () => {
             nilaiPretest.map((jawaban, index) => (
               <tr key={index}>
                 <td className="border border-secondary">{index + 1}</td>
-                <td className="border border-secondary">{jawaban.user.username}</td>
+                <td className="border border-secondary">R{index + 1}</td>
                 {jawaban.answers.map((soal, index) => (
                   <td key={index} className="border border-secondary">{soal.isCorrect ? "1" : "0"}</td>
                 ))}
-                <td className="border border-secondary">
+                {/* <td className="border border-secondary">
                   {jawaban.answers.filter((soal) => soal.isCorrect).length}
-                </td>
+                </td> */}
               </tr>
             ))}
         </tbody>

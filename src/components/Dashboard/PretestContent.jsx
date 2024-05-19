@@ -15,6 +15,7 @@ const PretestContent = () => {
   const [error, setError] = useState(null);
   const [quizStarted, setQuizStarted] = useState(false);
   const [showScoreModal, setShowScoreModal] = useState(false);
+  const abjad = ["A", "B", "C", "D", "E"];
   // const [timer, setTimer] = useState(60); // 300 seconds or 5 minutes
   // const [timerId, setTimerId] = useState(null);
 
@@ -196,13 +197,14 @@ const PretestContent = () => {
               {currentQuestionData.options.map((option, index) => (
                 <div
                   key={index}
-                  className={`mb-2 ${
+                  className={`mb-2 flex w-full ${
                     index === currentQuestionData.options.length - 1
                       ? "sm:col-span-full"
                       : ""
                   }`}
                 >
-                  <label className="block cursor-pointer">
+                  <div className="mr-2 font-bold flex justify-center items-center">{abjad[index]}.</div>
+                  <label className="block cursor-pointer w-full">
                     <input
                       type="radio"
                       name="option"
@@ -218,7 +220,15 @@ const PretestContent = () => {
                         "bg-blue-500"
                       } `}
                     >
-                      {option.text}
+                      {option.text ? (
+                        <p>{option.text}</p>
+                      ) : (
+                        <img
+                          src={option.image}
+                          alt="option-image"
+                          className="w-1/2 mx-auto"
+                        />
+                      )}
                     </div>
                   </label>
                 </div>

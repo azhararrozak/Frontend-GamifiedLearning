@@ -14,6 +14,7 @@ const PostestContent = () => {
   const [error, setError] = useState(null);
   const [quizStarted, setQuizStarted] = useState(false);
   const [showScoreModal, setShowScoreModal] = useState(false);
+  const abjad = ["A", "B", "C", "D", "E"];
 
   useEffect(() => {
     const getQuiz = async () => {
@@ -184,13 +185,14 @@ const PostestContent = () => {
               {currentQuestionData.options.map((option, index) => (
                 <div
                   key={index}
-                  className={`mb-2 ${
+                  className={`mb-2 flex w-full ${
                     index === currentQuestionData.options.length - 1
                       ? "sm:col-span-full"
                       : ""
                   }`}
                 >
-                  <label className="block cursor-pointer">
+                   <div className="mr-2 font-bold flex justify-center items-center">{abjad[index]}.</div>
+                  <label className="block cursor-pointer w-full">
                     <input
                       type="radio"
                       name="option"
