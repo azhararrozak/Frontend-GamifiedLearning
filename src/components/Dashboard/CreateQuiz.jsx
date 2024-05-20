@@ -1,8 +1,10 @@
 import QuizService from "../../services/quiz.service";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreateQuiz = () => {
+  const redirect = useNavigate();
   const initialQuestion = {
     indicator: "",
     atp: "",
@@ -67,8 +69,8 @@ const CreateQuiz = () => {
 
     try {
       const response = await QuizService.createQuiz(updatedQuiz);
-      console.log(response);
       toast.success(response.data.message);
+      redirect("/dashboard/list_quiz");
     } catch (error) {
       console.log(error);
     }
