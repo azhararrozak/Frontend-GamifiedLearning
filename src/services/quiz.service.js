@@ -8,6 +8,10 @@ const getQuizzes = () => {
     return axios.get(API_URL + "quiz", { headers: authHeader() });
 }
 
+const getAllQuiz = () => {
+    return axios.get(API_URL + "quiz/all", { headers: authHeader() });
+}
+
 const getQuizById = (id) => {
     return axios.get(API_URL + `quiz/${id}`, { headers: authHeader() });
 }
@@ -51,6 +55,7 @@ const checkPostestByIdUser = () => {
 
 
 const QuizService = {
+    getAllQuiz,
     getQuizzes,
     getQuizById,
     getQuizByTitle,

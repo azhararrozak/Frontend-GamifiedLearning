@@ -54,7 +54,7 @@ const Header = ({ user, logout, toggleSidebar }) => {
                     </Link>
                   </li>
                   <li className="hover:bg-gray-100">
-                    <Link to="/dashboard/create_quiz" className="block px-4 py-2">
+                    <Link to="/dashboard/list_quiz" className="block px-4 py-2">
                       Pertanyaan
                     </Link>
                   </li>

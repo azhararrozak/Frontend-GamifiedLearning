@@ -20,6 +20,8 @@ import PretestContent from "./components/Dashboard/PretestContent";
 import PostestContent from "./components/Dashboard/PostestContent";
 import EvaluasiContent from "./components/Dashboard/EvaluasiContent";
 import CreateQuiz from "./components/Dashboard/CreateQuiz";
+import EditQuiz from "./components/Dashboard/EditQuiz";
+import ListQuestionQuiz from "./components/Dashboard/ListQuestionQuiz";
 import ListQuiz from "./components/Quiz/ListQuiz";
 import DetailQuiz from "./components/Quiz/DetailQuiz";
 import Playground from "./components/Dashboard/Playground";
@@ -64,8 +66,9 @@ function App() {
             <Route path=":evalId" element={<EvalDetailPage />} />
             <Route path="refleksi/:refId" element={<RefDetailPage />} />
           </Route> {/* Ini adalah rute untuk konten evaluasi */}
-          <Route path="create_quiz" element={<CreateQuiz />} />{" "} {/* Ini adalah rute untuk konten create quiz ""} */}
-          <Route path="create_problem" element={<CreateProblem />} />{" "}
+          <Route path="create_quiz" element={<CreateQuiz />} />{" "}
+          <Route path="edit_quiz/:questionId" element={<EditQuiz />} />{" "}
+          <Route path="list_quiz" element={<ListQuestionQuiz />} />{" "}
           <Route path="create_problem" element={<CreateProblem />} />{" "}
           {/* Ini adalah rute utama */}
           <Route path="course" element={<CourseContent />} >
