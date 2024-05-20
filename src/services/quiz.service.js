@@ -16,6 +16,10 @@ const getQuizById = (id) => {
     return axios.get(API_URL + `quiz/${id}`, { headers: authHeader() });
 }
 
+const getQuizByIdAdmin = (id) => {
+    return axios.get(API_URL + `quiz/admin/${id}`, { headers: authHeader() });
+}
+
 const getQuizByTitle = (title) => {
     return axios.get(API_URL + `quizbyname/${title}`, { headers: authHeader() });
 }
@@ -58,6 +62,7 @@ const QuizService = {
     getAllQuiz,
     getQuizzes,
     getQuizById,
+    getQuizByIdAdmin,
     getQuizByTitle,
     createQuiz,
     updateQuiz,

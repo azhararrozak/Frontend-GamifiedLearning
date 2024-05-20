@@ -33,7 +33,7 @@ const EditQuiz = () => {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await QuizService.getQuizById(questionId);
+        const response = await QuizService.getQuizByIdAdmin(questionId);
         setQuiz(response.data.quiz);
       } catch (error) {
         console.error(error);
