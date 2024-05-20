@@ -86,6 +86,7 @@ const EditQuiz = () => {
     try {
       const response = await QuizService.updateQuiz(questionId, updatedQuiz);
       toast.success(response.data.message);
+      redirect("/dashboard/list_quiz");
     } catch (error) {
       console.error(error);
       toast.error("Failed to save quiz");
