@@ -150,13 +150,15 @@ const PretestContent = () => {
           <div>
             <div className="justify-center mb-4 p-2 border-2 border-secondary rounded-md">
               <h1 className="font-bold">Nomor Soal:</h1>
-              <div className="border p-2 mb-2 w-fit">{quizData.questions.map((question, index) => (
+              <div className="border p-2 mb-2 w-fit gap-2 flex flex-row flex-wrap">{quizData.questions.map((question, index) => (
                 <button
                   key={index}
                   className={`mx-1 px-2 py-1 rounded border ${
                     index === currentQuestion
-                      ? "bg-blue-500 text-white"
-                      : "bg-white"
+                        ? "bg-blue-500 text-white"
+                        : selectedAnswer[index] !== undefined
+                        ? "bg-secondary text-white"
+                        : "bg-white"
                   }`}
                   onClick={() => setCurrentQuestion(index)}
                 >
@@ -164,7 +166,7 @@ const PretestContent = () => {
                 </button>
               ))}</div>
               
-              <div className="p-2 ">
+              <div className="p-2 text-lg">
                 <p>
                   <span className="font-bold">ATP:</span>{" "}
                   {currentQuestionData.atp}
@@ -176,7 +178,7 @@ const PretestContent = () => {
               </div>
             </div>
 
-            <h1 className="text-xl font-bold">Pertanyaan</h1>
+            <h1 className="text-xl font-bold">Pertanyaan ke-{currentQuestion + 1}</h1>
 
             {currentQuestionData.image && (
               <>
