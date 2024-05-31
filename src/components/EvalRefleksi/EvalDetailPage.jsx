@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import EvaluasiService from "../../services/evaluasi.service.js.js";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const EvalDetailPage = () => {
   const { evalId } = useParams();
@@ -27,13 +28,7 @@ const handleSubmit = async (e) => {
     try {
         const {ketua, kelompok, content} = EvalData
         const response = await EvaluasiService.pushEvaluasi(evalId,ketua, kelompok, content)
-        console.log(response)
-        // toast.success(response.data.message)
-        // setTaskData({
-        //     title: "",
-        //     content: "",
-        //     urlTask: ""
-        // })
+        toast.success(response.data.message)
     } catch (error) {
         console.log(error)
     }

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import GroupService from "../../services/group.service";
 import AuthService from "../../services/auth.service";
 import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const StudyGroup = () => {
   const [user, setUser] = useState(undefined);
@@ -27,7 +28,8 @@ const StudyGroup = () => {
   const handleDeletAllGroup = () => {
     GroupService.deleteGroup()
       .then((response) => {
-        console.log(response.data);
+        toast.success(response.data.message);
+        setStudyGroup([]);
       })
       .catch((err) => console.log(err));
   };
@@ -40,7 +42,7 @@ const StudyGroup = () => {
     e.preventDefault();
     try {
       const response = await GroupService.createGroup(countGroup);
-      console.log(response);
+      toast.success(response.data.message);
     } catch (error) {
       console.log(error);
     }

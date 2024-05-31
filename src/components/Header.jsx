@@ -63,6 +63,16 @@ const Header = ({ user, logout, toggleSidebar }) => {
                       Permasalahan
                     </Link>
                   </li>
+                  <li className="hover:bg-gray-100">
+                    <Link to="/dashboard/allusers" className="block px-4 py-2">
+                      Pengguna
+                    </Link>
+                  </li>
+                  <li className="hover:bg-gray-100">
+                    <Link to="/dashboard/allrefleksi" className="block px-4 py-2">
+                      Refleksi
+                    </Link>
+                  </li>
                   {/* <li className="hover:bg-gray-100">
                     <Link to="/dashboard/pertemuan" className="block px-4 py-2">
                       Pertemuan

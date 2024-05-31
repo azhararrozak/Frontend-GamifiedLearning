@@ -38,6 +38,8 @@ import HasilNilai from "./components/HasilNilai/HasilNilai";
 import HasilNilaiPretest from "./components/HasilNilai/HasilNilaiPretest";
 import HasilNilaiPostest from "./components/HasilNilai/HasilNilaiPostest";
 import CreateProblem from "./components/Dashboard/CreateProblem";
+import UsersAdmin from "./components/Dashboard/UsersAdmin";
+import RefleksiList from "./components/Dashboard/RefleksiList";
 // import PertemuanContent from "./components/Pertemuan/PertemuanContent";
 // import Pertemuan from "./components/Pertemuan/Pertemuan";
 // import CreateUnit from "./components/Pertemuan/CreateUnit";
@@ -99,6 +101,8 @@ function App() {
             <Route path="pretest" element={<HasilNilaiPretest />} />
             <Route path="postest" element={<HasilNilaiPostest />} />
           </Route>
+          <Route path="allusers" element={<UsersAdmin />} />{" "}
+          <Route path="allrefleksi" element={<RefleksiList />} />{" "}
 
           {/* <Route path="pertemuan" element={<PertemuanContent />} >
             <Route index element={<Pertemuan />} />
