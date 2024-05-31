@@ -20,10 +20,15 @@ const pushEvaluasi = (id, ketua, kelompok, content) => {
     }, { headers: authHeader() });
 }
 
+const deleteEvaluasi = (id) => {
+    return axios.delete(API_URL + "evaluasi/" + id, { headers: authHeader() });
+}
+
 const EvaluasiService = {
     getEvaluasi,
     getEvaluasiById,
-    pushEvaluasi
+    pushEvaluasi,
+    deleteEvaluasi
 };
 
 export default EvaluasiService;

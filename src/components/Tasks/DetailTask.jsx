@@ -31,6 +31,12 @@ const DetailTask = () => {
     });
   }, [taskId, task]);
 
+  useEffect(() => {
+    TaskService.getListSubmit(taskId).then((response) => {
+      setTaskSubmit(response.data);
+    });
+  }, [taskId]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -98,6 +104,7 @@ const DetailTask = () => {
             <ListTaskSubmit id={taskId} />
           </div> ) : (
             <div>
+              <div>
               <h1 className="font-bold text-xl">Submit LKPD</h1>
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
@@ -119,6 +126,11 @@ const DetailTask = () => {
                   </div>
                 </div>
               </form>
+              </div>
+              <div>
+                <h1 className="font-bold text-xl">Daftar Submit Peserta Didik</h1>
+                <ListTaskSubmit id={taskId} />
+              </div>
             </div>
           )
         }

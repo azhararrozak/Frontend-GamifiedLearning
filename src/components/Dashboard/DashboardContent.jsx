@@ -295,7 +295,7 @@ const DashboardContent = () => {
                                 className="max-w-fit my-2 p-4 text-center font-medium"
                               >
                                 <td className="px-4 py-2 text-left text-md">{quiz.title}</td>
-                                <td className="px-4 py-2 text-md">{quiz.score}</td>
+                                <td className="px-4 py-2 text-md">{quiz.finalScore}</td>
                               </tr>
                             );
                           })}

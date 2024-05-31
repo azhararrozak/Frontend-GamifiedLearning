@@ -40,7 +40,7 @@ const HasilNilaiPostest = () => {
             nilaiPostest.map((jawaban, index) => (
               <tr key={index}>
                 <td className="border border-secondary">{index + 1}</td>
-                <td className="border border-secondary">{jawaban.user.username}</td>
+                <td className="border border-secondary">R{index + 1}</td>
                 {jawaban.answers.map((soal, index) => (
                   <td key={index} className="border border-secondary">{soal.isCorrect ? "1" : "0"}</td>
                 ))}
@@ -61,7 +61,7 @@ const HasilNilaiPostest = () => {
             <th className="border border-secondary">No</th>
             <th className="border border-secondary"> Nama Siswa</th>
             {answer &&
-              answer.map((soal, index) => (
+              answer.filter(a => a.indicator === "Penarikan Kesimpulan").map((soal, index) => (
                 <th key={index} className="border border-secondary">
                   S{index + 1} {/*<span>({soal.indicator})</span>*/}
                 </th>
@@ -74,7 +74,7 @@ const HasilNilaiPostest = () => {
             nilaiPostest.map((jawaban, index) => (
               <tr key={index}>
                 <td className="border border-secondary">{index + 1}</td>
-                <td className="border border-secondary">{jawaban.user.username}</td>
+                <td className="border border-secondary">R{index + 1}</td>
                 {jawaban.answers.filter(a => a.indicator === "Penarikan Kesimpulan").map((soal, index) => (
                   <td key={index} className="border border-secondary">{soal.isCorrect ? "1" : "0"}</td>
                 ))}
@@ -95,7 +95,7 @@ const HasilNilaiPostest = () => {
             <th className="border border-secondary">No</th>
             <th className="border border-secondary"> Nama Siswa</th>
             {answer &&
-              answer.map((soal, index) => (
+              answer.filter(a => a.indicator === "Keruntutan Berpikir").map((soal, index) => (
                 <th key={index} className="border border-secondary">
                   S{index + 1} {/*<span>({soal.indicator})</span>*/}
                 </th>
@@ -108,7 +108,7 @@ const HasilNilaiPostest = () => {
             nilaiPostest.map((jawaban, index) => (
               <tr key={index}>
                 <td className="border border-secondary">{index + 1}</td>
-                <td className="border border-secondary">{jawaban.user.username}</td>
+                <td className="border border-secondary">R{index + 1}</td>
                 {jawaban.answers.filter(a => a.indicator === "Keruntutan Berpikir").map((soal, index) => (
                   <td key={index} className="border border-secondary">{soal.isCorrect ? "1" : "0"}</td>
                 ))}
@@ -129,7 +129,7 @@ const HasilNilaiPostest = () => {
             <th className="border border-secondary">No</th>
             <th className="border border-secondary"> Nama Siswa</th>
             {answer &&
-              answer.map((soal, index) => (
+              answer.filter(a => a.indicator === "Kemampuan Berargumen").map((soal, index) => (
                 <th key={index} className="border border-secondary">
                   S{index + 1} {/*<span>({soal.indicator})</span>*/}
                 </th>
@@ -142,7 +142,7 @@ const HasilNilaiPostest = () => {
             nilaiPostest.map((jawaban, index) => (
               <tr key={index}>
                 <td className="border border-secondary">{index + 1}</td>
-                <td className="border border-secondary">{jawaban.user.username}</td>
+                <td className="border border-secondary">R{index + 1}</td>
                 {jawaban.answers.filter(a => a.indicator === "Kemampuan Berargumen").map((soal, index) => (
                   <td key={index} className="border border-secondary">{soal.isCorrect ? "1" : "0"}</td>
                 ))}

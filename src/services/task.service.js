@@ -55,11 +55,12 @@ const getListSubmit = (id) => {
   return axios.get(API_URL + `tasks/${id}/submit`, { headers: authHeader() });
 };
 
-const setcompletedTask = (id, name) => {
+const setcompletedTask = (id, name, score) => {
   return axios.patch(
     API_URL + `tasks/${id}/completed`,
     {
       name,
+      score,
     },
     { headers: authHeader() }
   );
