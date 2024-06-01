@@ -128,8 +128,10 @@ const DetailQuiz = () => {
                     key={index}
                     className={`mx-1 px-2 py-1 rounded border ${
                       index === currentQuestion
-                        ? "bg-blue-500 text-white"
-                        : "bg-white"
+                      ? "bg-blue-500 text-white"
+                      : selectedAnswer[index] !== undefined
+                      ? "bg-secondary text-white"
+                      : "bg-white"
                     }`}
                     onClick={() => setCurrentQuestion(index)}
                   >
@@ -137,9 +139,20 @@ const DetailQuiz = () => {
                   </button>
                 ))}
               </div>
+              <div className="p-2 text-lg">
+                <p>
+                  <span className="font-bold">ATP:</span>{" "}
+                  {currentQuestionData.atp}
+                </p>
+                <p>
+                  <span className="font-bold">Indikator:</span>{" "}
+                  {currentQuestionData.indicator}
+                </p>
+              </div>
             </div>
 
-            <h1 className="text-xl font-bold">Pertanyaan</h1>
+
+            <h1 className="text-xl font-bold">Pertanyaan ke-{currentQuestion + 1}</h1>
 
             {currentQuestionData.image && (
               <>
@@ -236,6 +249,7 @@ const DetailQuiz = () => {
       )}
     </div>
   );
+
 };
 
 export default DetailQuiz;
