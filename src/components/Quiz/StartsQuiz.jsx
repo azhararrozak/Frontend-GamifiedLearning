@@ -14,7 +14,7 @@ const StartsQuiz = ({ quizData, handleStartQuiz }) => {
         </h1>
         <p className="my-2">{quizData.description}</p>
         <p className="my-2 font-bold opacity-75">
-          {quizData.questions.length} Pertanyaan - 60 Menit
+          {quizData.questions.length} Pertanyaan ~ 30 Menit
         </p>
       </div>
       <button
